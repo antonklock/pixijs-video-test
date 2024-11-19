@@ -15,37 +15,30 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   const videoSpritesRef = useRef<PIXI.Sprite[] | null[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
-  const [dimensions, setDimensions] = useState(() => {
-    // Initialize with window dimensions
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const targetRatio = 16 / 9;
-    let width = viewportWidth;
-    let height = Math.floor(width / targetRatio);
-
-    if (height > viewportHeight) {
-      height = viewportHeight;
-      width = Math.floor(height * targetRatio);
-    }
-
-    return { width, height };
-  });
 
   const calculateDimensions = () => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-
     const targetRatio = 16 / 9;
-    let width = viewportWidth;
-    let height = Math.floor(width / targetRatio);
 
+    // First try setting width as viewport width
+    let width = viewportWidth;
+    let height = width / targetRatio;
+
+    // If too tall, calculate based on height instead
     if (height > viewportHeight) {
       height = viewportHeight;
-      width = Math.floor(height * targetRatio);
+      width = height * targetRatio;
     }
 
-    return { width, height };
+    return {
+      width: Math.floor(width),
+      height: Math.floor(height),
+      scale: Math.min(viewportWidth / width, viewportHeight / height),
+    };
   };
+
+  const [dimensions, setDimensions] = useState(calculateDimensions);
 
   const resizeHandler = () => {
     const newDimensions = calculateDimensions();
@@ -53,16 +46,12 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
     if (appRef.current) {
       appRef.current.renderer.resize(newDimensions.width, newDimensions.height);
-      appRef.current.stage.position.set(
-        newDimensions.width / 2,
-        newDimensions.height / 2
-      );
 
+      // Update all video sprites
       videoSpritesRef.current.forEach((sprite) => {
         if (sprite) {
           sprite.width = newDimensions.width;
           sprite.height = newDimensions.height;
-          sprite.position.set(0, 0); // Center relative to stage
         }
       });
     }
@@ -128,7 +117,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       videoSprite.anchor.set(0.5);
       videoSprite.width = dimensions.width;
       videoSprite.height = dimensions.height;
-      videoSprite.position.set(0, 0); // Center relative to stage
+      videoSprite.position.set(dimensions.width / 2, dimensions.height / 2);
       videoSprite.visible = index === 0;
 
       videoSprites[index] = videoSprite;
@@ -137,16 +126,14 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       if (app?.stage) {
         app.stage.addChild(videoSprite);
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Error creating video sprite:", error);
-      if (error instanceof Error) {
-        setErrors((prev) => [
-          ...prev,
-          `Sprite error ${index}: ${error.message}`,
-        ]);
-      } else {
-        setErrors((prev) => [...prev, `Sprite error ${index}: Unknown error`]);
-      }
+      setErrors((prev) => [
+        ...prev,
+        `Sprite error ${index}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      ]);
     }
   };
 
@@ -257,6 +244,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         backgroundColor: "#000000",
         antialias: true,
         resolution: window.devicePixelRatio || 1,
+        autoDensity: true,
       });
 
       if (!mounted) {
@@ -264,8 +252,13 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         return;
       }
 
-      canvasRef.current.appendChild(app.canvas as HTMLCanvasElement);
-      app.stage.position.set(dimensions.width / 2, dimensions.height / 2);
+      // Reset the canvas styling
+      const canvas = app.canvas as HTMLCanvasElement;
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.objectFit = "contain";
+
+      canvasRef.current.appendChild(canvas);
       appRef.current = app;
 
       try {
@@ -423,9 +416,17 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 w-full h-full overflow-hidden bg-black"
+      className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center"
     >
-      <div ref={canvasRef} className="w-full h-full" />
+      <div
+        ref={canvasRef}
+        className="w-full h-full flex items-center justify-center"
+        style={{
+          aspectRatio: "16/9",
+          maxHeight: "100vh",
+          maxWidth: "100vw",
+        }}
+      />
       <button
         onClick={switchVideo}
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"

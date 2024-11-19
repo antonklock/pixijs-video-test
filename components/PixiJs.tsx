@@ -137,9 +137,16 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       if (app?.stage) {
         app.stage.addChild(videoSprite);
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error creating video sprite:", error);
-      setErrors((prev) => [...prev, `Sprite error ${index}: ${error.message}`]);
+      if (error instanceof Error) {
+        setErrors((prev) => [
+          ...prev,
+          `Sprite error ${index}: ${error.message}`,
+        ]);
+      } else {
+        setErrors((prev) => [...prev, `Sprite error ${index}: Unknown error`]);
+      }
     }
   };
 
@@ -277,7 +284,12 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         }
       } catch (error) {
         console.error("Error initializing videos:", error);
-        setErrors((prev) => [...prev, `Init error: ${error.message}`]);
+        setErrors((prev) => [
+          ...prev,
+          `Init error: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        ]);
       }
     };
 
@@ -360,7 +372,12 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         setCurrentIndex(nextIndex);
       } catch (error) {
         console.error("Error during video switch:", error);
-        setErrors((prev) => [...prev, `Switch error: ${error.message}`]);
+        setErrors((prev) => [
+          ...prev,
+          `Switch error: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        ]);
 
         if (nextHls) {
           nextHls.recoverMediaError();
@@ -368,7 +385,12 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       }
     } catch (error) {
       console.error("Error in switchVideo:", error);
-      setErrors((prev) => [...prev, `Fatal switch error: ${error.message}`]);
+      setErrors((prev) => [
+        ...prev,
+        `Fatal switch error: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      ]);
     }
   };
 
@@ -378,6 +400,10 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
     const ticker = () => {
       const currentSprite = videoSpritesRef.current[currentIndex];
+
+      if (!currentSprite) return;
+      if (!videosRef.current[currentIndex]) return;
+
       if (
         currentSprite?.texture &&
         videosRef.current[currentIndex]?.readyState >= 2

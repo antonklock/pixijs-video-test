@@ -15,17 +15,16 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   const videoSpritesRef = useRef<PIXI.Sprite[] | null[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const calculateDimensions = () => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const targetRatio = 16 / 9;
 
-    // First try setting width as viewport width
     let width = viewportWidth;
     let height = width / targetRatio;
 
-    // If too tall, calculate based on height instead
     if (height > viewportHeight) {
       height = viewportHeight;
       width = height * targetRatio;
@@ -46,8 +45,6 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
     if (appRef.current) {
       appRef.current.renderer.resize(newDimensions.width, newDimensions.height);
-
-      // Update all video sprites
       videoSpritesRef.current.forEach((sprite) => {
         if (sprite) {
           sprite.width = newDimensions.width;
@@ -80,9 +77,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
     const sprite = videoSpritesRef.current[index];
     if (sprite) {
-      if (sprite.texture) {
-        sprite.texture.destroy(true);
-      }
+      sprite.texture?.destroy(true);
       sprite.destroy({ children: true, texture: true });
     }
 
@@ -98,36 +93,92 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
     videoSprites: PIXI.Sprite[]
   ) => {
     try {
+      console.log(`Starting sprite creation for video ${index}`);
+
       await new Promise<void>((resolve) => {
         const checkVideo = () => {
           if (video.readyState >= 2) {
+            console.log(`Video ${index} ready state achieved`);
             resolve();
           } else {
-            video.addEventListener("loadeddata", () => resolve(), {
-              once: true,
-            });
+            video.addEventListener(
+              "canplay",
+              () => {
+                console.log(`Video ${index} can play event`);
+                resolve();
+              },
+              { once: true }
+            );
           }
         };
         checkVideo();
       });
 
-      const videoTexture = PIXI.Texture.from(video);
-      const videoSprite = new PIXI.Sprite(videoTexture);
+      console.log(`Creating video source for ${index}`);
+      const videoSource = new PIXI.VideoSource({
+        resource: video,
+        autoPlay: true,
+        updateFPS: 30,
+      });
 
+      console.log(`Creating texture for ${index}`);
+      const texture = new PIXI.Texture({
+        source: videoSource,
+      });
+
+      console.log(`Creating sprite for ${index}`);
+      const videoSprite = new PIXI.Sprite(texture);
+
+      const videoAspect = video.videoWidth / video.videoHeight;
+      const stageAspect = dimensions.width / dimensions.height;
+
+      let spriteWidth, spriteHeight;
+
+      if (videoAspect > stageAspect) {
+        spriteWidth = dimensions.width;
+        spriteHeight = dimensions.width / videoAspect;
+      } else {
+        spriteHeight = dimensions.height;
+        spriteWidth = dimensions.height * videoAspect;
+      }
+
+      console.log(`Setting dimensions for sprite ${index}`, {
+        videoAspect,
+        stageAspect,
+        spriteWidth,
+        spriteHeight,
+        videoWidth: video.videoWidth,
+        videoHeight: video.videoHeight,
+        stageWidth: dimensions.width,
+        stageHeight: dimensions.height,
+      });
+
+      videoSprite.width = spriteWidth;
+      videoSprite.height = spriteHeight;
       videoSprite.anchor.set(0.5);
-      videoSprite.width = dimensions.width;
-      videoSprite.height = dimensions.height;
       videoSprite.position.set(dimensions.width / 2, dimensions.height / 2);
-      videoSprite.visible = index === 0;
+      videoSprite.visible = index === currentIndex;
 
       videoSprites[index] = videoSprite;
       videoSpritesRef.current[index] = videoSprite;
 
       if (app?.stage) {
         app.stage.addChild(videoSprite);
+        console.log(`Added sprite ${index} to stage`);
       }
+
+      // Start texture updates
+      const updateTexture = () => {
+        if (videoSprite && !videoSprite.destroyed) {
+          videoSource.update();
+          requestAnimationFrame(updateTexture);
+        }
+      };
+      requestAnimationFrame(updateTexture);
+
+      return videoSprite;
     } catch (error) {
-      console.error("Error creating video sprite:", error);
+      console.error(`Error creating video sprite ${index}:`, error);
       setErrors((prev) => [
         ...prev,
         `Sprite error ${index}: ${
@@ -137,146 +188,146 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
     }
   };
 
+  const initVideo = (video: HTMLVideoElement) => {
+    console.log("Initializing video element");
+    video.setAttribute("playsinline", "true");
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("x-webkit-airplay", "allow");
+    video.playsInline = true;
+    video.muted = true;
+    video.autoplay = false;
+    video.preload = "auto";
+    video.crossOrigin = "anonymous";
+    video.style.position = "fixed";
+    video.style.left = "-9999px";
+    document.body.appendChild(video);
+
+    return video;
+  };
+
+  const setupHls = async (source: string, index: number) => {
+    return new Promise<HTMLVideoElement>((resolve, reject) => {
+      console.log(`Setting up HLS for source ${index}`);
+      const video = initVideo(document.createElement("video"));
+      const videos: HTMLVideoElement[] = [];
+      videos[index] = video;
+      videosRef.current[index] = video;
+
+      if (Hls.isSupported()) {
+        console.log("HLS is supported");
+        const hls = new Hls({
+          debug: true,
+          enableWorker: true,
+          lowLatencyMode: true,
+        });
+
+        hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+          console.log(`HLS media attached for video ${index}`);
+        });
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log(`HLS manifest parsed for video ${index}`);
+          resolve(video); // Resolve when manifest is parsed
+        });
+
+        hls.on(Hls.Events.LEVEL_LOADED, () => {
+          console.log(`HLS level loaded for video ${index}`);
+        });
+
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            reject(data);
+            setErrors((prev) => [
+              ...prev,
+              `HLS fatal error ${index}: ${data.type}`,
+            ]);
+          }
+        });
+
+        hls.attachMedia(video);
+        hls.loadSource(source);
+        const hlsInstances: Hls[] = [];
+        hlsInstances[index] = hls;
+        hlsInstancesRef.current[index] = hls;
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = source;
+        video.addEventListener("loadedmetadata", () => {
+          resolve(video);
+        });
+        video.addEventListener("error", (e) => {
+          reject(video.error);
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     let mounted = true;
     const videos: HTMLVideoElement[] = [];
     const hlsInstances: Hls[] = [];
     const videoSprites: PIXI.Sprite[] = [];
 
-    const setupHls = async (source: string, index: number) => {
-      return new Promise<void>((resolve, reject) => {
-        const video = document.createElement("video");
-        video.crossOrigin = "anonymous";
-        video.muted = true;
-        video.preload = "auto";
-        video.playsInline = true;
-        video.autoplay = false;
-
-        videos[index] = video;
-        videosRef.current[index] = video;
-
-        if (Hls.isSupported()) {
-          const hls = new Hls({
-            debug: false,
-            enableWorker: true,
-            lowLatencyMode: true,
-            fragLoadPolicy: {
-              default: {
-                maxTimeToFirstByteMs: 20000,
-                maxLoadTimeMs: 20000,
-                timeoutRetry: {
-                  maxNumRetry: 3,
-                  retryDelayMs: 0,
-                  maxRetryDelayMs: 0,
-                },
-                errorRetry: {
-                  maxNumRetry: 3,
-                  retryDelayMs: 1000,
-                  maxRetryDelayMs: 8000,
-                },
-              },
-            },
-          });
-
-          let mediaAttached = false;
-          let manifestParsed = false;
-
-          const checkReady = () => {
-            if (mediaAttached && manifestParsed) {
-              resolve();
-            }
-          };
-
-          hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-            mediaAttached = true;
-            checkReady();
-          });
-
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            manifestParsed = true;
-            checkReady();
-          });
-
-          hls.on(Hls.Events.ERROR, (event, data) => {
-            if (data.fatal) {
-              console.error(`Fatal error playing ${source}:`, data);
-              setErrors((prev) => [
-                ...prev,
-                `HLS fatal error ${index}: ${data.type}`,
-              ]);
-              reject(data);
-            }
-          });
-
-          video.onerror = (e) => {
-            console.error(`Video error for source ${index}:`, video.error);
-            setErrors((prev) => [
-              ...prev,
-              `Video ${index} error: ${video.error?.message}`,
-            ]);
-            reject(video.error);
-          };
-
-          hls.attachMedia(video);
-          hls.loadSource(source);
-
-          hlsInstances[index] = hls;
-          hlsInstancesRef.current[index] = hls;
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = source;
-          video.addEventListener("loadedmetadata", () => {
-            resolve();
-          });
-          video.addEventListener("error", (e) => {
-            reject(video.error);
-          });
-        }
-      });
-    };
-
     const initializePixi = async () => {
       if (!canvasRef.current) return;
 
       const app = new PIXI.Application();
       await app.init({
+        background: "#333333",
         width: dimensions.width,
         height: dimensions.height,
-        backgroundColor: "#000000",
         antialias: true,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
       });
 
-      if (!mounted) {
-        app.destroy(true, { children: true, texture: true });
-        return;
-      }
-
-      // Reset the canvas styling
-      const canvas = app.canvas as HTMLCanvasElement;
+      const canvas = app.canvas;
       canvas.style.width = "100%";
       canvas.style.height = "100%";
       canvas.style.objectFit = "contain";
+
+      // Debug visuals
+      const debugRect = new PIXI.Graphics()
+        .setStrokeStyle({ width: 2, color: 0xff0000 })
+        .rect(0, 0, dimensions.width, dimensions.height)
+        .stroke();
+      app.stage.addChild(debugRect);
+
+      const centerPoint = new PIXI.Graphics()
+        .fill({ color: 0x00ff00 })
+        .circle(dimensions.width / 2, dimensions.height / 2, 5)
+        .fill();
+      app.stage.addChild(centerPoint);
 
       canvasRef.current.appendChild(canvas);
       appRef.current = app;
 
       try {
-        await Promise.all(
+        // Wait for all videos to be ready
+        const videos = await Promise.all(
           videoSources.map((source, index) => setupHls(source, index))
         );
 
-        await Promise.all(
-          videos.map((video, index) =>
-            createVideoSprite(video, index, app, videoSprites)
-          )
-        );
+        console.log("All videos ready, creating sprites");
 
-        if (videos[0]) {
-          await videos[0].play();
+        // Create sprites one by one
+        for (let i = 0; i < videos.length; i++) {
+          const video = videos[i];
+          console.log(`Creating sprite for video ${i}`);
+          await createVideoSprite(video, i, app, []);
+        }
+
+        // Try to play the first video
+        if (videosRef.current[0]) {
+          try {
+            console.log("Attempting to play first video");
+            await videosRef.current[0].play();
+            setIsPlaying(true);
+          } catch (error) {
+            console.error("Error playing first video:", error);
+          }
         }
       } catch (error) {
-        console.error("Error initializing videos:", error);
+        console.error("Error in initialization:", error);
         setErrors((prev) => [
           ...prev,
           `Init error: ${
@@ -345,7 +396,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
           video.pause();
           video.currentTime = 0;
           if (hlsInstancesRef.current[index]) {
-            hlsInstancesRef.current[index].stopLoad();
+            hlsInstancesRef.current[index]?.stopLoad();
           }
         }
       });
@@ -401,7 +452,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         currentSprite?.texture &&
         videosRef.current[currentIndex]?.readyState >= 2
       ) {
-        if (!videosRef.current[currentIndex].paused) {
+        if (!videosRef.current[currentIndex]?.paused) {
           currentSprite.texture.update();
         }
       }
@@ -428,10 +479,35 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         }}
       />
       <button
-        onClick={switchVideo}
+        onClick={async () => {
+          if (!isPlaying) {
+            const video = videosRef.current[currentIndex];
+            if (video) {
+              try {
+                // Create user interaction context
+                video.muted = true;
+                await video.play();
+                setIsPlaying(true);
+
+                // After successful play, unmute if desired
+                video.muted = false;
+              } catch (error) {
+                console.error("Play error:", error);
+                setErrors((prev) => [
+                  ...prev,
+                  `Play error: ${
+                    error instanceof Error ? error.message : String(error)
+                  }`,
+                ]);
+              }
+            }
+          } else {
+            switchVideo();
+          }
+        }}
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
       >
-        Switch Stream
+        {isPlaying ? "Switch Stream" : "Play"}
       </button>
       {errors.length > 0 && (
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">

@@ -1,6 +1,6 @@
 "use client";
 
-import VideoSwitcher from "@/components/PixiJs";
+import VideoSwitcher from "@/components/VideoSwitcher";
 import { useState } from "react";
 
 const sources = [

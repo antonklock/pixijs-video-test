@@ -56,10 +56,6 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
                 updateFPS: 30
             });
 
-            // source.source.onerror = (error) => {
-            //     console.error(`Video source error ${index}:`, error);
-            // };
-
             const texture = new PIXI.Texture({ source });
             const sprite = new PIXI.Sprite(texture);
 

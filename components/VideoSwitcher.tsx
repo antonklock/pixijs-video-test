@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as PIXI from "pixi.js";
 import { VideoSwitcherProps } from "../types";
 import { useHLSPlayer } from "../hooks/useHLSPlayer";
@@ -6,6 +6,7 @@ import { usePixiStage } from "../hooks/usePixiStage";
 
 const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const initializationRef = useRef(false);
 
   const addError = (error: string) => {
     setErrors((prev) => [...prev, error]);
@@ -54,7 +55,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [appRef, calculateDimensions, setDimensions, videoSpritesRef]);
 
   const switchVideo = async () => {
     try {
@@ -98,6 +99,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         }
         if (nextVideo) {
           await nextVideo.play();
+          setIsPlaying(true);
         }
 
         setCurrentIndex(nextIndex);
@@ -126,8 +128,11 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   };
 
   useEffect(() => {
+    if (initializationRef.current) return;
+    initializationRef.current = true;
+
     const initializePixi = async () => {
-      if (!canvasRef.current) return;
+      if (!canvasRef.current || appRef.current) return;
 
       const app = new PIXI.Application();
       await app.init({
@@ -144,7 +149,6 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       canvas.style.height = "100%";
       canvas.style.objectFit = "contain";
 
-      // Debug visuals (can be removed in production)
       const debugRect = new PIXI.Graphics()
         .setStrokeStyle({ width: 2, color: 0xff0000 })
         .rect(0, 0, dimensions.width, dimensions.height)
@@ -211,6 +215,18 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
     };
   }, [videoSources, dimensions.width, dimensions.height]);
 
+  const listVideosInPixiJs = () => {
+    console.log(videoSpritesRef.current);
+  };
+
+  const listHlsInstances = () => {
+    console.log(hlsInstancesRef.current);
+  };
+
+  const listVideos = () => {
+    console.log(videosRef.current);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -218,13 +234,34 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
     >
       <div
         ref={canvasRef}
-        className="w-full h-full flex items-center justify-center"
+        className=""
         style={{
           aspectRatio: "16/9",
           maxHeight: "100vh",
           maxWidth: "100vw",
         }}
       />
+      <div className="absolute top-4 left-4 flex gap-2">
+        <button
+          className="w-32 h-12 bg-blue-500 text-white rounded-lg p-2 text-sm"
+          onClick={listVideosInPixiJs}
+        >
+          Pixi sprites
+        </button>
+        <button
+          className="w-32 h-12 bg-blue-500 text-white rounded-lg p-2 text-sm"
+          onClick={listHlsInstances}
+        >
+          hls instances
+        </button>
+        <button
+          className="w-32 h-12 bg-blue-500 text-white rounded-lg p-2 text-sm"
+          onClick={listVideos}
+        >
+          Video elements
+        </button>
+      </div>
+
       <button
         onClick={async () => {
           if (!isPlaying) {
@@ -248,7 +285,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
       {errors.length > 0 && (
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">
           {errors.map((error, index) => (
-            <div key={index}>{error}</div>
+            <div key={`${error}-${index}`}>{error}</div>
           ))}
         </div>
       )}

@@ -19,11 +19,11 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
         video.preload = "auto";
 
         // Add to DOM but hide
-        video.style.position = "absolute";
-        video.style.opacity = "0";
-        video.style.pointerEvents = "none";
-        video.style.zIndex = "-1000";
-        document.body.appendChild(video);
+        // video.style.position = "absolute";
+        // video.style.opacity = "0";
+        // video.style.pointerEvents = "none";
+        // video.style.zIndex = "-1000";
+        // document.body.appendChild(video);
 
         return video;
     };
@@ -31,13 +31,13 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
     const setupHls = async (source: string, index: number) => {
         return new Promise<HTMLVideoElement>((resolve, reject) => {
             const video = initVideo(document.createElement("video"));
-            const videos: HTMLVideoElement[] = [];
-            videos[index] = video;
+            // const videos: HTMLVideoElement[] = [];
+            // videos[index] = video;
             videosRef.current[index] = video;
 
             if (Hls.isSupported()) {
                 const hls = new Hls({
-                    debug: true,
+                    debug: false,
                     enableWorker: true,
                     lowLatencyMode: true,
                 });
@@ -53,23 +53,23 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
 
                 hls.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
-                        reject(data);
+                        reject(data.error);
                         onError(`HLS fatal error ${index}: ${data.type}`);
                     }
                 });
 
                 hls.attachMedia(video);
                 hls.loadSource(source);
-                const hlsInstances: Hls[] = [];
-                hlsInstances[index] = hls;
+                // const hlsInstances: Hls[] = [];
+                // hlsInstances[index] = hls;
                 hlsInstancesRef.current[index] = hls;
             } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
                 video.src = source;
                 video.addEventListener("loadedmetadata", () => {
                     resolve(video);
                 });
-                video.addEventListener("error", (e) => {
-                    reject(video.error);
+                video.addEventListener("error", (error) => {
+                    reject(error.error as Error);
                 });
             }
         });

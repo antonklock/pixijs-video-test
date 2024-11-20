@@ -36,9 +36,9 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
 
     const createVideoSprite = async (
         video: HTMLVideoElement,
-        index: number,
+        // index: number,
         app: PIXI.Application | undefined,
-        currentIndex: number
+        // currentIndex: number
     ) => {
         try {
             await new Promise<void>((resolve, reject) => {
@@ -46,7 +46,7 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
                     resolve();
                 } else {
                     video.addEventListener("loadeddata", () => resolve(), { once: true });
-                    video.addEventListener("error", (e) => reject(e), { once: true });
+                    video.addEventListener("error", (event) => reject(event.error as Error), { once: true });
                 }
             });
 
@@ -63,17 +63,18 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
             sprite.width = dimensions.width;
             sprite.height = dimensions.height;
             sprite.position.set(dimensions.width / 2, dimensions.height / 2);
-            sprite.visible = index === currentIndex;
+            // sprite.visible = index === currentIndex;
+            sprite.visible = false;
 
             if (app?.stage) {
                 app.stage.addChild(sprite);
             }
 
-            videoSpritesRef.current[index] = sprite;
+            // videoSpritesRef.current[index] = sprite;
 
             return sprite;
         } catch (error) {
-            console.error(`Error creating sprite ${index}:`, error);
+            console.error(`Error creating sprite:`, error);
             throw error;
         }
     };

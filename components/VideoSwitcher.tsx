@@ -1,28 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import * as PIXI from "pixi.js";
-import { VideoSwitcherProps } from "../types";
+import { PendingVideo, VideoSwitcherProps } from "../types";
 import { useHLSPlayer } from "../hooks/useHLSPlayer";
 import { usePixiStage } from "../hooks/usePixiStage";
+import Hls from "hls.js";
+import { sceneObjects } from "@/config/sceneConfig";
 
 const VideoSwitcher = (props: VideoSwitcherProps) => {
-  const { videoSources, setPendingVideos } = props;
+  const { videoSources, pendingVideos, setPendingVideos } = props;
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
+
+  const videosRef = useRef<HTMLVideoElement[] | null[]>([]);
+  const hlsInstancesRef = useRef<Hls[] | null[]>([]);
 
   const addError = (error: string) => {
     setErrors((prev) => [...prev, error]);
   };
 
   const {
-    videosRef,
-    hlsInstancesRef,
     currentIndex,
     setCurrentIndex,
     isPlaying,
     setIsPlaying,
     setupHls,
     cleanupVideo,
-  } = useHLSPlayer({ onError: addError });
+    loadVideo,
+  } = useHLSPlayer({
+    onError: addError,
+    videosRef,
+    hlsInstancesRef,
+    pendingVideos,
+  });
 
   const {
     containerRef,
@@ -137,7 +146,7 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
 
       const app = new PIXI.Application();
       await app.init({
-        background: new PIXI.Color({ r: 255, g: 0, b: 0, a: 0.5 }).toArray(),
+        background: new PIXI.Color({ r: 0, g: 25, b: 25, a: 0.5 }).toArray(),
         width: dimensions.width,
         height: dimensions.height,
         antialias: true,
@@ -150,6 +159,19 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
       canvas.style.height = "100%";
       canvas.style.objectFit = "contain";
 
+      const noVideosText = new PIXI.Text({
+        text: "No videos loaded...",
+        style: {
+          fontFamily: "Arial",
+          fontSize: 16,
+          fill: 0xff1010,
+          align: "center",
+        },
+      });
+      noVideosText.anchor.set(0.5);
+      noVideosText.position.set(dimensions.width / 2, dimensions.height / 2);
+      app.stage.addChild(noVideosText);
+
       const debugRect = new PIXI.Graphics()
         .setStrokeStyle({ width: 2, color: 0xff0000 })
         .rect(0, 0, dimensions.width, dimensions.height)
@@ -160,34 +182,34 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         .fill({ color: 0x00ff00 })
         .circle(dimensions.width / 2, dimensions.height / 2, 5)
         .fill();
-      app.stage.addChild(centerPoint);
+      // app.stage.addChild(centerPoint);
 
       canvasRef.current.appendChild(canvas);
       appRef.current = app;
 
       try {
-        const videos = await Promise.all(
-          videoSources.map((source, index) => setupHls(source, index))
-        );
-
-        for (let i = 0; i < videos.length; i++) {
-          const video = videos[i];
-          await createVideoSprite(video, i, app, currentIndex);
-        }
-
-        if (videosRef.current[0]) {
-          await videosRef.current[0].play();
-          setIsPlaying(true);
-        }
-
-        const pendingVideos = videosRef.current.map((video, index) => ({
-          source: videoSources[index],
-          index,
-          isLoaded: false,
-          video,
-        }));
-
-        setPendingVideos(pendingVideos);
+        // INITIAL VIDEO LOADING...
+        // const videos = await Promise.all(
+        //   videoSources.map((source, index) => setupHls(source, index))
+        // );
+        // for (let i = 0; i < videos.length; i++) {
+        //   const video = videos[i];
+        //   await createVideoSprite(video, i, app, currentIndex);
+        // }
+        // if (videosRef.current[0]) {
+        //   await videosRef.current[0].play();
+        //   setIsPlaying(true);
+        // }
+        // const pendingVideos = videosRef.current.map((video, index) => ({
+        //   source: videoSources[index],
+        //   index,
+        //   isLoaded: false,
+        //   video,
+        //   clear: () => {
+        //     cleanupVideo(index);
+        //   },
+        // }));
+        // setPendingVideos(pendingVideos);
       } catch (error) {
         console.error("Error in initialization:", error);
         addError(
@@ -201,8 +223,12 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     initializePixi();
 
     return () => {
-      videoSources.forEach((_, index) => {
-        cleanupVideo(index);
+      // videoSources.forEach((_, index) => {
+      //   cleanupVideo(index);
+      // });
+
+      pendingVideos.forEach((video) => {
+        video.clear();
       });
 
       if (appRef.current) {
@@ -235,6 +261,53 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
 
   const listVideos = () => {
     console.log(videosRef.current);
+  };
+
+  const handleNewScene = async (id: string, autoplay: boolean = false) => {
+    if (pendingVideos.find((video) => video.id === id))
+      return console.warn("Scene already loaded. Aborting...");
+
+    const pendingVideo: PendingVideo = {
+      id,
+      source: undefined,
+      isLoaded: false,
+      video: undefined,
+      hls: undefined,
+      sprite: undefined,
+      clear: () => {
+        cleanupVideo(pendingVideo);
+        if (pendingVideo.sprite) {
+          pendingVideo.sprite.destroy();
+          pendingVideo.sprite = undefined;
+        }
+      },
+    };
+
+    const source = sceneObjects.find(
+      (sceneObject) => sceneObject.id === id
+    )?.url;
+    pendingVideo.source = source;
+
+    // Start promises in parallel
+    const videoPromise = loadVideo(id);
+    const spritePromise = videoPromise.then((hlsVideo) => {
+      if (!hlsVideo?.video) throw new Error("Failed to load video!");
+      if (!hlsVideo.hls) console.warn("No hls instance");
+      pendingVideo.video = hlsVideo.video;
+      pendingVideo.hls = hlsVideo.hls;
+      return createVideoSprite(hlsVideo.video, appRef.current);
+    });
+
+    spritePromise.then((sprite) => {
+      pendingVideo.sprite = sprite;
+      if (autoplay) {
+        sprite.visible = true;
+        pendingVideo.video?.play();
+      }
+
+      const newPendingVideos = [...pendingVideos, pendingVideo];
+      setPendingVideos(newPendingVideos);
+    });
   };
 
   return (
@@ -272,26 +345,35 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         </button>
       </div> */}
 
-      <button
-        onClick={async () => {
-          if (!isPlaying) {
-            const video = videosRef.current[currentIndex];
-            if (video) {
-              try {
-                await video.play();
-                setIsPlaying(true);
-              } catch (error) {
-                console.error("Play error:", error);
-              }
-            }
-          } else {
+      {isPlaying ? (
+        <button
+          onClick={async () => {
             switchVideo();
-          }
-        }}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
-      >
-        {isPlaying ? "Switch Stream" : "Play"}
-      </button>
+          }}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+        >
+          {"Switch Stream"}
+        </button>
+      ) : (
+        <>
+          <button
+            onClick={async () => {
+              handleNewScene("H6", true);
+            }}
+            className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+          >
+            {"Load H6"}
+          </button>
+          <button
+            onClick={async () => {
+              handleNewScene("G0", true);
+            }}
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+          >
+            {"Load G0"}
+          </button>
+        </>
+      )}
       {errors.length > 0 && (
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">
           {errors.map((error, index) => (

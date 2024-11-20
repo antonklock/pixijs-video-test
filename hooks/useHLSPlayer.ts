@@ -1,15 +1,28 @@
 import Hls from "hls.js";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { sceneObjects } from "@/config/sceneConfig";
+import { PendingVideo } from "@/types";
 
 interface UseHLSPlayerProps {
     onError: (error: string) => void;
+    videosRef: React.MutableRefObject<HTMLVideoElement[] | null[]>;
+    hlsInstancesRef: React.MutableRefObject<Hls[] | null[]>;
+    pendingVideos: PendingVideo[];
 }
 
-export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
-    const videosRef = useRef<HTMLVideoElement[] | null[]>([]);
-    const hlsInstancesRef = useRef<Hls[] | null[]>([]);
+interface HLSVideo {
+    video: HTMLVideoElement;
+    hls: Hls | null;
+}
+
+export const useHLSPlayer = (props: UseHLSPlayerProps) => {
+    const { onError, videosRef, hlsInstancesRef, pendingVideos } = props;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+
+    useEffect(() => {
+        console.log("pendingVideos:", pendingVideos);
+    }, [pendingVideos]);
 
     const initVideo = (video: HTMLVideoElement) => {
         video.setAttribute("playsinline", "true");
@@ -28,12 +41,9 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
         return video;
     };
 
-    const setupHls = async (source: string, index: number) => {
-        return new Promise<HTMLVideoElement>((resolve, reject) => {
+    const setupHls = async (source: string) => {
+        return new Promise<HLSVideo>((resolve, reject) => {
             const video = initVideo(document.createElement("video"));
-            // const videos: HTMLVideoElement[] = [];
-            // videos[index] = video;
-            videosRef.current[index] = video;
 
             if (Hls.isSupported()) {
                 const hls = new Hls({
@@ -43,30 +53,29 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
                 });
 
                 hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                    console.log(`HLS media attached for video ${index}`);
+                    // console.log(`HLS media attached for video ${video.id}`);
                 });
 
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    console.log(`HLS manifest parsed for video ${index}`);
-                    resolve(video);
+                    // console.log(`HLS manifest parsed for video ${video.id}`);
+                    resolve({ video, hls });
                 });
 
                 hls.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
                         reject(data.error);
-                        onError(`HLS fatal error ${index}: ${data.type}`);
+                        onError(`HLS fatal error ${video.id}: ${data.type}`);
                     }
                 });
 
                 hls.attachMedia(video);
                 hls.loadSource(source);
-                // const hlsInstances: Hls[] = [];
-                // hlsInstances[index] = hls;
-                hlsInstancesRef.current[index] = hls;
+                // hlsInstancesRef.current[index] = hls;
             } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                console.log("video can play m3u8");
                 video.src = source;
                 video.addEventListener("loadedmetadata", () => {
-                    resolve(video);
+                    resolve({ video, hls: null });
                 });
                 video.addEventListener("error", (error) => {
                     reject(error.error as Error);
@@ -75,25 +84,32 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
         });
     };
 
-    const cleanupVideo = (index: number) => {
-        const video = videosRef.current[index];
+    const cleanupVideo = (pendingVideo: PendingVideo) => {
+        const video = pendingVideo.video;
+        const hls = pendingVideo.hls;
         if (video) {
             video.pause();
             video.removeAttribute("src");
             video.load();
             video.remove();
         }
-
-        const hls = hlsInstancesRef.current[index];
         if (hls) {
             hls.stopLoad();
             hls.detachMedia();
             hls.destroy();
         }
-
-        videosRef.current[index] = null;
-        hlsInstancesRef.current[index] = null;
     };
+
+    const loadVideo = async (id: string) => {
+        console.log("loadVideos", id);
+        const sceneObject = sceneObjects.find((obj) => obj.id === id);
+        if (sceneObject) {
+            const loadedVideo = await setupHls(sceneObject.url);
+            console.log("loadedVideo", loadedVideo);
+            return loadedVideo;
+        }
+        return null;
+    }
 
     return {
         videosRef,
@@ -104,5 +120,6 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
         setIsPlaying,
         setupHls,
         cleanupVideo,
+        loadVideo,
     };
 };

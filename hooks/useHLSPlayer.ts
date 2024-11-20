@@ -19,11 +19,11 @@ export const useHLSPlayer = ({ onError }: UseHLSPlayerProps) => {
         video.preload = "auto";
 
         // Add to DOM but hide
-        // video.style.position = "absolute";
-        // video.style.opacity = "0";
-        // video.style.pointerEvents = "none";
-        // video.style.zIndex = "-1000";
-        // document.body.appendChild(video);
+        video.style.position = "absolute";
+        video.style.opacity = "0";
+        video.style.pointerEvents = "none";
+        video.style.zIndex = "-1000";
+        document.body.appendChild(video);
 
         return video;
     };

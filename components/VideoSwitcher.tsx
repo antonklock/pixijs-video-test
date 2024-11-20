@@ -4,7 +4,8 @@ import { VideoSwitcherProps } from "../types";
 import { useHLSPlayer } from "../hooks/useHLSPlayer";
 import { usePixiStage } from "../hooks/usePixiStage";
 
-const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
+const VideoSwitcher = (props: VideoSwitcherProps) => {
+  const { videoSources, setPendingVideos } = props;
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
@@ -136,7 +137,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
 
       const app = new PIXI.Application();
       await app.init({
-        background: "#333333",
+        background: new PIXI.Color({ r: 255, g: 0, b: 0, a: 0.5 }).toArray(),
         width: dimensions.width,
         height: dimensions.height,
         antialias: true,
@@ -178,6 +179,15 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
           await videosRef.current[0].play();
           setIsPlaying(true);
         }
+
+        const pendingVideos = videosRef.current.map((video, index) => ({
+          source: videoSources[index],
+          index,
+          isLoaded: false,
+          video,
+        }));
+
+        setPendingVideos(pendingVideos);
       } catch (error) {
         console.error("Error in initialization:", error);
         addError(
@@ -230,7 +240,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center"
+      className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center -z-10"
     >
       <div
         ref={canvasRef}
@@ -241,7 +251,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
           maxWidth: "100vw",
         }}
       />
-      <div className="absolute top-4 left-4 flex gap-2">
+      {/* <div className="absolute top-4 left-4 flex gap-2">
         <button
           className="w-32 h-12 bg-blue-500 text-white rounded-lg p-2 text-sm"
           onClick={listVideosInPixiJs}
@@ -260,7 +270,7 @@ const VideoSwitcher = ({ videoSources }: VideoSwitcherProps) => {
         >
           Video elements
         </button>
-      </div>
+      </div> */}
 
       <button
         onClick={async () => {

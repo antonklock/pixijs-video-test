@@ -7,7 +7,6 @@ interface UseHLSPlayerProps {
     onError: (error: string) => void;
     videosRef: React.MutableRefObject<HTMLVideoElement[] | null[]>;
     hlsInstancesRef: React.MutableRefObject<Hls[] | null[]>;
-    pendingVideos: PendingVideo[];
 }
 
 interface HLSVideo {
@@ -16,13 +15,9 @@ interface HLSVideo {
 }
 
 export const useHLSPlayer = (props: UseHLSPlayerProps) => {
-    const { onError, videosRef, hlsInstancesRef, pendingVideos } = props;
+    const { onError, videosRef, hlsInstancesRef } = props;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-
-    useEffect(() => {
-        console.log("pendingVideos:", pendingVideos);
-    }, [pendingVideos]);
 
     const initVideo = (video: HTMLVideoElement) => {
         video.setAttribute("playsinline", "true");
@@ -72,7 +67,7 @@ export const useHLSPlayer = (props: UseHLSPlayerProps) => {
                 hls.loadSource(source);
                 // hlsInstancesRef.current[index] = hls;
             } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                console.log("video can play m3u8");
+                // console.log("video can play m3u8");
                 video.src = source;
                 video.addEventListener("loadedmetadata", () => {
                     resolve({ video, hls: null });
@@ -101,11 +96,9 @@ export const useHLSPlayer = (props: UseHLSPlayerProps) => {
     };
 
     const loadVideo = async (id: string) => {
-        console.log("loadVideos", id);
         const sceneObject = sceneObjects.find((obj) => obj.id === id);
         if (sceneObject) {
             const loadedVideo = await setupHls(sceneObject.url);
-            console.log("loadedVideo", loadedVideo);
             return loadedVideo;
         }
         return null;

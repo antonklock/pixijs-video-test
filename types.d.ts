@@ -1,7 +1,10 @@
 export interface VideoSwitcherProps {
-    videoSources: string[];
+    gameGlobals: GameGlobals;
     pendingVideos: PendingVideo[];
     setPendingVideos: (videos: PendingVideo[]) => void;
+
+    setStagedScenes: (scenes: SceneObject[]) => void;
+    setCurrentScene: (scene: SceneObject | null) => void;
 }
 
 export interface Dimensions {
@@ -23,18 +26,29 @@ export interface PendingVideo {
 interface SceneObject {
     id: string;
     name: string;
-    url: string;
-    player: MediaPlayerElement | undefined;
-    canPlay: boolean;
-    isLoaded: boolean;
-    isCurrent: boolean;
+    url: string; // TODO: Rename to source
+    video: {
+        player: MediaPlayerElement | undefined;
+        hls: Hls | null;
+        sprite: PIXI.Sprite | null;
+    }
     nextScenes: string[];
-    loop: boolean;
-    isActive: boolean;
-    hitboxes: Hitbox[];
-    sceneEndTime?: number;
-    triggerTime?: number;
-    play?: () => void;
-    onSceneEnd?: () => void;
-    runFunctionAtTime?: () => void;
+    // player: MediaPlayerElement | undefined;
+    // canPlay: boolean;
+    // isLoaded: boolean;
+    // isCurrent: boolean;
+    // loop: boolean;
+    // isActive: boolean;
+    // hitboxes: Hitbox[];
+    // sceneEndTime?: number;
+    // triggerTime?: number;
+    // play?: () => void;
+    // onSceneEnd?: () => void;
+    // runFunctionAtTime?: () => void;
 };
+
+export interface GameGlobals {
+    isGameRunning: boolean;
+    stagedScenes: SceneObject[];
+    currentScene: SceneObject | null;
+}

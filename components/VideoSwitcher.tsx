@@ -7,10 +7,11 @@ import { initializePixi } from "@/PixiJs/InitializePixi";
 import { createDebugTimer } from "@/debug/debugTimer";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
-import { StagedSceneObject, VideoSwitcherProps } from "../types";
+import { GameGlobals, StagedSceneObject, VideoSwitcherProps } from "../types";
 
 const VideoSwitcher = (props: VideoSwitcherProps) => {
-  const { gameGlobals, setStagedScenes } = props;
+  const { gameGlobals, setGameGlobals, setStagedScenes, setCurrentSceneId } =
+    props;
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
@@ -99,15 +100,39 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     return cleanup;
   }, []);
 
+  // useEffect(() => {
+  //   gameGlobals.stagedScenes.forEach((scene) => {
+  //     if (!scene.isReady && !scene.loading) {
+  //       scene.loading = true;
+  //       const autoplay = scene.autoplay || false;
+  //       handleAddNewScene(scene.id, autoplay);
+  //     } else {
+  //       console.warn("Scene already staged. Aborting...");
+  //     }
+  //   });
+  //   console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
+  // }, [gameGlobals.stagedScenes]);
+
+  useEffect(() => {
+    gameGlobals.stagedScenes
+      .filter((scene) => !scene.isReady && !scene.loading)
+      .forEach((scene) => {
+        handleAddNewScene(scene.id, scene.autoplay || false);
+      });
+  }, [gameGlobals.stagedScenes]);
+
   const handleAddNewScene = async (id: string, autoplay: boolean = false) => {
+    gameGlobals.stagedScenes.find((scene) => {
+      if (scene.id === id) {
+        return console.warn("Scene already loaded. Aborting...");
+      }
+    });
+
     const debugTimer = createDebugTimer(
       `Started loading scene ${id} at: `,
       `Finished loading scene ${id} at: `
     );
     debugTimer.start();
-
-    if (gameGlobals.stagedScenes.find((scene) => scene.id === id))
-      return console.warn("Scene already staged. Aborting...");
 
     const sceneObject = sceneObjects.find((scene) => scene.id === id);
     if (!sceneObject) throw new Error("Scene object not found!");
@@ -119,6 +144,7 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         hls: null,
         sprite: null,
       },
+      loading: true,
       isActive: false,
       isReady: false,
       clear: () => {
@@ -128,28 +154,56 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
       },
     };
 
-    setStagedScenes([...gameGlobals.stagedScenes, stagedScene]);
+    let updatedScenes = gameGlobals.stagedScenes.map((scene) => {
+      if (scene.id === id) return stagedScene;
+      return scene;
+    });
+
+    setStagedScenes(updatedScenes);
 
     try {
       const hlsVideo = await loadVideo(id);
       if (!hlsVideo?.video) throw new Error("Failed to load video!");
+      updatedScenes = gameGlobals.stagedScenes.map((scene) => {
+        if (scene.id === id) return stagedScene;
+        return scene;
+      });
 
+      setStagedScenes(updatedScenes);
+
+      const sprite = await createVideoSprite(hlsVideo.video, appRef.current);
+
+      stagedScene.video.sprite = sprite;
       stagedScene.video.player = hlsVideo.video;
       stagedScene.video.hls = hlsVideo.hls;
 
-      const sprite = await createVideoSprite(hlsVideo.video, appRef.current);
-      stagedScene.video.sprite = sprite;
+      updatedScenes = gameGlobals.stagedScenes.map((scene) => {
+        if (scene.id === id) return stagedScene;
+        return scene;
+      });
+
+      setStagedScenes(updatedScenes);
 
       if (autoplay) {
         sprite.visible = true;
         stagedScene.video.player?.play();
         stagedScene.isActive = true;
+
+        console.log("Autoplaying scene:", id);
+
+        console.log("stagedScene.video.player:", stagedScene.video.player);
       }
 
       stagedScene.isReady = true;
+      stagedScene.loading = false;
 
-      const newStagedScenes = [...gameGlobals.stagedScenes, stagedScene];
-      setStagedScenes(newStagedScenes);
+      updatedScenes = gameGlobals.stagedScenes.map((scene) => {
+        if (scene.id === id) return stagedScene;
+        return scene;
+      });
+
+      setStagedScenes(updatedScenes);
+      setCurrentSceneId(id);
 
       debugTimer.stop();
     } catch (error) {
@@ -175,7 +229,19 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
       <>
         <button
           onClick={async () => {
-            handleAddNewScene("H0", false);
+            const newScene = sceneObjects.find((scene) => scene.id === "H0");
+            if (!newScene) return;
+
+            const stagedScene: StagedSceneObject = {
+              ...newScene,
+              loading: false,
+              isActive: false,
+              isReady: false,
+              autoplay: true,
+              clear: () => {},
+            };
+
+            setStagedScenes([stagedScene]);
           }}
           className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
         >
@@ -183,7 +249,19 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         </button>
         <button
           onClick={async () => {
-            handleAddNewScene("G0", true);
+            const newScene = sceneObjects.find((scene) => scene.id === "G0");
+            if (!newScene) return;
+
+            const stagedScene: StagedSceneObject = {
+              ...newScene,
+              loading: false,
+              isActive: false,
+              isReady: false,
+              autoplay: true,
+              clear: () => {},
+            };
+
+            setStagedScenes([stagedScene]);
           }}
           className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
         >

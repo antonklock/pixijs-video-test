@@ -1,7 +1,8 @@
 export interface VideoSwitcherProps {
     gameGlobals: GameGlobals;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
-    setCurrentScene: (scene: StagedSceneObject | null) => void;
+    setCurrentSceneId: (scene: string | null) => void;
+    setGameGlobals: (gameGlobals: GameGlobals) => void;
 }
 
 export interface Dimensions {
@@ -30,6 +31,7 @@ export interface SceneObject {
         sprite: PIXI.Sprite | null;
     }
     nextScenes: string[];
+    autoplay?: boolean;
     // player: MediaPlayerElement | undefined;
     // canPlay: boolean;
     // isLoaded: boolean;
@@ -45,13 +47,14 @@ export interface SceneObject {
 };
 
 export interface StagedSceneObject extends SceneObject {
+    loading: boolean;
     isActive: boolean;
     isReady: boolean;
     clear: () => void;
 }
 
-export interface GameGlobals {
+interface GameGlobals {
     isGameRunning: boolean;
     stagedScenes: StagedSceneObject[];
-    currentScene: StagedSceneObject | null;
+    currentSceneId: string | null;
 }

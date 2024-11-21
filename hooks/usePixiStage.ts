@@ -36,9 +36,7 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
 
     const createVideoSprite = async (
         video: HTMLVideoElement,
-        // index: number,
         app: PIXI.Application | undefined,
-        // currentIndex: number
     ) => {
         try {
             await new Promise<void>((resolve, reject) => {
@@ -63,14 +61,11 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
             sprite.width = dimensions.width;
             sprite.height = dimensions.height;
             sprite.position.set(dimensions.width / 2, dimensions.height / 2);
-            // sprite.visible = index === currentIndex;
             sprite.visible = false;
 
             if (app?.stage) {
                 app.stage.addChild(sprite);
             }
-
-            // videoSpritesRef.current[index] = sprite;
 
             return sprite;
         } catch (error) {

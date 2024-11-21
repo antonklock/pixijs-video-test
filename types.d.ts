@@ -1,10 +1,7 @@
 export interface VideoSwitcherProps {
     gameGlobals: GameGlobals;
-    pendingVideos: PendingVideo[];
-    setPendingVideos: (videos: PendingVideo[]) => void;
-
-    setStagedScenes: (scenes: SceneObject[]) => void;
-    setCurrentScene: (scene: SceneObject | null) => void;
+    setStagedScenes: (scenes: StagedSceneObject[]) => void;
+    setCurrentScene: (scene: StagedSceneObject | null) => void;
 }
 
 export interface Dimensions {
@@ -23,12 +20,12 @@ export interface PendingVideo {
     clear: () => void;
 }
 
-interface SceneObject {
+export interface SceneObject {
     id: string;
-    name: string;
-    url: string; // TODO: Rename to source
+    name: string | undefined;
+    url: string | undefined; // TODO: Rename to source
     video: {
-        player: MediaPlayerElement | undefined;
+        player: MediaPlayerElement | null;
         hls: Hls | null;
         sprite: PIXI.Sprite | null;
     }
@@ -47,8 +44,14 @@ interface SceneObject {
     // runFunctionAtTime?: () => void;
 };
 
+export interface StagedSceneObject extends SceneObject {
+    isActive: boolean;
+    isReady: boolean;
+    clear: () => void;
+}
+
 export interface GameGlobals {
     isGameRunning: boolean;
-    stagedScenes: SceneObject[];
-    currentScene: SceneObject | null;
+    stagedScenes: StagedSceneObject[];
+    currentScene: StagedSceneObject | null;
 }

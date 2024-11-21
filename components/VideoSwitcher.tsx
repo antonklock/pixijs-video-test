@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { PendingVideo, VideoSwitcherProps } from "../types";
+import Hls from "hls.js";
 import { useHLSPlayer } from "../hooks/useHLSPlayer";
 import { usePixiStage } from "../hooks/usePixiStage";
-import Hls from "hls.js";
 import { sceneObjects } from "@/config/sceneConfig";
 import { initializePixi } from "@/PixiJs/InitializePixi";
 import { createDebugTimer } from "@/debug/debugTimer";
+import { cleanupSprite } from "@/utils/cleanupSprite";
+import { cleanupVideo } from "@/utils/cleanupVideo";
+import { StagedSceneObject, VideoSwitcherProps } from "../types";
 
 const VideoSwitcher = (props: VideoSwitcherProps) => {
-  const { pendingVideos, setPendingVideos } = props;
+  const { gameGlobals, setStagedScenes } = props;
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
@@ -19,7 +21,7 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     setErrors((prev) => [...prev, error]);
   };
 
-  const { cleanupVideo, loadVideo } = useHLSPlayer({
+  const { loadVideo } = useHLSPlayer({
     onError: addError,
     videosRef,
     hlsInstancesRef,
@@ -60,6 +62,25 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, [appRef, calculateDimensions, setDimensions, videoSpritesRef]);
 
+  const cleanup = () => {
+    gameGlobals.stagedScenes.forEach((scene) => scene.clear());
+
+    if (appRef.current) {
+      appRef.current.destroy(true, { children: true, texture: true });
+      appRef.current = undefined;
+    }
+
+    if (canvasRef.current) {
+      while (canvasRef.current.firstChild) {
+        canvasRef.current.removeChild(canvasRef.current.firstChild);
+      }
+    }
+
+    videosRef.current = [];
+    hlsInstancesRef.current = [];
+    videoSpritesRef.current = [];
+  };
+
   // Initialize Pixi
   useEffect(() => {
     if (initializationRef.current) return;
@@ -78,25 +99,6 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     return cleanup;
   }, []);
 
-  const cleanup = () => {
-    pendingVideos.forEach((video) => video.clear());
-
-    if (appRef.current) {
-      appRef.current.destroy(true, { children: true, texture: true });
-      appRef.current = undefined;
-    }
-
-    if (canvasRef.current) {
-      while (canvasRef.current.firstChild) {
-        canvasRef.current.removeChild(canvasRef.current.firstChild);
-      }
-    }
-
-    videosRef.current = [];
-    hlsInstancesRef.current = [];
-    videoSpritesRef.current = [];
-  };
-
   const handleAddNewScene = async (id: string, autoplay: boolean = false) => {
     const debugTimer = createDebugTimer(
       `Started loading scene ${id} at: `,
@@ -104,41 +106,50 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     );
     debugTimer.start();
 
-    if (pendingVideos.find((video) => video.id === id))
-      return console.warn("Scene already loaded. Aborting...");
+    if (gameGlobals.stagedScenes.find((scene) => scene.id === id))
+      return console.warn("Scene already staged. Aborting...");
 
-    const pendingVideo: PendingVideo = {
-      id,
-      source: sceneObjects.find((scene) => scene.id === id)?.url,
-      isLoaded: false,
-      video: undefined,
-      hls: undefined,
-      sprite: undefined,
+    const sceneObject = sceneObjects.find((scene) => scene.id === id);
+    if (!sceneObject) throw new Error("Scene object not found!");
+
+    const stagedScene: StagedSceneObject = {
+      ...sceneObject,
+      video: {
+        player: null,
+        hls: null,
+        sprite: null,
+      },
+      isActive: false,
+      isReady: false,
       clear: () => {
-        cleanupVideo(pendingVideo);
-        if (pendingVideo.sprite) {
-          pendingVideo.sprite.destroy();
-          pendingVideo.sprite = undefined;
-        }
+        cleanupVideo(stagedScene);
+        cleanupSprite(stagedScene);
+        console.log("%cClearing scene %c" + id, "color: orange", "color: cyan");
       },
     };
+
+    setStagedScenes([...gameGlobals.stagedScenes, stagedScene]);
 
     try {
       const hlsVideo = await loadVideo(id);
       if (!hlsVideo?.video) throw new Error("Failed to load video!");
-      pendingVideo.video = hlsVideo.video;
-      pendingVideo.hls = hlsVideo.hls;
+
+      stagedScene.video.player = hlsVideo.video;
+      stagedScene.video.hls = hlsVideo.hls;
 
       const sprite = await createVideoSprite(hlsVideo.video, appRef.current);
-      pendingVideo.sprite = sprite;
+      stagedScene.video.sprite = sprite;
 
       if (autoplay) {
         sprite.visible = true;
-        pendingVideo.video?.play();
+        stagedScene.video.player?.play();
+        stagedScene.isActive = true;
       }
 
-      const newPendingVideos = [...pendingVideos, pendingVideo];
-      setPendingVideos(newPendingVideos);
+      stagedScene.isReady = true;
+
+      const newStagedScenes = [...gameGlobals.stagedScenes, stagedScene];
+      setStagedScenes(newStagedScenes);
 
       debugTimer.stop();
     } catch (error) {
@@ -164,7 +175,7 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
       <>
         <button
           onClick={async () => {
-            handleAddNewScene("H0", true);
+            handleAddNewScene("H0", false);
           }}
           className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
         >

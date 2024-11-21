@@ -1,7 +1,7 @@
 import Hls from "hls.js";
 import { useEffect, useState } from "react";
 import { sceneObjects } from "@/config/sceneConfig";
-import { PendingVideo } from "@/types";
+import { PendingVideo, StagedSceneObject } from "@/types";
 
 interface UseHLSPlayerProps {
     onError: (error: string) => void;
@@ -65,9 +65,7 @@ export const useHLSPlayer = (props: UseHLSPlayerProps) => {
 
                 hls.attachMedia(video);
                 hls.loadSource(source);
-                // hlsInstancesRef.current[index] = hls;
             } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                // console.log("video can play m3u8");
                 video.src = source;
                 video.addEventListener("loadedmetadata", () => {
                     resolve({ video, hls: null });
@@ -79,29 +77,19 @@ export const useHLSPlayer = (props: UseHLSPlayerProps) => {
         });
     };
 
-    const cleanupVideo = (pendingVideo: PendingVideo) => {
-        const video = pendingVideo.video;
-        const hls = pendingVideo.hls;
-        if (video) {
-            video.pause();
-            video.removeAttribute("src");
-            video.load();
-            video.remove();
-        }
-        if (hls) {
-            hls.stopLoad();
-            hls.detachMedia();
-            hls.destroy();
-        }
-    };
-
     const loadVideo = async (id: string) => {
         const sceneObject = sceneObjects.find((obj) => obj.id === id);
-        if (sceneObject) {
+
+        try {
+            if (!sceneObject) throw new Error(`Scene object not found for ${id}`);
+            if (!sceneObject.url) throw new Error(`No URL found for scene ${id}`);
+
             const loadedVideo = await setupHls(sceneObject.url);
             return loadedVideo;
+        } catch (error) {
+            console.warn(`Error loading video ${id}: ${error}`);
+            return null;
         }
-        return null;
     }
 
     return {
@@ -112,7 +100,6 @@ export const useHLSPlayer = (props: UseHLSPlayerProps) => {
         isPlaying,
         setIsPlaying,
         setupHls,
-        cleanupVideo,
         loadVideo,
     };
 };

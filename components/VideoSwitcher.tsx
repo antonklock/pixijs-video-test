@@ -8,6 +8,7 @@ import { createDebugTimer } from "@/debug/debugTimer";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
 import { GameGlobals, StagedSceneObject, VideoSwitcherProps } from "../types";
+import createSceneFromId from "@/logic/game/CreateSceneFromId";
 
 const VideoSwitcher = (props: VideoSwitcherProps) => {
   const { gameGlobals, setGameGlobals, setStagedScenes, setCurrentSceneId } =
@@ -122,9 +123,11 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
   }, [gameGlobals.stagedScenes]);
 
   const handleAddNewScene = async (id: string, autoplay: boolean = false) => {
-    gameGlobals.stagedScenes.find((scene) => {
+    gameGlobals.stagedScenes.forEach((scene) => {
       if (scene.id === id) {
-        return console.warn("Scene already loaded. Aborting...");
+        if (scene.isReady || scene.loading) {
+          return console.warn("Scene already loaded. Aborting...");
+        }
       }
     });
 
@@ -188,10 +191,11 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         sprite.visible = true;
         stagedScene.video.player?.play();
         stagedScene.isActive = true;
-
-        console.log("Autoplaying scene:", id);
-
-        console.log("stagedScene.video.player:", stagedScene.video.player);
+        setCurrentSceneId(id);
+      } else {
+        sprite.visible = false;
+        stagedScene.video.player?.pause();
+        stagedScene.isActive = false;
       }
 
       stagedScene.isReady = true;
@@ -203,12 +207,27 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
       });
 
       setStagedScenes(updatedScenes);
-      setCurrentSceneId(id);
 
       debugTimer.stop();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleLoadSceneById = (id: string, autoplay: boolean = false) => {
+    const sceneAlreadyLoaded = gameGlobals.stagedScenes.find(
+      (scene) => scene.id === id
+    );
+
+    if (sceneAlreadyLoaded)
+      return console.warn("Scene already loaded. Aborting...");
+
+    const newScene = createSceneFromId(id, autoplay);
+
+    if (!newScene) return console.warn("Couldn't create scene. Aborting...");
+
+    const updatedScenes = [...gameGlobals.stagedScenes, newScene];
+    setStagedScenes(updatedScenes);
   };
 
   return (
@@ -226,48 +245,41 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         }}
       />
 
-      <>
-        <button
-          onClick={async () => {
-            const newScene = sceneObjects.find((scene) => scene.id === "H0");
-            if (!newScene) return;
+      <div className="flex flex-col gap-2 z-10">
+        {sceneObjects
+          .find((scene) => scene.id === gameGlobals.currentSceneId)
+          ?.nextScenes.map((nextScene) => {
+            return (
+              <button
+                className="my-2 px-4 py-2 bg-blue-500 text-white rounded"
+                key={nextScene}
+                onClick={async () => {
+                  handleLoadSceneById(nextScene);
+                }}
+              >
+                {nextScene}
+              </button>
+            );
+          })}
+      </div>
 
-            const stagedScene: StagedSceneObject = {
-              ...newScene,
-              loading: false,
-              isActive: false,
-              isReady: false,
-              autoplay: true,
-              clear: () => {},
-            };
+      {/* <button
+        onClick={async () => {
+          handleLoadSceneById("H0");
+        }}
+        className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+      >
+        {"Load H0"}
+      </button> */}
+      <button
+        onClick={async () => {
+          handleLoadSceneById("G0", true);
+        }}
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+      >
+        {"Load G0"}
+      </button>
 
-            setStagedScenes([stagedScene]);
-          }}
-          className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
-        >
-          {"Load H0"}
-        </button>
-        <button
-          onClick={async () => {
-            const newScene = sceneObjects.find((scene) => scene.id === "G0");
-            if (!newScene) return;
-
-            const stagedScene: StagedSceneObject = {
-              ...newScene,
-              loading: false,
-              isActive: false,
-              isReady: false,
-              autoplay: true,
-              clear: () => {},
-            };
-
-            setStagedScenes([stagedScene]);
-          }}
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
-        >
-          {"Load G0"}
-        </button>
-      </>
       {errors.length > 0 && (
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">
           {errors.map((error, index) => (

@@ -57,4 +57,6 @@ interface GameGlobals {
     isGameRunning: boolean;
     stagedScenes: StagedSceneObject[];
     currentSceneId: string | null;
+    app: PIXI.Application | null;
+    canvas: HTMLCanvasElement | null;
 }

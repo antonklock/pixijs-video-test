@@ -4,12 +4,15 @@ import VideoSwitcher from "./VideoSwitcher";
 import { sceneObjects } from "@/config/sceneConfig";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
+import SceneLoadingIndicators from "./SceneLoadingIndicators";
 
 export default function Game() {
   const [gameGlobals, setGameGlobals] = useState<GameGlobals>({
     isGameRunning: false,
     stagedScenes: [],
     currentSceneId: null,
+    app: null,
+    canvas: null,
   });
 
   const setStagedScenes = (scenes: StagedSceneObject[]) => {
@@ -23,6 +26,18 @@ export default function Game() {
   useEffect(() => {
     console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
   }, [gameGlobals.stagedScenes]);
+
+  // useEffect(() => {
+  //   gameGlobals.stagedScenes.forEach((scene) => {
+  //     if (scene.id === gameGlobals.currentSceneId) {
+  //       scene.isActive = true;
+  //       scene.video.sprite.visible = true;
+  //     } else {
+  //       scene.isActive = false;
+  //       scene.video.sprite.visible = false;
+  //     }
+  //   });
+  // }, [gameGlobals.currentSceneId]);
 
   //   useEffect(() => {
   //     if (!gameGlobals.currentSceneId) return;
@@ -83,36 +98,11 @@ export default function Game() {
 
   return (
     <>
-      <div className="relative flex items-center justify-center w-full h-full">
-        <div className="absolute h-10 w-full top-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2">
-          {gameGlobals.stagedScenes.map((scene) => (
-            <button
-              className={`w-12 h-12 z-50 text-white flex items-center justify-center rounded-full border-white/25 border-2 ${
-                scene.isReady
-                  ? !scene.isActive
-                    ? "bg-yellow-500/25 border-green-600/50"
-                    : "bg-green-400 border-green-200"
-                  : "bg-red-500 border-red-800 border-4"
-              }`}
-              key={scene.id}
-              id={`indicator-${scene.id}`}
-              onClick={() => {
-                gameGlobals.stagedScenes
-                  .find((stagedScene) => stagedScene.id === scene.id)
-                  ?.clear();
-                const newStagedScenes = gameGlobals.stagedScenes.filter(
-                  (stagedScene) => stagedScene.id !== scene.id
-                );
-                setStagedScenes(newStagedScenes);
-              }}
-            >
-              {scene.id}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* MOVE PIXI STAGE HERE */}
+      <SceneLoadingIndicators
+        gameGlobals={gameGlobals}
+        setStagedScenes={setStagedScenes}
+        setCurrentSceneId={setCurrentScene}
+      />
 
       <VideoSwitcher
         gameGlobals={gameGlobals}

@@ -5,6 +5,7 @@ import { sceneObjects } from "@/config/sceneConfig";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
 import SceneLoadingIndicators from "./SceneLoadingIndicators";
+import createSceneFromId from "@/logic/game/CreateSceneFromId";
 
 export default function Game() {
   const [gameGlobals, setGameGlobals] = useState<GameGlobals>({
@@ -20,81 +21,62 @@ export default function Game() {
   };
 
   const setCurrentScene = (scene: string | null) => {
-    setGameGlobals((prev) => ({ ...prev, currentSceneId: scene }));
+    if (!scene) return;
+    gameGlobals.stagedScenes.forEach((stagedScene) => {
+      if (stagedScene.id === gameGlobals.currentSceneId) {
+        stagedScene.clear();
+        const newStagedScenes = gameGlobals.stagedScenes.filter(
+          (scene) => scene.id !== gameGlobals.currentSceneId
+        );
+        setStagedScenes(newStagedScenes);
+      }
+      setGameGlobals((prev) => ({ ...prev, currentSceneId: scene }));
+    });
   };
 
-  useEffect(() => {
-    console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
-  }, [gameGlobals.stagedScenes]);
-
   // useEffect(() => {
-  //   gameGlobals.stagedScenes.forEach((scene) => {
-  //     if (scene.id === gameGlobals.currentSceneId) {
-  //       scene.isActive = true;
-  //       scene.video.sprite.visible = true;
-  //     } else {
-  //       scene.isActive = false;
-  //       scene.video.sprite.visible = false;
-  //     }
-  //   });
-  // }, [gameGlobals.currentSceneId]);
+  //   console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
+  // }, [gameGlobals.stagedScenes]);
 
-  //   useEffect(() => {
-  //     if (!gameGlobals.currentSceneId) return;
-  //     if (gameGlobals.stagedScenes.length < 1) return;
+  useEffect(() => {
+    if (!gameGlobals.currentSceneId) return;
+    const nextScenesIds = sceneObjects.find(
+      (scene) => scene.id === gameGlobals.currentSceneId
+    )?.nextScenes;
+    if (!nextScenesIds)
+      return console.warn(
+        "No next scenes found for current scene. Aborting..."
+      );
 
-  //     // TODO: ONLY LOAD NEXT SCENES OF ACTIVE SCENE
+    console.log("nextScenesIds:", nextScenesIds);
 
-  //     const stagedScenes = gameGlobals.stagedScenes;
-  //     console.log("stagedScenes:", stagedScenes);
+    const newScenes = nextScenesIds.map((sceneId) => {
+      const sceneIsStaged = gameGlobals.stagedScenes.find(
+        (scene) => scene.id === sceneId
+      );
 
-  //     console.log("Waiting to unload scenes...");
-  //     setTimeout(() => console.log("Unloading scenes..."), 1000);
-  //     let activeScenes: StagedSceneObject[] | undefined =
-  //       gameGlobals.stagedScenes.filter(
-  //         (scene) => scene.id !== gameGlobals.currentSceneId
-  //       );
+      if (sceneIsStaged) {
+        console.warn(`Scene ${sceneId} is already loaded. Aborting...`);
+        return undefined;
+      }
 
-  //     setStagedScenes(activeScenes);
+      const sceneToAdd = createSceneFromId(sceneId, false);
+      if (!sceneToAdd) {
+        console.warn("Failed to create scene. Aborting...");
+        return undefined;
+      }
 
-  //     console.log("Waiting to load scenes...");
-  //     setTimeout(() => console.log("Loading scenes..."), 1000);
-  //     let activeScene = gameGlobals.stagedScenes.find(
-  //       (scene) => scene.id === gameGlobals.currentSceneId
-  //     );
-  //     if (!activeScene)
-  //       return console.warn(
-  //         "No active scene. Need active scene to load next scenes."
-  //       );
+      return sceneToAdd;
+    });
 
-  //     activeScene.nextScenes.forEach((sceneId) => {
-  //       const nextScene = sceneObjects.find((scene) => scene.id === sceneId);
-  //       if (!nextScene) return console.error("Next scene not found!");
-
-  //       const stagedScene: StagedSceneObject = {
-  //         ...nextScene,
-  //         video: {
-  //           player: null,
-  //           hls: null,
-  //           sprite: null,
-  //         },
-  //         loading: false,
-  //         isActive: false,
-  //         isReady: false,
-  //         clear: () => {
-  //           cleanupVideo(stagedScene);
-  //           cleanupSprite(stagedScene);
-  //           console.log(
-  //             "%cClearing scene %c" + sceneId,
-  //             "color: orange",
-  //             "color: cyan"
-  //           );
-  //         },
-  //       };
-
-  //       setStagedScenes([...activeScenes, stagedScene]);
-  //     });
-  //   }, [gameGlobals.currentSceneId]);
+    // const filteredScenes = [...gameGlobals.stagedScenes, ...newScenes].filter(
+    //   (scene) => scene !== undefined
+    // );
+    const newScene = newScenes[0];
+    if (!newScene) return;
+    const filteredScenes = [...gameGlobals.stagedScenes, newScene];
+    setStagedScenes(filteredScenes);
+  }, [gameGlobals.currentSceneId]);
 
   return (
     <>

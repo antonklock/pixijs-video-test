@@ -101,19 +101,6 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
     return cleanup;
   }, []);
 
-  // useEffect(() => {
-  //   gameGlobals.stagedScenes.forEach((scene) => {
-  //     if (!scene.isReady && !scene.loading) {
-  //       scene.loading = true;
-  //       const autoplay = scene.autoplay || false;
-  //       handleAddNewScene(scene.id, autoplay);
-  //     } else {
-  //       console.warn("Scene already staged. Aborting...");
-  //     }
-  //   });
-  //   console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
-  // }, [gameGlobals.stagedScenes]);
-
   useEffect(() => {
     gameGlobals.stagedScenes
       .filter((scene) => !scene.isReady && !scene.loading)
@@ -245,40 +232,18 @@ const VideoSwitcher = (props: VideoSwitcherProps) => {
         }}
       />
 
-      <div className="flex flex-col gap-2 z-10">
-        {sceneObjects
-          .find((scene) => scene.id === gameGlobals.currentSceneId)
-          ?.nextScenes.map((nextScene) => {
-            return (
-              <button
-                className="my-2 px-4 py-2 bg-blue-500 text-white rounded"
-                key={nextScene}
-                onClick={async () => {
-                  handleLoadSceneById(nextScene);
-                }}
-              >
-                {nextScene}
-              </button>
-            );
-          })}
-      </div>
-
-      {/* <button
-        onClick={async () => {
-          handleLoadSceneById("H0");
-        }}
-        className="absolute bottom-4 left-2/3 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
-      >
-        {"Load H0"}
-      </button> */}
-      <button
-        onClick={async () => {
-          handleLoadSceneById("G0", true);
-        }}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
-      >
-        {"Load G0"}
-      </button>
+      {gameGlobals.currentSceneId ? (
+        false
+      ) : (
+        <button
+          onClick={async () => {
+            handleLoadSceneById("G0", true);
+          }}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded z-10"
+        >
+          {"Load G0"}
+        </button>
+      )}
 
       {errors.length > 0 && (
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">

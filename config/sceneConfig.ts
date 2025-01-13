@@ -3,7 +3,8 @@ import { SceneObject } from "@/types";
 export const sceneObjects: SceneObject[] = [
     {
         id: "G0",
-        url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f63d15e200eb568dfef34b3b6696a761/manifest/video.m3u8',
+        // url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f63d15e200eb568dfef34b3b6696a761/manifest/video.m3u8', // Cloudflare
+        url: 'https://stream.mux.com/iqcu02NmYd02TN1QefAGBG1nyhjwpHyXiOvxDvS02iQU1w.m3u8', // Mux
         name: 'Intro sovrum',
         nextScenes: ['H0'],
         video: {
@@ -14,7 +15,8 @@ export const sceneObjects: SceneObject[] = [
     },
     {
         id: "H0",
-        url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/e0853c614b8e69d59b81f4e4a586c200/manifest/video.m3u8',
+        // url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/e0853c614b8e69d59b81f4e4a586c200/manifest/video.m3u8', // Cloudflare
+        url: 'https://stream.mux.com/YbnMCyTnPRlnzBlAlvxODSOSJ02pGu00lDqUX8yOWt4M4.m3u8', // Mux
         name: 'Hub',
         nextScenes: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
         video: {
@@ -25,7 +27,8 @@ export const sceneObjects: SceneObject[] = [
     },
     {
         id: "H1",
-        url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/51cb3c8b7aec89d2df5aa95981c2a7c0/manifest/video.m3u8',
+        // url: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/51cb3c8b7aec89d2df5aa95981c2a7c0/manifest/video.m3u8', // Cloudflare
+        url: 'https://stream.mux.com/EiKu6MjIF9KryZ02ImcqSteBq4JCo5Z4jxSVQAVj1GGA.m3u8', // Mux
         name: 'Hederligt arbete',
         nextScenes: ["H1-A", "H1-B", "H1-C"],
         video: {

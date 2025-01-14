@@ -1,7 +1,6 @@
 import Hls from "hls.js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sceneObjects } from "@/config/sceneConfig";
-import { PendingVideo, StagedSceneObject } from "@/types";
 
 interface UseHLSPlayerProps {
     onError: (error: string) => void;

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mux/mux-player-react": "^3.2.4",
     "hls.js": "^1.5.17",
     "next": "15.0.3",
     "pixi.js": "^8.5.2",

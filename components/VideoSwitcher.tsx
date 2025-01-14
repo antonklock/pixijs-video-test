@@ -7,7 +7,7 @@ import { initializePixi } from "@/PixiJs/InitializePixi";
 import { createDebugTimer } from "@/debug/debugTimer";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
-import { GameGlobals, StagedSceneObject, VideoSwitcherProps } from "../types";
+import { StagedSceneObject, VideoSwitcherProps } from "../types";
 import createSceneFromId from "@/logic/game/CreateSceneFromId";
 
 const VideoSwitcher = (props: VideoSwitcherProps) => {

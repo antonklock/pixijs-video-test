@@ -1,14 +1,15 @@
 import * as PIXI from "pixi.js";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Dimensions } from "../types";
 
 interface UsePixiStageProps {
     onError: (error: string) => void;
+    dimensions: { width: number; height: number };
 }
 
-export const usePixiStage = ({ onError }: UsePixiStageProps) => {
+export const usePixiStage = ({ onError, dimensions: Dimensions }: UsePixiStageProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const appRef = useRef<PIXI.Application>();
     const videoSpritesRef = useRef<PIXI.Sprite[] | null[]>([]);
 
@@ -61,10 +62,14 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
             sprite.width = dimensions.width;
             sprite.height = dimensions.height;
             sprite.position.set(dimensions.width / 2, dimensions.height / 2);
-            sprite.visible = false;
+
+            console.log("Sprite created: ", sprite);
+            sprite.visible = true;
 
             if (app?.stage) {
                 app.stage.addChild(sprite);
+            } else {
+                console.error("Can't add sprite to stage! App stage not found.");
             }
 
             return sprite;
@@ -73,6 +78,29 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
             throw error;
         }
     };
+
+    useEffect(() => {
+        if (!canvasRef.current) return;
+
+        const app = new PIXI.Application();
+        app.init({
+            canvas: canvasRef.current,
+            width: dimensions.width,
+            height: dimensions.height,
+            backgroundColor: 0x330000,
+            antialias: true,
+        });
+
+        appRef.current = app;
+
+        return () => {
+            if (appRef.current) {
+                appRef.current.stage?.removeChildren();
+                appRef.current.renderer?.destroy();
+                appRef.current = undefined;
+            }
+        };
+    }, [canvasRef.current, dimensions]);
 
     return {
         containerRef,

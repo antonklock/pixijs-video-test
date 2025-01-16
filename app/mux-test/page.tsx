@@ -164,25 +164,6 @@ export default function Home() {
                         autoPlay={true}
                         preload="auto"
                     />
-                    <MuxPlayer
-                        ref={(muxPlayerEl) => {
-                            if (muxPlayerEl?.media) {
-                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
-                                playerRefs.current[2] = player;
-                                videoCount.current++;
-                                if (videoCount.current === 3) setVideosReady(true);
-                            }
-                        }}
-                        playbackId="EiKu6MjIF9KryZ02ImcqSteBq4JCo5Z4jxSVQAVj1GGA"
-                        metadata={{
-                            video_id: "video-id-H1",
-                            video_title: "H1",
-                            viewer_user_id: "KlockDev",
-                            player_init_time: new Date().getTime()
-                        }}
-                        autoPlay={true}
-                        preload="auto"
-                    />
                 </div>
             )}
             <button 

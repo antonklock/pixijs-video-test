@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { initializePixi } from "../../PixiJs/InitializePixi";
 import MuxPlayer from "@mux/mux-player-react";
-import * as PIXI from "pixi.js";
 import { usePixiStage } from "@/hooks/usePixiStage";
 
 const dimensions = {
@@ -14,136 +12,104 @@ const dimensions = {
 const preload: "auto" | "none" = "auto";
 
 export default function Home() {
-    const [playerInitTime] = useState(() => Date.now());
+    const [gameStarted, setGameStarted] = useState(false);
     const [domLoaded, setDomLoaded] = useState(false);
-    const [videoIndex, setVideoIndex] = useState(0);
+    const [isInitialized, setIsInitialized] = useState(false);
     const playerRefs = useRef<HTMLVideoElement[]>([]);
-    
-    const { canvasRef, appRef, createVideoSprite } = usePixiStage({
-        onError: (error) => {
-            console.error("Pixi.js error:", error);
-        },
-        dimensions
+    const [videosReady, setVideosReady] = useState(false);
+    const videoCount = useRef(0);
+
+    const {
+        canvasRef,
+        appRef,
+        createVideoSprite,
+        showNextSprite,
+        isInitialized: isPixiInitialized
+    } = usePixiStage({
+        onError: (error) => console.error(error),
+        dimensions,
+        gameStarted,
+        onInit: () => {
+            console.log("PIXI initialization callback received");
+            if (playerRefs.current.length === 0) {
+                console.log("No video players available yet");
+                return;
+            }
+            initializeVideos();
+        }
     });
 
-    useEffect(() => {
-        if (!appRef.current) return;
+    const initializeVideos = async () => {
+        if (!appRef.current) {
+            console.error("Cannot initialize videos - app not ready");
+            return;
+        }
 
-        console.log("App ref: ", appRef.current);
+        console.log("Starting video initialization with app:", {
+            hasStage: !!appRef.current?.stage,
+            stageChildren: appRef.current?.stage?.children.length,
+            videoCount: playerRefs.current.length
+        });
 
-        // Cleanup function
-        return () => {
-            appRef.current?.stage.removeChildren();
-        };
-    }, [appRef.current]);
+        try {
+            // Clear any existing sprites
+            appRef.current.stage.removeChildren();
+                
+            // Store current videos
+            const currentVideos = [...playerRefs.current];
+            
+            for (let index = 0; index < currentVideos.length; index++) {
+                const player = currentVideos[index];
+                if (player) {
+                    console.log(`Processing video ${index}...`);
+                    if (player.readyState < 3) {
+                        await new Promise(resolve => {
+                            player.addEventListener('canplay', resolve, { once: true });
+                        });
+                    }
+                    
+                    await player.play();
+                    
+                    if (appRef.current) {
+                        console.log(`Creating sprite for video ${index}...`);
+                        const sprite = await createVideoSprite(player, appRef.current, index);
+                        console.log(`Sprite ${index} created and visible:`, sprite?.visible);
+                    }
+                }
+            }
+            setIsInitialized(true);
+        } catch (error) {
+            console.error("Error initializing videos:", error);
+        }
+    };
 
     useEffect(() => {
         setDomLoaded(true);
     }, []);
 
-    const playVideo = async () => {
-        setVideoIndex((prev) => prev + 1);
-
-        if(!playerRefs.current[videoIndex]) setVideoIndex(0);
-        
-        // First pause all videos and remove existing sprites
-        await Promise.all(
-            playerRefs.current.map(player => 
-                player?.paused ? Promise.resolve() : player?.pause()
-            )
-        );
-        appRef.current?.stage.removeChildren();
-
-        // Then play the selected video and create sprite
-        try {
-            const videoElement = playerRefs.current[videoIndex];
-            await videoElement?.play();
-            
-            if(!videoElement) {
-                console.error("Can't add sprite to stage! Video element not found!");
-                return;
-            }
-
-            if(!appRef.current) {
-                console.error("Can't add sprite to stage! App stage not found!");
-                return;
-            }
-
-            const sprite = await createVideoSprite(videoElement, appRef.current);
-            // Center the sprite
-            sprite.x = dimensions.width / 2;
-            sprite.y = dimensions.height / 2;
-            sprite.anchor.set(0.5);
-
-            appRef.current?.stage.addChild(sprite);
-            sprite.visible = true;
-            
-        } catch (error) {
-            console.error('Error playing video:', error);
+    useEffect(() => {
+        if (gameStarted && canvasRef.current) {
+            console.log("Game started and canvas mounted", {
+                canvasExists: !!canvasRef.current,
+                canvasDimensions: {
+                    width: canvasRef.current.width,
+                    height: canvasRef.current.height
+                }
+            });
         }
-    }
+    }, [gameStarted, canvasRef.current]);
+
+    useEffect(() => {
+        if (videosReady && gameStarted && !isInitialized && appRef.current) {
+            console.log("Videos ready, starting initialization");
+            initializeVideos();
+        }
+    }, [videosReady, gameStarted, isInitialized, appRef.current]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center px-12">
+    <div>
+{gameStarted ? (<div className="w-full flex flex-col items-center justify-center px-12">
         <h1 className="text-2xl font-bold my-10">Mux Test</h1>
-        <div className="flex flex-col gap-4 items-center">
-            {domLoaded && (
-                <div className="flex row gap-4">
-                    <MuxPlayer
-                        ref={(muxPlayerEl) => {
-                            if (muxPlayerEl?.media) {
-                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
-                                playerRefs.current.push(player);
-                            }
-                        }}
-                        playbackId="iqcu02NmYd02TN1QefAGBG1nyhjwpHyXiOvxDvS02iQU1w"
-                        metadata={{
-                            video_id: "video-id-G0",
-                            video_title: "G0",
-                            viewer_user_id: "KlockDev",
-                            player_init_time: playerInitTime
-                        }}
-                        autoPlay={false}
-                        preload={preload}
-                    />
-                    <MuxPlayer
-                        ref={(muxPlayerEl) => {
-                            if (muxPlayerEl?.media) {
-                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
-                                playerRefs.current.push(player);
-                            }
-                        }}
-                        playbackId="YbnMCyTnPRlnzBlAlvxODSOSJ02pGu00lDqUX8yOWt4M4"
-                        metadata={{
-                            video_id: "video-id-H0",
-                            video_title: "H0",
-                            viewer_user_id: "KlockDev",
-                            player_init_time: playerInitTime
-                        }}
-                        autoPlay={false}
-                        preload={preload}
-                    />
-                    <MuxPlayer
-                        ref={(muxPlayerEl) => {
-                            if (muxPlayerEl?.media) {
-                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
-                                playerRefs.current.push(player);
-                            }
-                        }}
-                        playbackId="EiKu6MjIF9KryZ02ImcqSteBq4JCo5Z4jxSVQAVj1GGA"
-                        metadata={{
-                            video_id: "video-id-H1",
-                            video_title: "H1",
-                            viewer_user_id: "KlockDev",
-                            player_init_time: playerInitTime
-                        }}
-                        autoPlay={false}
-                        preload={preload}
-                    />
-                </div>
-            )}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded mb-4" onClick={() => playVideo()}>Next video</button>  
-        </div>
         <canvas
             ref={canvasRef}
             width={dimensions.width}
@@ -154,8 +120,83 @@ export default function Home() {
                 maxHeight: "100vh",
                 maxWidth: "100vw",
                 backgroundColor: '#333',
+                display: 'block',
             }}
         />
+        <div className="flex flex-col gap-4 items-center mt-4">
+            {domLoaded && (
+                <div className="flex row gap-4">
+                    <MuxPlayer
+                        ref={(muxPlayerEl) => {
+                            if (muxPlayerEl?.media) {
+                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
+                                playerRefs.current[0] = player;
+                                videoCount.current++;
+                                if (videoCount.current === 3) setVideosReady(true);
+                            }
+                        }}
+                        playbackId="iqcu02NmYd02TN1QefAGBG1nyhjwpHyXiOvxDvS02iQU1w"
+                        metadata={{
+                            video_id: "video-id-G0",
+                            video_title: "G0",
+                            viewer_user_id: "KlockDev",
+                            player_init_time: new Date().getTime()
+                        }}
+                        autoPlay={true}
+                        preload="auto"
+                    />
+                    <MuxPlayer
+                        ref={(muxPlayerEl) => {
+                            if (muxPlayerEl?.media) {
+                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
+                                playerRefs.current[1] = player;
+                                videoCount.current++;
+                                if (videoCount.current === 3) setVideosReady(true);
+                            }
+                        }}
+                        playbackId="YbnMCyTnPRlnzBlAlvxODSOSJ02pGu00lDqUX8yOWt4M4"
+                        metadata={{
+                            video_id: "video-id-H0",
+                            video_title: "H0",
+                            viewer_user_id: "KlockDev",
+                            player_init_time: new Date().getTime()
+                        }}
+                        autoPlay={true}
+                        preload="auto"
+                    />
+                    <MuxPlayer
+                        ref={(muxPlayerEl) => {
+                            if (muxPlayerEl?.media) {
+                                const player = muxPlayerEl.media.nativeEl as HTMLVideoElement;
+                                playerRefs.current[2] = player;
+                                videoCount.current++;
+                                if (videoCount.current === 3) setVideosReady(true);
+                            }
+                        }}
+                        playbackId="EiKu6MjIF9KryZ02ImcqSteBq4JCo5Z4jxSVQAVj1GGA"
+                        metadata={{
+                            video_id: "video-id-H1",
+                            video_title: "H1",
+                            viewer_user_id: "KlockDev",
+                            player_init_time: new Date().getTime()
+                        }}
+                        autoPlay={true}
+                        preload="auto"
+                    />
+                </div>
+            )}
+            <button 
+                className="bg-blue-500 text-white px-4 py-2 rounded mb-4" 
+                onClick={showNextSprite}
+            >
+                Next Video
+            </button>
+        </div>
+    </div>) : (<div className="w-full flex flex-col items-center justify-center px-12 h-screen">
+        <button onClick={() => setGameStarted(true)}>
+            Start Game
+        </button>
+    </div>)}
     </div>
   );
 }

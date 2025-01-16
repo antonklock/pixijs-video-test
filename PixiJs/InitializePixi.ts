@@ -1,11 +1,19 @@
 import * as PIXI from "pixi.js";
 
-export const initializePixi = async (dimensions: { width: number; height: number }) => {
+export const initializePixi = async (dimensions?: { width: number; height: number }) => {
+    // Default dimensions if none provided
+    const defaultDimensions = {
+        width: 1280,
+        height: 720
+    };
+
+    const config = dimensions || defaultDimensions;
+
     const app = new PIXI.Application();
     await app.init({
         background: new PIXI.Color({ r: 0, g: 25, b: 25, a: 0.5 }).toArray(),
-        width: dimensions.width,
-        height: dimensions.height,
+        width: config.width,
+        height: config.height,
         antialias: true,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
@@ -26,12 +34,12 @@ export const initializePixi = async (dimensions: { width: number; height: number
         },
     });
     noVideosText.anchor.set(0.5);
-    noVideosText.position.set(dimensions.width / 2, dimensions.height / 2);
+    noVideosText.position.set(config.width / 2, config.height / 2);
     app.stage.addChild(noVideosText);
 
     const debugRect = new PIXI.Graphics()
         .setStrokeStyle({ width: 2, color: 0xff0000 })
-        .rect(0, 0, dimensions.width, dimensions.height)
+        .rect(0, 0, config.width, config.height)
         .stroke();
     app.stage.addChild(debugRect);
 

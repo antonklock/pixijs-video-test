@@ -69,9 +69,6 @@ export default function Game() {
       return sceneToAdd;
     });
 
-    // const filteredScenes = [...gameGlobals.stagedScenes, ...newScenes].filter(
-    //   (scene) => scene !== undefined
-    // );
     const newScene = newScenes[0];
     if (!newScene) return;
     const filteredScenes = [...gameGlobals.stagedScenes, newScene];

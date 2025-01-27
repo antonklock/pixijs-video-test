@@ -62,10 +62,29 @@ export default function Game() {
   const loadH0 = () => {
     const newScene = createSceneFromId("H0", false);
     const newScene2 = createSceneFromId("H1", false);
-    if (!newScene || !newScene2)
+    const newScene3 = createSceneFromId("H2", false);
+    const newScene4 = createSceneFromId("H3", false);
+    const newScene5 = createSceneFromId("H4", false);
+    const newScene6 = createSceneFromId("H5", false);
+    if (
+      !newScene ||
+      !newScene2 ||
+      !newScene3 ||
+      !newScene4 ||
+      !newScene5 ||
+      !newScene6
+    )
       return console.warn("Couldn't create scene. Aborting...");
 
-    setStagedScenes([...gameGlobals.stagedScenes, newScene, newScene2]);
+    setStagedScenes([
+      ...gameGlobals.stagedScenes,
+      newScene,
+      newScene2,
+      newScene3,
+      newScene4,
+      newScene5,
+      newScene6,
+    ]);
   };
 
   // useEffect(() => {

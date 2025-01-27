@@ -11,7 +11,9 @@ export default function Game() {
   const [gameGlobals, setGameGlobals] = useState<GameGlobals>({
     isGameRunning: false,
     stagedScenes: [],
-    currentSceneId: null,
+    scenesToStage: [],
+    // currentSceneId: null,
+    currentScene: null,
     app: null,
     canvas: null,
   });
@@ -23,60 +25,167 @@ export default function Game() {
   const setCurrentScene = (scene: string | null) => {
     if (!scene) return;
     gameGlobals.stagedScenes.forEach((stagedScene) => {
-      if (stagedScene.id === gameGlobals.currentSceneId) {
+      if (stagedScene.id === gameGlobals.currentScene?.id) {
         stagedScene.clear();
         const newStagedScenes = gameGlobals.stagedScenes.filter(
-          (scene) => scene.id !== gameGlobals.currentSceneId
+          (scene) => scene.id !== gameGlobals.currentScene?.id
         );
         setStagedScenes(newStagedScenes);
       }
-      setGameGlobals((prev) => ({ ...prev, currentSceneId: scene }));
     });
+    setGameGlobals(
+      (prev) => ({ ...prev, currentSceneId: scene } as GameGlobals)
+    );
+  };
+
+  const handleLoadSceneById = (id: string, autoplay: boolean = false) => {
+    const sceneAlreadyLoaded = gameGlobals.stagedScenes.find(
+      (scene) => scene.id === id
+    );
+
+    if (sceneAlreadyLoaded)
+      return console.warn("Scene already loaded. Aborting...");
+
+    const newScene = createSceneFromId(id, autoplay);
+
+    if (!newScene) return console.warn("Couldn't create scene. Aborting...");
+
+    // setGameGlobals((prev) => ({
+    //   ...prev,
+    //   currentScene: newScene,
+    // }));
+
+    // setStagedScenes((prev) => [...prev, newScene]);
+    setStagedScenes([...gameGlobals.stagedScenes, newScene]);
+  };
+
+  const loadH0 = () => {
+    const newScene = createSceneFromId("H0", false);
+    const newScene2 = createSceneFromId("H1", false);
+    if (!newScene || !newScene2)
+      return console.warn("Couldn't create scene. Aborting...");
+
+    setStagedScenes([...gameGlobals.stagedScenes, newScene, newScene2]);
   };
 
   // useEffect(() => {
-  //   console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
-  // }, [gameGlobals.stagedScenes]);
+  //   console.log("Current scene id:", gameGlobals.currentScene?.id);
 
-  useEffect(() => {
-    if (!gameGlobals.currentSceneId) return;
-    const nextScenesIds = sceneObjects.find(
-      (scene) => scene.id === gameGlobals.currentSceneId
-    )?.nextScenes;
-    if (!nextScenesIds)
-      return console.warn(
-        "No next scenes found for current scene. Aborting..."
-      );
+  //   const nextScenes = sceneObjects.find(
+  //     (scene) => scene.id === gameGlobals.currentScene?.id
+  //   )?.nextScenes;
 
-    console.log("nextScenesIds:", nextScenesIds);
+  //   console.log("nextScenes:", nextScenes);
 
-    const newScenes = nextScenesIds.map((sceneId) => {
-      const sceneIsStaged = gameGlobals.stagedScenes.find(
-        (scene) => scene.id === sceneId
-      );
+  //   if (!nextScenes) return;
 
-      if (sceneIsStaged) {
-        console.warn(`Scene ${sceneId} is already loaded. Aborting...`);
-        return undefined;
-      }
+  //   const newScene = createSceneFromId(nextScenes[0], false);
 
-      const sceneToAdd = createSceneFromId(sceneId, false);
-      if (!sceneToAdd) {
-        console.warn("Failed to create scene. Aborting...");
-        return undefined;
-      }
+  //   console.log("newScene:", newScene);
 
-      return sceneToAdd;
-    });
+  //   if (!newScene) return console.warn("Couldn't create scene. Aborting...");
 
-    const newScene = newScenes[0];
-    if (!newScene) return;
-    const filteredScenes = [...gameGlobals.stagedScenes, newScene];
-    setStagedScenes(filteredScenes);
-  }, [gameGlobals.currentSceneId]);
+  //   setStagedScenes([...gameGlobals.stagedScenes, newScene]);
+
+  //   // nextScenes.forEach((scene) => {
+  //   //   handleLoadSceneById(scene, false);
+  //   // });
+  // }, [gameGlobals.currentScene]);
+
+  // useEffect(() => {
+  //   if (!gameGlobals.currentScene)
+  //     return console.warn("No current scene found. Aborting...");
+
+  //   const nextScenes = sceneObjects.find(
+  //     (scene) => scene.id === gameGlobals.currentScene?.id
+  //   )?.nextScenes;
+
+  //   console.log("nextScenes:", nextScenes);
+
+  //   if (!nextScenes) return console.warn("No next scenes found. Aborting...");
+
+  //   setGameGlobals((prev) => ({ ...prev, scenesToStage: nextScenes }));
+
+  //   console.log("scenesToStage:", gameGlobals.scenesToStage);
+  //   console.log("currentScene:", gameGlobals.currentScene);
+  // }, [gameGlobals.currentScene]);
+
+  // useEffect(() => {
+  //   console.log("scenesToStage:", gameGlobals.scenesToStage);
+
+  //   if (gameGlobals.scenesToStage.length === 0) return;
+
+  //   const nextScene = gameGlobals.scenesToStage[0];
+  //   const newScene = createSceneFromId(nextScene, false);
+
+  //   if (!newScene) return console.warn("Couldn't create scene. Aborting...");
+
+  //   console.log("Staged scenes:", [...gameGlobals.stagedScenes, newScene]);
+
+  //   setStagedScenes([...gameGlobals.stagedScenes, newScene]);
+
+  //   const newScenesToStage = gameGlobals.scenesToStage.filter(
+  //     (scene) => scene !== nextScene
+  //   );
+
+  //   setGameGlobals((prev) => ({
+  //     ...prev,
+  //     scenesToStage: newScenesToStage,
+  //   }));
+  // }, [gameGlobals.scenesToStage]);
+
+  // useEffect(() => {
+  //   if (!gameGlobals.currentSceneId) return;
+  //   const nextScenesIds = sceneObjects.find(
+  //     (scene) => scene.id === gameGlobals.currentSceneId
+  //   )?.nextScenes;
+  //   if (!nextScenesIds)
+  //     return console.warn(
+  //       "No next scenes found for current scene. Aborting..."
+  //     );
+
+  //   console.log("nextScenesIds:", nextScenesIds);
+
+  //   const newScenes = nextScenesIds.map((sceneId) => {
+  //     const sceneIsStaged = !!gameGlobals.stagedScenes.find(
+  //       (scene) => scene.id === sceneId
+  //     );
+
+  //     console.log("Checking scene:", sceneId);
+  //     console.log("sceneIsStaged:", sceneIsStaged);
+  //     console.log("gameGlobals.stagedScenes:", gameGlobals.stagedScenes);
+
+  //     if (sceneIsStaged) {
+  //       console.warn(`Scene ${sceneId} is already loaded. Aborting...`);
+  //       return undefined;
+  //     }
+
+  //     const sceneToAdd = createSceneFromId(sceneId, false);
+  //     if (!sceneToAdd) {
+  //       console.warn("Failed to create scene. Aborting...");
+  //       return undefined;
+  //     }
+
+  //     return sceneToAdd;
+  //   });
+
+  //   // const newScene = newScenes.find((scene) => scene !== undefined);
+  //   const newScene = newScenes.find((scene) => scene !== undefined);
+  //   console.log("newScene:", newScene);
+
+  //   if (!newScene) return;
+  //   if (newScene.id !== "H0" && newScene.id !== "H1" && newScene.id !== "H2")
+  //     return;
+  //   // const newScene = newScenes[0];
+  //   // if (!newScene) return;
+  //   const filteredScenes = [...gameGlobals.stagedScenes, newScene];
+  //   setStagedScenes(filteredScenes);
+  // }, [gameGlobals.currentSceneId, gameGlobals.stagedScenes]);
 
   return (
     <>
+      <button onClick={loadH0}>Load H0</button>
+
       <SceneLoadingIndicators
         gameGlobals={gameGlobals}
         setStagedScenes={setStagedScenes}
@@ -88,6 +197,7 @@ export default function Game() {
         setGameGlobals={setGameGlobals}
         setStagedScenes={setStagedScenes}
         setCurrentSceneId={setCurrentScene}
+        handleLoadSceneById={handleLoadSceneById}
       />
     </>
   );

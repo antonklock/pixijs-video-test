@@ -3,6 +3,7 @@ export interface VideoSwitcherProps {
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentSceneId: (scene: string | null) => void;
     setGameGlobals: (gameGlobals: GameGlobals) => void;
+    handleLoadSceneById: (id: string, autoplay: boolean) => void;
 }
 
 export interface Dimensions {
@@ -55,8 +56,10 @@ export interface StagedSceneObject extends SceneObject {
 
 interface GameGlobals {
     isGameRunning: boolean;
+    scenesToStage: string[];
     stagedScenes: StagedSceneObject[];
-    currentSceneId: string | null;
+    // currentSceneId: string | null;
+    currentScene: SceneObject | null;
     app: PIXI.Application | null;
     canvas: HTMLCanvasElement | null;
 }

@@ -58,6 +58,6 @@ export interface GameGlobals {
     isGameRunning: boolean;
     app: PIXI.Application | null;
     canvas: HTMLCanvasElement | null;
-    currentScene: SceneObject | null;
+    currentScene: StagedSceneObject | null;
     stagedScenes: StagedSceneObject[];
 }

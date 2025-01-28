@@ -1,9 +1,9 @@
 import createNewStagedScene from '@/logic/game/CreateSceneFromId';
 import loadVideo from '@/utils/loadVideo';
 import { createVideoSprite } from '@/utils/createVideoSprite';
-import { GameGlobalsStore } from '@/stores/gameGlobals';
+import { GameGlobalsStore } from '@/stores/gameGlobals/gameGlobals';
 
-const addNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) => {
+const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) => {
     if (!get().app) return console.warn("Can't add new scene! App not initialized.");
     if (get().stagedScenes.some(scene => scene.id === sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already staged.`);
     if (get().loadingScenes.has(sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already loading.`);
@@ -13,35 +13,22 @@ const addNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (s
         const newStagedScene = createNewStagedScene(sceneId, false);
         if (!newStagedScene) return console.warn("Couldn't create scene config.");
 
-        console.log("New staged scene: ", newStagedScene);
-
         const newVideo = await loadVideo(sceneId);
         if (!newVideo?.element) return console.warn("Couldn't load video.");
         if (!newVideo?.hls) return console.warn("Couldn't load hls.");
 
-        console.log("New video: ", newVideo);
-
         const newSprite = await createVideoSprite(newVideo.element, get().app);
         if (!newSprite) return console.warn("Couldn't create sprite.");
-
-        console.log("New sprite: ", newSprite);
 
         newStagedScene.video.sprite = newSprite;
         newStagedScene.video.hls = newVideo.hls;
         newStagedScene.video.player = newVideo.element;
 
-        if (newStagedScene.autoplay) {
-            newStagedScene.video.sprite.visible = true;
-            newStagedScene.video.player?.play();
-            newStagedScene.isActive = true;
-            set({ ...get(), currentScene: newStagedScene });
-        } else {
-            newStagedScene.video.sprite.visible = false;
-            newStagedScene.video.player?.pause();
-            newStagedScene.isActive = false;
-        }
+        newStagedScene.video.sprite.visible = false;
+        newStagedScene.video.player?.pause();
+        newStagedScene.isActive = false;
 
-        console.log("New staged scene: ", newStagedScene);
+        newStagedScene.isReady = true;
 
         set({ ...get(), stagedScenes: [...get().stagedScenes, newStagedScene] });
     } catch (error) {
@@ -51,4 +38,4 @@ const addNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (s
     }
 };
 
-export default addNewScene; 
+export default handleAddNewScene; 

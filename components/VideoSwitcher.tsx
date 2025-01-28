@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import { usePixiStage } from "../hooks/usePixiStage";
 import { initializePixi } from "@/PixiJs/InitializePixi";
-import useGameGlobalsStore from "@/stores/gameGlobals";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
@@ -59,10 +59,6 @@ const VideoSwitcher = () => {
     hlsInstancesRef.current = [];
     videoSpritesRef.current = [];
   };
-
-  useEffect(() => {
-    console.log("Game globals: ", gameGlobals);
-  }, [gameGlobals]);
 
   return (
     <div

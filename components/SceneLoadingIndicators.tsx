@@ -1,5 +1,5 @@
 import React from "react";
-import useGameGlobalsStore from "@/stores/gameGlobals";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 const SceneLoadingIndicators = () => {
   const gameGlobals = useGameGlobalsStore();
@@ -45,11 +45,7 @@ const SceneLoadingIndicators = () => {
                 key={`play-${scene.id}`}
                 className="bg-white-400/25 border-green-400 border-2 text-green-400 px-4 py-2 rounded-e-lg -translate-x-3 pl-4"
                 onClick={() => {
-                  console.log("Playing video");
-                  scene.video.player.play();
-                  scene.isActive = true;
-                  scene.video.sprite.visible = true;
-                  gameGlobals.setCurrentScene(scene.id);
+                  gameGlobals.switchToScene(scene.id);
                 }}
               >
                 <p className="text-sm translate-x-1">Play</p>

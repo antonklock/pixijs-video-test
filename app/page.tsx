@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Game from "@/components/Game";
-import useGameGlobalsStore from "@/stores/gameGlobals";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 export default function Home() {
   // const [gameStarted, setGameStarted] = useState(false);

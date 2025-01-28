@@ -1,19 +1,8 @@
 import React from "react";
-import { StagedSceneObject } from "@/types";
+import useGameGlobalsStore from "@/stores/gameGlobals";
 
-interface SceneLoadingIndicatorsProps {
-  gameGlobals: {
-    stagedScenes: StagedSceneObject[];
-  };
-  setStagedScenes: (scenes: StagedSceneObject[]) => void;
-  setCurrentSceneId: (sceneId: string | null) => void;
-}
-
-const SceneLoadingIndicators: React.FC<SceneLoadingIndicatorsProps> = ({
-  gameGlobals,
-  setStagedScenes,
-  setCurrentSceneId,
-}) => {
+const SceneLoadingIndicators = () => {
+  const gameGlobals = useGameGlobalsStore();
   return (
     <div className="relative flex items-center justify-center w-full h-full">
       <div className="absolute h-10 w-full top-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2">
@@ -44,7 +33,7 @@ const SceneLoadingIndicators: React.FC<SceneLoadingIndicatorsProps> = ({
                 const newStagedScenes = gameGlobals.stagedScenes.filter(
                   (stagedScene) => stagedScene.id !== scene.id
                 );
-                setStagedScenes(newStagedScenes);
+                gameGlobals.setStagedScenes(newStagedScenes);
               }}
             >
               <span className={scene.isReady ? "group-hover:opacity-0" : ""}>
@@ -60,7 +49,7 @@ const SceneLoadingIndicators: React.FC<SceneLoadingIndicatorsProps> = ({
                   scene.video.player.play();
                   scene.isActive = true;
                   scene.video.sprite.visible = true;
-                  setCurrentSceneId(scene.id);
+                  gameGlobals.setCurrentScene(scene.id);
                 }}
               >
                 <p className="text-sm translate-x-1">Play</p>

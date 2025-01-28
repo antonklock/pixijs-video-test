@@ -54,12 +54,10 @@ export interface StagedSceneObject extends SceneObject {
     clear: () => void;
 }
 
-interface GameGlobals {
+export interface GameGlobals {
     isGameRunning: boolean;
-    scenesToStage: string[];
-    stagedScenes: StagedSceneObject[];
-    // currentSceneId: string | null;
-    currentScene: SceneObject | null;
     app: PIXI.Application | null;
     canvas: HTMLCanvasElement | null;
+    currentScene: SceneObject | null;
+    stagedScenes: StagedSceneObject[];
 }

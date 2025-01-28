@@ -28,8 +28,8 @@ const VideoSwitcher = () => {
     const createPixiApp = async () => {
       const { app, canvas } = await initializePixi(dimensions);
 
-      if (!canvas || !canvasRef.current || !app) return;
-      canvasRef.current.appendChild(canvas);
+      if (!canvas || !containerRef.current || !app) return;
+      containerRef.current.appendChild(canvas);
       appRef.current = app;
 
       gameGlobals.setApp(app);
@@ -62,11 +62,10 @@ const VideoSwitcher = () => {
 
   return (
     <div
-      ref={canvasRef}
+      ref={containerRef}
       className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center -z-10"
     >
       <div
-        ref={containerRef}
         className=""
         style={{
           aspectRatio: "16/9",

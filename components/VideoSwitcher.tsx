@@ -1,14 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
-// import { useHLSPlayer } from "../hooks/useHLSPlayer";
 import { usePixiStage } from "../hooks/usePixiStage";
-import { sceneObjects } from "@/config/sceneConfig";
 import { initializePixi } from "@/PixiJs/InitializePixi";
-import { createDebugTimer } from "@/debug/debugTimer";
-import { cleanupSprite } from "@/utils/cleanupSprite";
-import { cleanupVideo } from "@/utils/cleanupVideo";
-import { StagedSceneObject } from "../types";
-import createSceneFromId from "@/logic/game/CreateSceneFromId";
 import useGameGlobalsStore from "@/stores/gameGlobals";
 
 const VideoSwitcher = () => {

@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 import { GameGlobals, StagedSceneObject } from '@/types';
 import { Application } from 'pixi.js';
-import createNewStagedScene from '@/logic/game/CreateSceneFromId';
-import loadVideo from '@/utils/loadVideo';
-import { createVideoSprite } from '@/utils/createVideoSprite';
 import addNewScene from './addNewScene';
 
 export interface GameGlobalsStore extends GameGlobals {
@@ -44,6 +41,18 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
         scene.video.player?.play();
         scene.isActive = true;
         set({ currentScene: scene });
+
+        const { stagedScenes } = get();
+        stagedScenes.forEach(scene => {
+            if (scene.id === sceneId) return;
+            scene.isActive = false;
+            scene.video.sprite.visible = false;
+
+            setTimeout(() => {
+                scene.video.player?.pause();
+                // scene.clear();
+            }, 1000);
+        });
     }
 }));
 

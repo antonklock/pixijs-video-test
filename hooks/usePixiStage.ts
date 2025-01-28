@@ -8,7 +8,7 @@ interface UsePixiStageProps {
 
 export const usePixiStage = ({ onError }: UsePixiStageProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<HTMLDivElement>(null);
     const appRef = useRef<PIXI.Application>();
     const videoSpritesRef = useRef<PIXI.Sprite[] | null[]>([]);
 

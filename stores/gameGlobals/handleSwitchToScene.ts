@@ -6,6 +6,8 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
     const scene = get().stagedScenes.find(scene => scene.id === sceneId);
     if (!scene) return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
 
+    // TODO: Try to add the scene and then switch to it??
+
     // Activating scene
     scene.video.sprite.visible = true;
     scene.video.player?.play();
@@ -25,7 +27,6 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
                 if (onHit) onHit();
             }
         });
-        console.log("Created hitbox: ", hitboxConfig);
     });
 
     // Unstaging scenes
@@ -34,8 +35,6 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
     stagedScenes.forEach(scene => {
         if (scene.id === sceneId) return;
         if (scene.nextScenes.includes(scene.id)) return;
-
-        console.log("Unstaging scene: ", scene.id);
 
         scene.isActive = false;
         scene.video.sprite.visible = false;

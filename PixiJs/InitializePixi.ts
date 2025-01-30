@@ -54,26 +54,6 @@ export const initializePixi = async (dimensions: { width: number; height: number
         .stroke();
     app.stage.addChild(debugRect);
 
-    const toggleHitboxes = () => {
-        const showHitboxes = !useDebugStore.getState().showHitboxes;
-        useDebugStore.getState().setShowHitboxes(showHitboxes);
-
-        app.stage.children.forEach(child => {
-            if (child.label && child.label.includes("HB")) {
-                child.alpha = !showHitboxes ? 0 : 1;
-                child.children.forEach(child => {
-                    child.alpha = !showHitboxes ? 0 : 1;
-                });
-            }
-        });
-    };
-
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'h' || event.key === 'H') {
-            toggleHitboxes();
-        }
-    });
-
     return {
         app,
         canvas

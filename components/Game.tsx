@@ -2,7 +2,8 @@ import VideoSwitcher from "./VideoSwitcher";
 import SceneLoadingIndicators from "./SceneLoadingIndicators";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
-
+import useDebugStore from "@/stores/debug/debugStore";
+import setupDebugListeners from "@/stores/debug/debugListeners";
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
@@ -14,6 +15,8 @@ export default function Game() {
       gameGlobals.addNewScene("G0");
       setInitialSceneLoaded(true);
     }
+
+    setupDebugListeners();
   }, [
     gameGlobals.app,
     initialSceneLoaded,
@@ -22,9 +25,11 @@ export default function Game() {
     gameGlobals,
   ]);
 
+  const { showLoadingIndicators } = useDebugStore();
+
   return (
     <div className="w-full h-full">
-      <SceneLoadingIndicators />
+      {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
     </div>
   );

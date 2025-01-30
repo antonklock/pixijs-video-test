@@ -12,9 +12,6 @@ export const initializePixi = async (dimensions: { width: number; height: number
     });
 
     const canvas = app.canvas;
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.objectFit = "contain";
 
     const noVideosText = new PIXI.Text({
         text: "No videos loaded...",

@@ -797,7 +797,7 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/U3LFixVH9VTTCbC9fscswacz970032bYisYAhVCyl01C8.m3u8'
         },
         name: 'Stjäla',
-        nextScenes: ["H4-A", "H4-B"],
+        nextScenes: ["H4-A", "H4-B", "H4-C"],
         video: {
             player: null,
             hls: null,
@@ -824,9 +824,9 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H4-B",
                 color: 0x5e34eb,
-                x: 0.4,
-                y: 0.2,
-                width: 0.1,
+                x: 0.5,
+                y: 0.5,
+                width: 0.15,
                 height: 0.2,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H4-B");
@@ -907,9 +907,9 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H0",
                 color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
                 height: 0.2,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H0");

@@ -42,6 +42,7 @@ const VideoSwitcher = () => {
   }, []);
 
   const cleanup = () => {
+    console.log("Cleaning up from VideoSwitcher");
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
 
     if (appRef.current) {

@@ -24,14 +24,6 @@ export const sceneObjects: SceneObject[] = [
             height: 0.075,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
-
-                // const scene = getSceneById("H0");
-                // if (scene) {
-                //     console.log('Hitbox hit', scene.id);
-                //     setActiveScene(scene);
-                // } else {
-                //     console.log('Scene not found');
-                // }
             },
             isLoaded: false,
             isActive: false,
@@ -981,10 +973,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H5-A",
                 color: 0x4c1b7d,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.6,
+                y: 0.5,
+                width: 0.3,
+                height: 0.6,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H5-A");
                 },
@@ -998,10 +990,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H5-B",
                 color: 0x5c7d1b,
-                x: 0.4,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.9,
+                y: 0.5,
+                width: 0.25,
+                height: 0.6,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H5-B");
                 },
@@ -1015,10 +1007,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H5-C",
                 color: 0x5c7d1b,
-                x: 0.6,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.3,
+                y: 0.5,
+                width: 0.2,
+                height: 0.4,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H5-C");
                 },

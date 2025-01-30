@@ -1,5 +1,6 @@
 import addHitbox from '@/PixiJs/addHitbox';
 import { GameGlobalsStore } from './gameGlobals';
+import removeHitbox from '@/PixiJs/removeHitbox';
 
 function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
     const scene = get().stagedScenes.find(scene => scene.id === sceneId);
@@ -11,6 +12,12 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
     scene.isActive = true;
     set({ ...get(), currentScene: scene });
 
+    // Remove old hitboxes
+    get().hitboxes.forEach(hitbox => {
+        removeHitbox(hitbox.label);
+    });
+
+    // Adding new hitboxes
     scene.hitboxes.forEach(hitboxConfig => {
         const { onHit, ...config } = hitboxConfig;
         addHitbox({

@@ -27,7 +27,9 @@ function addHitbox(config: HitboxConfig) {
         const showHitboxes = useDebugStore.getState().showHitboxes;
         hitbox.rect(app.stage.width * x, app.stage.height * y, app.stage.width * width, app.stage.height * height)
             .fill({ color: 0x00ee00, alpha: showHitboxes ? 0.1 : 0 })
-            .stroke({ width: 2, color: 0xFF0000, alpha: showHitboxes ? 1 : 0 });
+            .stroke({ width: 2, color: 0xFF0000, alpha: showHitboxes ? 1 : 0 })
+
+        hitbox.pivot.set(hitbox.width / 2, hitbox.height / 2);
 
         hitbox.interactive = true;
         hitbox.on('pointerdown', onClick);

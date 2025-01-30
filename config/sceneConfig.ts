@@ -166,10 +166,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H1-A",
                 color: 0x43104a,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.7,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H1-A");
                 },
@@ -183,10 +183,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H1-B",
                 color: 0x104a23,
-                x: 0.4,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.25,
+                y: 0.65,
+                width: 0.2,
+                height: 0.33,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H1-B");
                 },
@@ -200,10 +200,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H1-C",
                 color: 0x0d124a,
-                x: 0.6,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.75,
+                y: 0.5,
+                width: 0.2,
+                height: 0.7,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H1-C");
                 },
@@ -807,10 +807,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H4-A",
                 color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.7,
+                y: 0.73,
+                width: 0.2,
+                height: 0.3,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H4-A");
                 },
@@ -841,10 +841,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H4-C",
                 color: 0x5effeb,
-                x: 0.6,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.48,
+                y: 0.65,
+                width: 0.15,
+                height: 0.25,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H4-C");
                 },

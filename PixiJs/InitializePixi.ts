@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import ybpLogo from "@/public/logos/ybp-Logo-white-256.png";
+import useDebugStore from "@/stores/debug/debugStore";
 
 export const initializePixi = async (dimensions: { width: number; height: number }) => {
     const app = new PIXI.Application();
@@ -52,6 +53,26 @@ export const initializePixi = async (dimensions: { width: number; height: number
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     app.stage.addChild(debugRect);
+
+    const toggleHitboxes = () => {
+        const showHitboxes = !useDebugStore.getState().showHitboxes;
+        useDebugStore.getState().setShowHitboxes(showHitboxes);
+
+        app.stage.children.forEach(child => {
+            if (child.label && child.label.includes("HB")) {
+                child.alpha = !showHitboxes ? 0 : 1;
+                child.children.forEach(child => {
+                    child.alpha = !showHitboxes ? 0 : 1;
+                });
+            }
+        });
+    };
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'h' || event.key === 'H') {
+            toggleHitboxes();
+        }
+    });
 
     return {
         app,

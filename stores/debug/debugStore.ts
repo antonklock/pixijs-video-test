@@ -8,7 +8,7 @@ export interface DebugStore {
 }
 
 const useDebugStore = create<DebugStore>((set) => ({
-    showHitboxes: true,
+    showHitboxes: false,
     showLoadingIndicators: false,
     setShowHitboxes: (value: boolean) => set({ showHitboxes: value }),
     setShowLoadingIndicators: (value: boolean) => set({ showLoadingIndicators: value }),

@@ -20,6 +20,7 @@ export interface GameGlobalsStore extends GameGlobals {
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
     isGameRunning: false,
+    videoProvider: "mux",
     loadingScenes: new Set(),
     stagedScenes: [],
     currentScene: null,

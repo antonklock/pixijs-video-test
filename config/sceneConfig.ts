@@ -49,10 +49,10 @@ export const sceneObjects: SceneObject[] = [
         hitboxes: [{
             name: "HB-H1",
             color: 0x5e4613,
-            x: 0.2,
-            y: 0.2,
-            width: 0.1,
-            height: 0.2,
+            x: 0.11,
+            y: 0.5,
+            width: 0.15,
+            height: 0.50,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H1");
             },
@@ -66,10 +66,10 @@ export const sceneObjects: SceneObject[] = [
         {
             name: "HB-H2",
             color: 0x415e13,
-            x: 0.4,
-            y: 0.2,
-            width: 0.1,
-            height: 0.2,
+            x: 0.53,
+            y: 0.6,
+            width: 0.2,
+            height: 0.3,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H2");
             },
@@ -83,10 +83,10 @@ export const sceneObjects: SceneObject[] = [
         {
             name: "HB-H3",
             color: 0x176644,
-            x: 0.6,
-            y: 0.2,
-            width: 0.1,
-            height: 0.2,
+            x: 0.78,
+            y: 0.6,
+            width: 0.15,
+            height: 0.3,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H3");
             },
@@ -100,10 +100,10 @@ export const sceneObjects: SceneObject[] = [
         {
             name: "HB-H4",
             color: 0x174866,
-            x: 0.8,
-            y: 0.2,
-            width: 0.1,
-            height: 0.2,
+            x: 0.3,
+            y: 0.6,
+            width: 0.2,
+            height: 0.3,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H4");
             },
@@ -117,9 +117,9 @@ export const sceneObjects: SceneObject[] = [
         {
             name: "HB-H5",
             color: 0x251761,
-            x: 0.2,
-            y: 0.5,
-            width: 0.1,
+            x: 0.4,
+            y: 0.3,
+            width: 0.24,
             height: 0.2,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H5");
@@ -134,10 +134,10 @@ export const sceneObjects: SceneObject[] = [
         {
             name: "HB-H6",
             color: 0x43104a,
-            x: 0.4,
-            y: 0.5,
-            width: 0.1,
-            height: 0.2,
+            x: 0.68,
+            y: 0.4,
+            width: 0.05,
+            height: 0.3,
             onHit: () => {
                 useGameGlobalsStore.getState().switchToScene("H6");
             },
@@ -824,10 +824,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H4-B",
                 color: 0x5e34eb,
-                x: 0.5,
-                y: 0.5,
+                x: 0.3,
+                y: 0.53,
                 width: 0.15,
-                height: 0.2,
+                height: 0.25,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H4-B");
                 },

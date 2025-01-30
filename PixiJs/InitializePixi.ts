@@ -35,7 +35,6 @@ export const initializePixi = async (dimensions: { width: number; height: number
     });
 
     noVideosText.anchor.set(0.5);
-    // app.stage.addChild(noVideosText);
 
     const container = new PIXI.Container();
     container.addChild(noVideosText);

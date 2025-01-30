@@ -32,24 +32,37 @@ function addHitbox(config: HitboxConfig) {
         hitbox.pivot.set(hitbox.width / 2, hitbox.height / 2);
 
         hitbox.interactive = true;
-        hitbox.on('pointerdown', onClick);
+        hitbox.on('pointerup', onClick);
+
         hitbox.label = name;
 
-        const labelText = new PIXI.Text({
-            text: name,
-            style: {
-                fontFamily: "Arial",
-                fontSize: 12,
-                fill: 0xeeeeee,
-                align: "center",
-            },
+
+
+        const labelText = new PIXI.Text(name, {
+            fontFamily: "Arial",
+            fontSize: 12,
+            fill: 0xeeeeee,
+            align: "center",
         });
         labelText.anchor.set(0.5);
         labelText.position.set(app.stage.width * x + app.stage.width * width / 2, app.stage.height * y + app.stage.height * height / 2);
         hitbox.addChild(labelText);
 
+        // New code to display the position of the hitbox
+        const positionText = new PIXI.Text(`(${x}, ${y})`, {
+            fontFamily: "Arial",
+            fontSize: 10,
+            fill: 0xeeeeee,
+            align: "center",
+        });
+        positionText.anchor.set(0.5);
+        positionText.position.set(app.stage.width * x + app.stage.width * width / 2, app.stage.height * y + app.stage.height * height / 2 + 15); // Adjusted position
+        hitbox.addChild(positionText);
+
         app.stage.addChild(hitbox);
         useGameGlobalsStore.getState().hitboxes.push(hitbox);
+
+
     } catch (error) {
         const hitbox = hitboxes.find(hitbox => hitbox.label === name);
         if (hitbox) {

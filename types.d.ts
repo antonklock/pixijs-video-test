@@ -43,7 +43,7 @@ export interface SceneObject {
     // isCurrent: boolean;
     // loop: boolean;
     // isActive: boolean;
-    // hitboxes: Hitbox[];
+    hitboxes: Hitbox[];
     // sceneEndTime?: number;
     // triggerTime?: number;
     // play?: () => void;

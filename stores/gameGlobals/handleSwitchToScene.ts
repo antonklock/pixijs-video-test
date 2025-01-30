@@ -1,14 +1,27 @@
+import addHitbox from '@/PixiJs/addHitbox';
 import { GameGlobalsStore } from './gameGlobals';
 
 function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
     const scene = get().stagedScenes.find(scene => scene.id === sceneId);
     if (!scene) return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
 
+    // Activating scene
     scene.video.sprite.visible = true;
     scene.video.player?.play();
     scene.isActive = true;
     set({ ...get(), currentScene: scene });
 
+    scene.hitboxes.forEach(hitboxConfig => {
+        const { onHit, ...config } = hitboxConfig;
+        addHitbox({
+            ...config, onClick: () => {
+                if (onHit) onHit();
+            }
+        });
+        console.log("Created hitbox: ", hitboxConfig);
+    });
+
+    // Unstaging scenes
     const { stagedScenes } = get();
 
     stagedScenes.forEach(scene => {
@@ -27,6 +40,7 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
         }, 1000);
     });
 
+    // Add next scenes
     scene.nextScenes.forEach(nextSceneId => {
         get().addNewScene(nextSceneId);
     });

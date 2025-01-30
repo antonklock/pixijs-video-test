@@ -23,17 +23,17 @@ export default function Game() {
         gameGlobals.switchToScene("G0");
         setInitialScenePlaying(true);
 
-        addHitbox(
-          {
-            x: 100,
-            y: 100,
-            width: 100,
-            height: 100,
-            onClick: () => removeHitboxById("hitbox"),
-            id: "hitbox",
-          },
-          gameGlobals.app
-        );
+        // addHitbox({
+        //   x: 100,
+        //   y: 100,
+        //   width: 100,
+        //   height: 100,
+        //   onClick: () => {
+        //     console.log("hitbox clicked");
+        //     removeHitboxById("hitbox");
+        //   },
+        //   id: "hitbox",
+        // });
       }, 2000);
     }
   }, [

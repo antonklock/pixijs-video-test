@@ -2,6 +2,8 @@ import VideoSwitcher from "./VideoSwitcher";
 import SceneLoadingIndicators from "./SceneLoadingIndicators";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
+import addHitbox from "@/PixiJs/addHitbox";
+import removeHitboxById from "@/PixiJs/removeHitbox";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -20,6 +22,18 @@ export default function Game() {
       setTimeout(() => {
         gameGlobals.switchToScene("G0");
         setInitialScenePlaying(true);
+
+        addHitbox(
+          {
+            x: 100,
+            y: 100,
+            width: 100,
+            height: 100,
+            onClick: () => removeHitboxById("hitbox"),
+            id: "hitbox",
+          },
+          gameGlobals.app
+        );
       }, 2000);
     }
   }, [

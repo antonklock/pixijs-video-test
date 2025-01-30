@@ -65,4 +65,5 @@ export interface GameGlobals {
     currentScene: StagedSceneObject | null;
     stagedScenes: StagedSceneObject[];
     videoProvider: "mux" | "cloudflare";
+    hitboxes: PIXI.Graphics[];
 }

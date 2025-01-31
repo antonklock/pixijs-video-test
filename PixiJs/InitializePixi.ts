@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js";
 import ybpLogo from "@/public/logos/ybp-Logo-white-256.png";
-import useDebugStore from "@/stores/debug/debugStore";
 
 export const initializePixi = async (dimensions: { width: number; height: number }) => {
     const app = new PIXI.Application();
@@ -16,40 +15,41 @@ export const initializePixi = async (dimensions: { width: number; height: number
 
     const canvas = app.canvas;
 
-    const texture = await PIXI.Assets.load(ybpLogo.src);
+    // const texture = await PIXI.Assets.load(ybpLogo.src);
 
-    const ybpLogoSprite = new PIXI.Sprite(texture);
-    ybpLogoSprite.width = 100;
-    ybpLogoSprite.height = 100;
-    ybpLogoSprite.anchor.set(0.5);
-    ybpLogoSprite.alpha = 0.75;
-    app.stage.addChild(ybpLogoSprite);
+    // const ybpLogoSprite = new PIXI.Sprite(texture);
+    // ybpLogoSprite.width = 100;
+    // ybpLogoSprite.height = 100;
+    // ybpLogoSprite.anchor.set(0.5);
+    // ybpLogoSprite.alpha = 0.75;
+    // app.stage.addChild(ybpLogoSprite);
 
-    const noVideosText = new PIXI.Text({
-        text: "Something went wrong...",
-        style: {
-            fontFamily: "Cursive, 'Brush Script MT'",
-            fontSize: 24,
-            fill: 0xDDDDDD,
-            align: "center",
-        },
-    });
+    // const noVideosText = new PIXI.Text({
+    //     text: "Something went wrong...",
+    //     style: {
+    //         fontFamily: "Cursive, 'Brush Script MT'",
+    //         fontSize: 24,
+    //         fill: 0xDDDDDD,
+    //         align: "center",
+    //     },
+    // });
 
-    noVideosText.anchor.set(0.5);
+    // noVideosText.anchor.set(0.5);
 
-    const container = new PIXI.Container();
-    container.addChild(noVideosText);
-    container.addChild(ybpLogoSprite);
-    app.stage.addChild(container);
+    // const container = new PIXI.Container();
+    // container.addChild(noVideosText);
+    // container.addChild(ybpLogoSprite);
+    // app.stage.addChild(container);
 
-    container.pivot.set(container.width / 2, container.height / 2);
-    container.position.set(dimensions.width / 2 - ybpLogoSprite.width / 2 + noVideosText.width / 2, dimensions.height / 2 + container.height / 2);
+    // container.pivot.set(container.width / 2, container.height / 2);
+    // container.position.set(dimensions.width / 2 - ybpLogoSprite.width / 2 + noVideosText.width / 2, dimensions.height / 2 + container.height / 2);
 
-    noVideosText.position.set(noVideosText.width / 1.4, 0);
-    ybpLogoSprite.position.set(-ybpLogoSprite.width / 2, 0);
+    // noVideosText.position.set(+noVideosText.width / 2, 0);
+    // ybpLogoSprite.position.set(-noVideosText.width / 4, 0);
 
+    // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0x555555 })
+        .setStrokeStyle({ width: 2, color: 0x222222 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     app.stage.addChild(debugRect);

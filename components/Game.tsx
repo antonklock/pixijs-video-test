@@ -4,7 +4,6 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import DebugMenu from "./DebugMenu";
-// import ybpRyg from "@/public/music/ybp-ryg-01.wav";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -17,6 +16,14 @@ export default function Game() {
       gameGlobals.addNewScene("G0");
       setInitialSceneLoaded(true);
     }
+
+    // TODO: Can we find a more elegant solution? I don't like the timer.
+    if (!initialScenePlaying) {
+      setTimeout(() => {
+        gameGlobals.switchToScene("G0");
+        setInitialScenePlaying(true);
+      }, 1000);
+    }
   }, [
     gameGlobals.app,
     initialSceneLoaded,
@@ -28,11 +35,10 @@ export default function Game() {
   const { showLoadingIndicators } = useDebugStore();
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full overflow-hidden">
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
       <DebugMenu />
-      {/* <audio src={ybpRyg} autoPlay loop /> */}
     </div>
   );
 }

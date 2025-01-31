@@ -63,6 +63,9 @@ const VideoSwitcher = () => {
     videosRef.current = [];
     hlsInstancesRef.current = [];
     videoSpritesRef.current = [];
+
+    gameGlobals.setApp(null);
+    gameGlobals.setCanvas(null);
   };
 
   return (

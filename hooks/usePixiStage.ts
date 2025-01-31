@@ -20,9 +20,9 @@ export const usePixiStage = ({ onError }: UsePixiStageProps) => {
         let width = viewportWidth;
         let height = width / targetRatio;
 
-        if (height > viewportHeight) {
-            height = viewportHeight;
-            width = height * targetRatio;
+        if (width > viewportWidth) {
+            width = viewportWidth;
+            height = width / targetRatio;
         }
 
         return {

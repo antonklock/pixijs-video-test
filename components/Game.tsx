@@ -4,6 +4,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import DebugMenu from "./DebugMenu";
+// import ybpRyg from "@/public/music/ybp-ryg-01.wav";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -31,6 +32,7 @@ export default function Game() {
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
       <DebugMenu />
+      {/* <audio src={ybpRyg} autoPlay loop /> */}
     </div>
   );
 }

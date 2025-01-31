@@ -3,8 +3,17 @@ import { GameGlobalsStore } from './gameGlobals';
 import removeHitbox from '@/PixiJs/removeHitbox';
 import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
+import { sceneObjects } from '@/config/sceneConfig';
 
 async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
+    sceneObjects.forEach(scene => {
+        if (scene.id === sceneId) {
+            console.log(`Scene ${sceneId} found - Switching...`);
+        } else {
+            return console.warn(`Can't play scene! Scene ${sceneId} does not exist. Make sure it's in the sceneConfig file.`);
+        }
+    });
+
     let scene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
     // If scene not found, try to add it and retry

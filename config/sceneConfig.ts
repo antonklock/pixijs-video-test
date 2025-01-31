@@ -40,7 +40,7 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/AZZOFn02NIEGLvAygrAlwBelpLk9mQWvzVm02pROtyFr4.m3u8'
         },
         name: 'Hub',
-        nextScenes: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+        nextScenes: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6-A'],
         video: {
             player: null,
             hls: null,
@@ -139,7 +139,7 @@ export const sceneObjects: SceneObject[] = [
             width: 0.05,
             height: 0.3,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H6");
+                useGameGlobalsStore.getState().switchToScene("H6-A");
             },
             isLoaded: false,
             isActive: false,
@@ -595,7 +595,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H3",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/626070ae0b2893d10b59d4f0741c07eb/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/FlFhytpnGB89O01pzvQxOSvW8kmCcZf26JylLY9OC4Jw.m3u8'
+            mux: 'https://stream.mux.com/uGRxDsvdKgd5D5voRRoAq2uudvdcvuG6s02NmjkOGxgM.m3u8'
         },
         name: 'Armbrytning',
         nextScenes: ["H3-A", "H3-B"],
@@ -608,19 +608,17 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H3-A",
                 color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.3,
                 onHit: () => {
                     useGameGlobalsStore.getState().switchToScene("H3-A");
                 },
-                isLoaded: false,
-                isActive: false,
                 activationInterfals: [{
                     start: 2,
                     end: 100
-                }]
+                }],
             },
             {
                 name: "HB-H3-B",
@@ -645,7 +643,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H3-A",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/dbd58ed46e4d5dd9f22ce09b5dde0dd3/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/UiJBAwFEiQrQn8Krpjx02GQ00vVfi2imvpuywD3MHzNLQ.m3u8'
+            mux: 'https://stream.mux.com/HDEOwZ86RLeWH1F6Z9rdkpBeyWfM9Jlz3A3frnm6tPc.m3u8'
         },
         name: 'Klicka snabbt för att bryta arm',
         nextScenes: ["H3-A-WIN", "H3-A-LOSS"],
@@ -663,7 +661,25 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
+
+                    // TODO: ADD LOSING TIMER
+
+                    const scene = useGameGlobalsStore.getState().stagedScenes.find((scene) => scene.id === "H3-A");
+                    const customProperties = scene?.customProperties;
+                    const hits = customProperties?.hits;
+
+                    console.log("Scene: ", scene);
+                    console.log("Custom properties: ", customProperties);
+                    console.log("Hits: ", hits);
+
+                    if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
+
+                    if (hits >= 30) {
+                        useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
+                    }
+                    if (scene?.customProperties) {
+                        scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
+                    }
                 },
                 isLoaded: false,
                 isActive: false,
@@ -672,15 +688,50 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             },
+            // {
+            //     name: "HB-H3-A-LOSS",
+            //     color: 0x70215e,
+            //     x: 0.4,
+            //     y: 0.2,
+            //     width: 0.1,
+            //     height: 0.2,
+            //     onHit: () => {
+            //         useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
+            //     },
+            //     isLoaded: false,
+            //     isActive: false,
+            //     activationInterfals: [{
+            //         start: 2,
+            //         end: 100
+            //     }]
+            // }
+        ], customProperties: {
+            hits: 0
+        }
+    },
+    {
+        id: "H3-A-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/c3f5830f8398a2c2218278b0a47b0ab8/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/01uz00vOk3dL47MSelg2yz00umS8JbBAZgd2Ywm4T75EnE.m3u8'
+        },
+        name: 'Armbrytning - Vinner',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
             {
-                name: "HB-H3-A-LOSS",
+                name: "HB-H0",
                 color: 0x70215e,
-                x: 0.4,
-                y: 0.2,
+                x: 0.8,
+                y: 0.8,
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
+                    useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
@@ -692,12 +743,12 @@ export const sceneObjects: SceneObject[] = [
         ]
     },
     {
-        id: "H3-A-WIN",
+        id: "H3-A-LOSS",
         source: {
-            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/c3f5830f8398a2c2218278b0a47b0ab8/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Kpnng01300FM6ElvtlsQRsyRtUPWH6ZyZjJqETtJmWYqg.m3u8'
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/1IBFpzwC2vJd98RVOgsn2feI3pagFr67Aycvmz71NpI.m3u8'
         },
-        name: 'Vinna ger ingen effekt',
+        name: 'Armbrytning - Förlorar',
         nextScenes: ["H0"],
         video: {
             player: null,
@@ -725,12 +776,78 @@ export const sceneObjects: SceneObject[] = [
         ]
     },
     {
-        id: "H3-A-LOSS",
+        id: "H3-A-1",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/UUDEvpvLI02YfMoxezmALmuRntM4yo00X1N51loZRFUVE.m3u8'
+            mux: 'https://stream.mux.com/NvF8vwjjVCpWv02ZGB9Ehzw00wqxbvzR1aSNouRFrInS8.m3u8'
         },
-        name: 'Ramlar och hittar ett mynt',
+        name: 'Armbrytning - Vinner',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x70215e,
+                x: 0.2,
+                y: 0.2,
+                width: 0.1,
+                height: 0.2,
+                onHit: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationInterfals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H3-A-2",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/IH0100kCCUmpZUolDOiAUIw6PGbjg4FdrVhoJq2r4KFUU.m3u8'
+        },
+        name: 'Armbrytning - Jämnt',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x70215e,
+                x: 0.2,
+                y: 0.2,
+                width: 0.1,
+                height: 0.2,
+                onHit: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationInterfals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H3-A-3",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/qCQt6oUAeS4JeCvuOM8PttZ1mR58b600bzFn3HCn00xGk.m3u8'
+        },
+        name: 'Armbrytning - Förlorar',
         nextScenes: ["H0"],
         video: {
             player: null,
@@ -761,10 +878,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H3-B",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/db8497398d929262ea657cc711030905/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/7tzjrTc1ssK9XyeJZuvm3ZsGABkxd9uCCGmqxJc6xco.m3u8'
+            mux: 'https://stream.mux.com/k6DFX022X00f7NebiYX6x3i1x4ZoGtpga4Euz01Cv6b93k.m3u8'
         },
         name: 'Spelaren förlorar',
-        nextScenes: ["F1"],
+        nextScenes: ["G0"],
         video: {
             player: null,
             hls: null,
@@ -779,7 +896,8 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("F1");
+                    // TODO: RESET GAME - START WHEN FINN WAKES UP
+                    useGameGlobalsStore.getState().switchToScene("G0");
                 },
                 isLoaded: false,
                 isActive: false,
@@ -1176,7 +1294,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H6-A",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/2747c5fe01e96e9b16c7379fc0368924/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/3i84EO029XO01C3W2v46oYTuSqPQ8HfxeejD8WerSo8Hg.m3u8'
+            mux: 'https://stream.mux.com/UBLIXrNIhgvyLaxKa7DTnwSig5kAHTMKVYMtyP3MT0000.m3u8'
         },
         name: 'Stoppas i dörren. "Betala tre mynt!"',
         nextScenes: ["H0"],
@@ -1209,7 +1327,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H6-B",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/bf23e9172a67df47903cf1677737a496/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/xysnsFbGIKN81nulgtQp1iJNLxgn9p5jGIJ63DS01roQ.m3u8'
+            mux: 'https://stream.mux.com/xaQS6GS1EOw0201ppZsSSjzK4H73l7jWiEgl6Arm700QUQ.m3u8'
         },
         name: 'Får passera',
         nextScenes: ["V1"],

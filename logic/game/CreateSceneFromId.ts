@@ -22,6 +22,7 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
                 "color: cyan"
             );
         },
+        customProperties: newScene.customProperties
     };
     return stagedScene;
 }

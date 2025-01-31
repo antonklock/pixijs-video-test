@@ -49,6 +49,9 @@ export interface SceneObject {
     // play?: () => void;
     // onSceneEnd?: () => void;
     // runFunctionAtTime?: () => void;
+    customProperties?: {
+        [key: string]: string | number | boolean;
+    }
 };
 
 export interface StagedSceneObject extends SceneObject {

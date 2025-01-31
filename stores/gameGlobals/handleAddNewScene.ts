@@ -35,6 +35,8 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
         console.error("Error loading scene", sceneId, error);
     } finally {
         get().loadingScenes.delete(sceneId);
+        if (createNewStagedScene) return createNewStagedScene;
+        else return null;
     }
 };
 

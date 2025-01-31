@@ -1,12 +1,21 @@
 import addHitbox from '@/PixiJs/addHitbox';
 import { GameGlobalsStore } from './gameGlobals';
 import removeHitbox from '@/PixiJs/removeHitbox';
+import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
+import { StagedSceneObject } from '@/types';
 
-function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
-    const scene = get().stagedScenes.find(scene => scene.id === sceneId);
-    if (!scene) return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
+async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
+    let scene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
-    // TODO: Try to add the scene and then switch to it??
+    // If scene not found, try to add it and retry
+    if (!scene) {
+        console.warn(`Can't play scene! Scene ${sceneId} not found. Trying to add it...`);
+
+        scene = await useGameGlobalsStore.getState().addNewScene(sceneId);
+        if (!scene) return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
+        handleSwitchToScene(sceneId, get, set);
+        return;
+    }
 
     // Activating scene
     scene.video.sprite.visible = true;
@@ -31,7 +40,6 @@ function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: 
 
     // Unstaging scenes
     const { stagedScenes } = get();
-
     stagedScenes.forEach(scene => {
         if (scene.id === sceneId) return;
         if (scene.nextScenes.includes(scene.id)) return;

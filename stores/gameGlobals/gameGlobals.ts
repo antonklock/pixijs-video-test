@@ -8,7 +8,7 @@ import handleUnstageScene from './handleUnstageScene';
 
 export interface GameGlobalsStore extends GameGlobals {
     loadingScenes: Set<string>;
-    addNewScene: (sceneId: string) => void;
+    addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
     setApp: (app: Application | null) => void;
@@ -32,7 +32,10 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
     setIsGameRunning: (isRunning) => set({ isGameRunning: isRunning }),
     setStagedScenes: (scenes) => set({ stagedScenes: scenes }),
     setCurrentScene: (sceneId) => handleSetCurrentScene(sceneId, get, set),
-    addNewScene: (sceneId: string) => handleAddNewScene(sceneId, get, set),
+    addNewScene: async (sceneId: string): Promise<StagedSceneObject | null> => {
+        const result = await handleAddNewScene(sceneId, get, set);
+        return result as StagedSceneObject | null;
+    },
     switchToScene: (sceneId: string) => handleSwitchToScene(sceneId, get, set),
     unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
 }));

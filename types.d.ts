@@ -25,7 +25,6 @@ export interface PendingVideo {
 export interface SceneObject {
     id: string;
     name: string | undefined;
-    // url: string | undefined; // TODO: Rename to source
     source: {
         mux: string;
         cloudflare: string;

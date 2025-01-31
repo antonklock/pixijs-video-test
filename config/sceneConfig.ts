@@ -656,12 +656,11 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H3-A-WIN",
                 color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.3,
                 onHit: () => {
-
                     // TODO: ADD LOSING TIMER
 
                     const scene = useGameGlobalsStore.getState().stagedScenes.find((scene) => scene.id === "H3-A");
@@ -688,23 +687,6 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             },
-            // {
-            //     name: "HB-H3-A-LOSS",
-            //     color: 0x70215e,
-            //     x: 0.4,
-            //     y: 0.2,
-            //     width: 0.1,
-            //     height: 0.2,
-            //     onHit: () => {
-            //         useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
-            //     },
-            //     isLoaded: false,
-            //     isActive: false,
-            //     activationInterfals: [{
-            //         start: 2,
-            //         end: 100
-            //     }]
-            // }
         ], customProperties: {
             hits: 0
         }

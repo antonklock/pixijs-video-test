@@ -6,13 +6,10 @@ import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 
 async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
-    sceneObjects.forEach(scene => {
-        if (scene.id === sceneId) {
-            console.log(`Scene ${sceneId} found - Switching...`);
-        } else {
-            return console.warn(`Can't play scene! Scene ${sceneId} does not exist. Make sure it's in the sceneConfig file.`);
-        }
-    });
+    if (!sceneObjects.some(sceneObject => sceneObject.id === sceneId)) {
+        console.warn(`Scene ${sceneId} config not found in sceneObjects`);
+        return;
+    }
 
     let scene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 

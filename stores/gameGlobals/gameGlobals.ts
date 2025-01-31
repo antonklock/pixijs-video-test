@@ -14,7 +14,7 @@ export interface GameGlobalsStore extends GameGlobals {
     setApp: (app: Application | null) => void;
     setCanvas: (canvas: HTMLCanvasElement | null) => void;
     setIsGameRunning: (isRunning: boolean) => void;
-    switchToScene: (sceneId: string) => void;
+    switchToScene: (sceneId: string) => Promise<void>;
     unstageScene: (sceneId: string) => void;
 }
 

@@ -671,13 +671,24 @@ export const sceneObjects: SceneObject[] = [
                     console.log("Custom properties: ", customProperties);
                     console.log("Hits: ", hits);
 
-                    if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
+                    const timeout = setTimeout(() => {
+                        useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
+                    }, 5000);
 
-                    if (hits >= 30) {
+                    if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
+                    if (hits < 1) {
+                        addHit();
+                    } else if (hits >= 30) {
+                        clearTimeout(timeout);
                         useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
+                    } else {
+                        addHit();
                     }
-                    if (scene?.customProperties) {
-                        scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
+
+                    function addHit() {
+                        if (scene?.customProperties) {
+                            scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
+                        }
                     }
                 },
                 isLoaded: false,

@@ -40,4 +40,4 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
     }
 };
 
-export default handleAddNewScene; 
+export default handleAddNewScene;

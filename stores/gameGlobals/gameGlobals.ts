@@ -10,7 +10,7 @@ export interface GameGlobalsStore extends GameGlobals {
     loadingScenes: Set<string>;
     addNewScene: (sceneId: string) => void;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
-    setCurrentScene: (sceneId: string) => void;
+    setCurrentScene: (sceneId: string | null) => void;
     setApp: (app: Application | null) => void;
     setCanvas: (canvas: HTMLCanvasElement | null) => void;
     setIsGameRunning: (isRunning: boolean) => void;

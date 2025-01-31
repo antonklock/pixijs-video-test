@@ -66,6 +66,10 @@ const VideoSwitcher = () => {
 
     gameGlobals.setApp(null);
     gameGlobals.setCanvas(null);
+
+    gameGlobals.setCurrentScene(null);
+
+    gameGlobals.stagedScenes.forEach((scene) => scene.clear());
   };
 
   return (

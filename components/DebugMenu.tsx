@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
+import cogIcon from "@/public/icons/cog.svg";
+import Image from "next/image";
 
 const DebugMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,9 +80,14 @@ const DebugMenu = () => {
     >
       <button
         onClick={toggleMenu}
-        className="bg-black border border-white rounded-full p-4"
+        className="bg-black border border-[#AAAAAA] rounded-full p-1"
       >
-        <i className="fas fa-cog text-white text-3xl"></i>
+        <Image
+          src={cogIcon}
+          alt="Settings"
+          className="text-white w-3 h-3"
+          style={{ opacity: 0.75 }}
+        />
       </button>
       {isOpen && (
         <div className="bg-black border border-gray-300 rounded shadow-lg p-4 mt-2">

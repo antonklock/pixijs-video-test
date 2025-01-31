@@ -7,7 +7,7 @@ export default function Home() {
   const gameGlobals = useGameGlobalsStore();
 
   return (
-    <div className="flex items-center flex-col justify-center overflow-hidden overflow-y-hidden">
+    <div className="w-full h-full flex items-center flex-col justify-center ">
       {gameGlobals.isGameRunning ? (
         <Game />
       ) : (

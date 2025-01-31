@@ -11,10 +11,15 @@ async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore,
     if (!scene) {
         console.warn(`Can't play scene! Scene ${sceneId} not found. Trying to add it...`);
 
-        scene = await useGameGlobalsStore.getState().addNewScene(sceneId);
-        if (!scene) return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
-        handleSwitchToScene(sceneId, get, set);
-        return;
+        // TODO: Lets add a limit on how many times we can retry adding the scene
+        if (!scene) {
+            setTimeout(async () => {
+                scene = await useGameGlobalsStore.getState().addNewScene(sceneId);
+                handleSwitchToScene(sceneId, get, set);
+                return;
+            }, 200);
+            return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
+        }
     }
 
     // Activating scene

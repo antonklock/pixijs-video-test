@@ -4,6 +4,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import setupDebugListeners from "@/stores/debug/debugListeners";
+import DebugMenu from "./DebugMenu";
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
@@ -15,8 +16,6 @@ export default function Game() {
       gameGlobals.addNewScene("G0");
       setInitialSceneLoaded(true);
     }
-
-    setupDebugListeners();
   }, [
     gameGlobals.app,
     initialSceneLoaded,
@@ -31,6 +30,7 @@ export default function Game() {
     <div className="w-full h-full">
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
+      <DebugMenu />
     </div>
   );
 }

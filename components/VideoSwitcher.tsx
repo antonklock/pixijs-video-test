@@ -38,6 +38,10 @@ const VideoSwitcher = () => {
 
     createPixiApp();
 
+    gameGlobals.stagedScenes.forEach((scene) =>
+      gameGlobals.unstageScene(scene.id)
+    );
+
     return cleanup;
   }, []);
 

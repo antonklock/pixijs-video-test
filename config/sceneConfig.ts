@@ -1,5 +1,6 @@
 import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 
 export const sceneObjects: SceneObject[] = [
     {
@@ -656,40 +657,49 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H3-A-WIN",
                 color: 0x70215e,
-                x: 0.5,
-                y: 0.5,
-                width: 0.2,
-                height: 0.3,
+                x: 0.9,
+                y: 0.1,
+                width: 0.1,
+                height: 0.1,
                 onHit: () => {
                     // TODO: ADD LOSING TIMER
 
-                    const scene = useGameGlobalsStore.getState().stagedScenes.find((scene) => scene.id === "H3-A");
-                    const customProperties = scene?.customProperties;
-                    const hits = customProperties?.hits;
-
-                    console.log("Scene: ", scene);
-                    console.log("Custom properties: ", customProperties);
-                    console.log("Hits: ", hits);
-
-                    const timeout = setTimeout(() => {
-                        useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
-                    }, 5000);
-
-                    if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
-                    if (hits < 1) {
-                        addHit();
-                    } else if (hits >= 30) {
-                        clearTimeout(timeout);
-                        useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
-                    } else {
-                        addHit();
+                    const gameStarted = useWrestlingStore.getState().wrestlingStarted;
+                    if (!gameStarted) {
+                        useWrestlingStore.getState().resetGame();
+                        useWrestlingStore.getState().startGame();
                     }
 
-                    function addHit() {
-                        if (scene?.customProperties) {
-                            scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
-                        }
-                    }
+                    useWrestlingStore.getState().onClick();
+
+
+                    // const scene = useGameGlobalsStore.getState().stagedScenes.find((scene) => scene.id === "H3-A");
+                    // const customProperties = scene?.customProperties;
+                    // const hits = customProperties?.hits;
+
+                    // console.log("Scene: ", scene);
+                    // console.log("Custom properties: ", customProperties);
+                    // console.log("Hits: ", hits);
+
+                    // const timeout = setTimeout(() => {
+                    //     useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
+                    // }, 5000);
+
+                    // if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
+                    // if (hits < 1) {
+                    //     addHit();
+                    // } else if (hits >= 30) {
+                    //     clearTimeout(timeout);
+                    //     useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
+                    // } else {
+                    //     addHit();
+                    // }
+
+                    // function addHit() {
+                    //     if (scene?.customProperties) {
+                    //         scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
+                    //     }
+                    // }
                 },
                 isLoaded: false,
                 isActive: false,
@@ -719,8 +729,8 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H0",
                 color: 0x70215e,
-                x: 0.8,
-                y: 0.8,
+                x: 0.1,
+                y: 0.1,
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {

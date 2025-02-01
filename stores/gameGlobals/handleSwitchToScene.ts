@@ -5,7 +5,14 @@ import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 
-async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) {
+interface SwitchToSceneConfig {
+    sceneId: string;
+    loadNextScenes: boolean;
+    get: () => GameGlobalsStore;
+    set: (state: GameGlobalsStore) => void;
+}
+
+async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }: SwitchToSceneConfig) {
     if (!sceneObjects.some(sceneObject => sceneObject.id === sceneId)) {
         console.warn(`Scene ${sceneId} config not found in sceneObjects`);
         return;
@@ -21,7 +28,7 @@ async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore,
         if (!scene) {
             setTimeout(async () => {
                 scene = await useGameGlobalsStore.getState().addNewScene(sceneId);
-                handleSwitchToScene(sceneId, get, set);
+                handleSwitchToScene({ sceneId, loadNextScenes: true, get, set });
                 return;
             }, 200);
             return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
@@ -48,6 +55,8 @@ async function handleSwitchToScene(sceneId: string, get: () => GameGlobalsStore,
             }
         });
     });
+
+    if (!loadNextScenes) return console.log("Skipping loading next scenes");
 
     // Unstaging scenes
     const { stagedScenes } = get();

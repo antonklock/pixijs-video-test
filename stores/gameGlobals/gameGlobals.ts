@@ -14,7 +14,7 @@ export interface GameGlobalsStore extends GameGlobals {
     setApp: (app: Application | null) => void;
     setCanvas: (canvas: HTMLCanvasElement | null) => void;
     setIsGameRunning: (isRunning: boolean) => void;
-    switchToScene: (sceneId: string) => Promise<void>;
+    switchToScene: (sceneId: string, loadNextScenes?: boolean) => Promise<void>;
     unstageScene: (sceneId: string) => void;
 }
 
@@ -36,7 +36,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
         const result = await handleAddNewScene(sceneId, get, set);
         return result as StagedSceneObject | null;
     },
-    switchToScene: (sceneId: string) => handleSwitchToScene(sceneId, get, set),
+    switchToScene: (sceneId, loadNextScenes = true) => handleSwitchToScene({ sceneId, loadNextScenes, get, set }),
     unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
 }));
 

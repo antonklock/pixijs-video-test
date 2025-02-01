@@ -42,6 +42,24 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     scene.isActive = true;
     set({ ...get(), currentScene: scene });
 
+    if (!loadNextScenes) {
+        const { stagedScenes } = get();
+        stagedScenes.forEach(scene => {
+            if (scene.id === sceneId) return;
+            if (scene.nextScenes.includes(scene.id)) return;
+
+            scene.isActive = false;
+            scene.video.sprite.visible = false;
+
+            // TODO: Can we make this more elegant?
+            setTimeout(() => {
+                scene.video.player?.pause();
+                // get().unstageScene(scene.id);
+            }, 1000);
+        });
+        return console.log("Skipping loading next scenes");
+    }
+
     // Remove old hitboxes
     get().hitboxes.forEach(removeAllHitboxes);
 
@@ -54,8 +72,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             }
         });
     });
-
-    if (!loadNextScenes) return console.log("Skipping loading next scenes");
 
     // Unstaging scenes
     const { stagedScenes } = get();

@@ -1,5 +1,4 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 
 export default function StartNewArmwrestlingGame() {
@@ -7,11 +6,16 @@ export default function StartNewArmwrestlingGame() {
 
     let lastSwitchTime = 0;
     const switchThreshold = 3;
+    let loseBlock = false;
 
+    // TODO: Get current scene from globals instead
     let currentScene: "lose" | "tie" | "win" = "tie";
+
+    useGameGlobalsStore.getState().switchToScene("H3-A-2", false);
 
     const interval = setInterval(() => {
         const { strength, wrestlingStarted } = useWrestlingStore.getState();
+
 
         if (wrestlingStarted) {
             if (strength <= 0) {
@@ -44,14 +48,7 @@ export default function StartNewArmwrestlingGame() {
                         lastSwitchTime = gameTime;
                         console.log("Switch to losing scene");
                         currentScene = "lose";
-                        // TODO: Switch to losing scene
-                    }
-                } else if (strength < 1) {
-                    if (currentScene !== "lose") {
-                        lastSwitchTime = gameTime;
-                        console.log("Switch to losing scene");
-                        currentScene = "lose";
-                        // TODO: Switch to losing scene
+                        useGameGlobalsStore.getState().switchToScene("H3-A-3", false);
                     }
                 }
             } else if (strength < 7) {
@@ -61,7 +58,7 @@ export default function StartNewArmwrestlingGame() {
                         lastSwitchTime = gameTime;
                         console.log("Switch to tie scene");
                         currentScene = "tie";
-                        // TODO: Switch to tie scene
+                        useGameGlobalsStore.getState().switchToScene("H3-A-2", false);
                     }
                 }
             } else {
@@ -71,13 +68,21 @@ export default function StartNewArmwrestlingGame() {
                         lastSwitchTime = gameTime;
                         console.log("Switch to winning scene");
                         currentScene = "win";
-                        // TODO: Switch to winning scene
+                        useGameGlobalsStore.getState().switchToScene("H3-A-1", false);
                     }
                 }
             }
 
+            if (currentScene != "lose" && !loseBlock) {
+                loseBlock = true;
+            } else {
+                loseBlock = false;
+            }
 
-            useWrestlingStore.setState({ strength: strength - (1 * 0.03 + gameTimePenalty) });
+
+            if (!loseBlock) {
+                useWrestlingStore.setState({ strength: strength - (1 * 0.03 + gameTimePenalty) });
+            }
             useWrestlingStore.setState({ gameTime: gameTime + 1 * 0.03 });
         } else {
             clearInterval(interval);

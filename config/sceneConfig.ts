@@ -647,7 +647,7 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/HDEOwZ86RLeWH1F6Z9rdkpBeyWfM9Jlz3A3frnm6tPc.m3u8'
         },
         name: 'Klicka snabbt för att bryta arm',
-        nextScenes: ["H3-A-WIN", "H3-A-LOSS"],
+        nextScenes: ["H3-A-WIN", "H3-A-LOSS", "H3-A-1", "H3-A-2", "H3-A-3"],
         video: {
             player: null,
             hls: null,
@@ -655,15 +655,13 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H3-A-WIN",
+                name: "HB-H3-A-1",
                 color: 0x70215e,
-                x: 0.9,
-                y: 0.1,
-                width: 0.1,
-                height: 0.1,
+                x: 0.5,
+                y: 0.5,
+                width: 0.8,
+                height: 0.8,
                 onHit: () => {
-                    // TODO: ADD LOSING TIMER
-
                     const gameStarted = useWrestlingStore.getState().wrestlingStarted;
                     if (!gameStarted) {
                         useWrestlingStore.getState().resetGame();
@@ -671,35 +669,6 @@ export const sceneObjects: SceneObject[] = [
                     }
 
                     useWrestlingStore.getState().onClick();
-
-
-                    // const scene = useGameGlobalsStore.getState().stagedScenes.find((scene) => scene.id === "H3-A");
-                    // const customProperties = scene?.customProperties;
-                    // const hits = customProperties?.hits;
-
-                    // console.log("Scene: ", scene);
-                    // console.log("Custom properties: ", customProperties);
-                    // console.log("Hits: ", hits);
-
-                    // const timeout = setTimeout(() => {
-                    //     useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
-                    // }, 5000);
-
-                    // if (typeof hits !== 'number') return console.warn("Custom property 'hits' is not a number");
-                    // if (hits < 1) {
-                    //     addHit();
-                    // } else if (hits >= 30) {
-                    //     clearTimeout(timeout);
-                    //     useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
-                    // } else {
-                    //     addHit();
-                    // }
-
-                    // function addHit() {
-                    //     if (scene?.customProperties) {
-                    //         scene.customProperties.hits = (typeof scene.customProperties.hits === 'number' ? scene.customProperties.hits : 0) + 1;
-                    //     }
-                    // }
                 },
                 isLoaded: false,
                 isActive: false,
@@ -782,7 +751,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H3-A-1",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/NvF8vwjjVCpWv02ZGB9Ehzw00wqxbvzR1aSNouRFrInS8.m3u8'
+            mux: 'https://stream.mux.com/JHx9aJHA02fxx9dxyF3636BCL599Pezt8yZXFQiXgnDo.m3u8'
         },
         name: 'Armbrytning - Vinner',
         nextScenes: ["H0"],
@@ -815,10 +784,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H3-A-2",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/IH0100kCCUmpZUolDOiAUIw6PGbjg4FdrVhoJq2r4KFUU.m3u8'
+            mux: 'https://stream.mux.com/LkWYeNbNtHtBhSZKZYBa2TvrL7SRsw01k9c6UJsFsk78.m3u8'
         },
         name: 'Armbrytning - Jämnt',
-        nextScenes: ["H0"],
+        nextScenes: ["H3-A-1", "H3-A-3"],
         video: {
             player: null,
             hls: null,
@@ -848,7 +817,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H3-A-3",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4ef50684bc0cc5e12498ebd29f593caf/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/qCQt6oUAeS4JeCvuOM8PttZ1mR58b600bzFn3HCn00xGk.m3u8'
+            mux: 'https://stream.mux.com/uLj1rJYvZrLsJ01AHhdhQ2ijPAQu8OWQ1AHpDO8pwbao.m3u8'
         },
         name: 'Armbrytning - Förlorar',
         nextScenes: ["H0"],

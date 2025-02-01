@@ -116,7 +116,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -131,7 +131,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -146,7 +146,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -161,7 +161,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -176,7 +176,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -191,7 +191,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -206,7 +206,7 @@ const VideoSwitcher = () => {
           playsInline
           muted
           loop
-          webkit-playsinline={"true"}
+          // webkit-playsinline={"true"}
           crossOrigin="anonymous"
           preload="auto"
           style={{

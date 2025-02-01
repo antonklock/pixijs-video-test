@@ -117,6 +117,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -132,6 +133,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -147,6 +149,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -162,6 +165,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -177,6 +181,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -192,6 +197,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{
@@ -207,6 +213,7 @@ const VideoSwitcher = () => {
           muted
           loop
           // webkit-playsinline={"true"}
+          autoPlay
           crossOrigin="anonymous"
           preload="auto"
           style={{

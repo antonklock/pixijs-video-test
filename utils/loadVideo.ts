@@ -1,6 +1,7 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -27,8 +28,18 @@ const loadVideo = async (id: string) => {
 
 const setupHls = async (source: string) => {
     return new Promise<HLSVideo>((resolve, reject) => {
-        const newVideoElement = document.createElement("video");
-        const video = initVideo(newVideoElement);
+        // const newVideoElement = document.createElement("video");
+        // const video = initVideo(newVideoElement);
+
+
+        const videoElementRef = gameGlobals.getState().videoPlayerRefs.find((ref) => {
+            return ref.current?.src === "";
+        });
+        if (!videoElementRef) return reject(new Error("Can load new video. No player available!"));
+
+        const video = videoElementRef.current;
+
+        if (!video) return reject(new Error("Can't setup HLS: No video element found!"));
 
         if (Hls.isSupported()) {
             const hls = new Hls({
@@ -70,7 +81,7 @@ const setupHls = async (source: string) => {
     });
 };
 
-const initVideo = (video: HTMLVideoElement) => {
+export const initVideo = (video: HTMLVideoElement) => {
     video.setAttribute("playsinline", "true");
     video.setAttribute("webkit-playsinline", "true");
     video.muted = true;

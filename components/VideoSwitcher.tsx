@@ -7,6 +7,13 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
 
+  const playerRef_01 = useRef<HTMLVideoElement>(null);
+  const playerRef_02 = useRef<HTMLVideoElement>(null);
+  const playerRef_03 = useRef<HTMLVideoElement>(null);
+  const playerRef_04 = useRef<HTMLVideoElement>(null);
+  const playerRef_05 = useRef<HTMLVideoElement>(null);
+  const playerRef_06 = useRef<HTMLVideoElement>(null);
+  const playerRef_07 = useRef<HTMLVideoElement>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
@@ -42,6 +49,16 @@ const VideoSwitcher = () => {
       gameGlobals.unstageScene(scene.id)
     );
 
+    gameGlobals.videoPlayerRefs = [
+      playerRef_01,
+      playerRef_02,
+      playerRef_03,
+      playerRef_04,
+      playerRef_05,
+      playerRef_06,
+      playerRef_07,
+    ];
+
     return cleanup;
   }, []);
 
@@ -70,6 +87,13 @@ const VideoSwitcher = () => {
     gameGlobals.setCurrentScene(null);
 
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
+
+    gameGlobals.videoPlayerRefs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.src = "";
+        ref.current.load();
+      }
+    });
   };
 
   return (
@@ -85,6 +109,114 @@ const VideoSwitcher = () => {
           maxWidth: "100vw",
         }}
       />
+
+      <div className="video-players">
+        <video
+          ref={playerRef_01}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_02}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_03}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_04}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_05}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_06}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+        <video
+          ref={playerRef_07}
+          playsInline
+          muted
+          loop
+          webkit-playsinline={"true"}
+          crossOrigin="anonymous"
+          preload="auto"
+          style={{
+            position: "absolute",
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1000,
+          }}
+        />
+      </div>
 
       {gameGlobals.currentScene ? false : <></>}
 

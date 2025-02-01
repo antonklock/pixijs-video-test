@@ -4,6 +4,7 @@ import removeHitbox from '@/PixiJs/removeHitbox';
 import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
+import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
 
 interface SwitchToSceneConfig {
     sceneId: string;
@@ -42,9 +43,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     set({ ...get(), currentScene: scene });
 
     // Remove old hitboxes
-    get().hitboxes.forEach(hitbox => {
-        removeHitbox(hitbox.label);
-    });
+    get().hitboxes.forEach(removeAllHitboxes);
 
     // Adding new hitboxes
     scene.hitboxes.forEach(hitboxConfig => {

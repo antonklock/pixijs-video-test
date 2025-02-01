@@ -36,6 +36,7 @@ function addHitbox(config: HitboxConfig) {
         hitbox.on('pointerup', onClick);
 
         hitbox.label = name;
+        console.log('Adding hitbox: ', hitbox.label);
 
         const labelText = new PIXI.Text(name, {
             fontFamily: "Arial",

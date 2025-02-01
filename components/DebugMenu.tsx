@@ -55,6 +55,10 @@ const DebugMenu = () => {
     debugStore.setShowLoadingIndicators(!debugStore.showLoadingIndicators);
   };
 
+  const toggleDebugInfo = () => {
+    debugStore.setShowDebugInfo(!debugStore.showDebugInfo);
+  };
+
   React.useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -121,6 +125,21 @@ const DebugMenu = () => {
               }`}
             >
               {debugStore.showLoadingIndicators ? "ON" : "OFF"}
+            </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              onClick={toggleDebugInfo}
+              className="block text-white border border-white rounded-full p-2"
+            >
+              Toggle Debug Info
+            </button>
+            <span
+              className={`text-white ${
+                debugStore.showDebugInfo ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {debugStore.showDebugInfo ? "ON" : "OFF"}
             </span>
           </div>
         </div>

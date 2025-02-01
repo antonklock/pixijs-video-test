@@ -4,6 +4,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import DebugMenu from "./DebugMenu";
+import DebugInfo from "./DebugInfo";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -32,13 +33,14 @@ export default function Game() {
     gameGlobals,
   ]);
 
-  const { showLoadingIndicators } = useDebugStore();
+  const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 
   return (
     <div className="w-full h-full overflow-hidden">
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
       <DebugMenu />
+      {showDebugInfo && <DebugInfo />}
     </div>
   );
 }

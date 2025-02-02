@@ -59,7 +59,7 @@ const VideoElementsCreator = () => {
 
     if (!videoPlayer || !pixiAppRef.current) return;
 
-    // Clean up previous sprite and texture
+    // Clean up previous sprite and texture!
     if (currentSpriteRef.current) {
       currentSpriteRef.current.texture.destroy(true);
       currentSpriteRef.current.destroy();

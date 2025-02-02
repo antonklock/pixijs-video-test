@@ -3,6 +3,7 @@ import Hls from "hls.js";
 import { usePixiStage } from "../hooks/usePixiStage";
 import { initializePixi } from "@/PixiJs/InitializePixi";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import { initVideo } from "@/utils/loadVideo";
 
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
@@ -96,6 +97,17 @@ const VideoSwitcher = () => {
     });
   };
 
+  const videoPlayersContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gameGlobals.videoPlayerRefs.forEach((ref) => {
+      const newVideoElement = document.createElement("video");
+      const video = initVideo(newVideoElement);
+      videoPlayersContainerRef.current?.appendChild(video);
+      Object.assign(ref, { current: video });
+    });
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -110,120 +122,7 @@ const VideoSwitcher = () => {
         }}
       />
 
-      <div className="video-players">
-        <video
-          ref={playerRef_01}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_02}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_03}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_04}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_05}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_06}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-        <video
-          ref={playerRef_07}
-          playsInline
-          muted
-          loop
-          // webkit-playsinline={"true"}
-          autoPlay
-          crossOrigin="anonymous"
-          preload="auto"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            pointerEvents: "none",
-            zIndex: -1000,
-          }}
-        />
-      </div>
+      <div className="video-players" ref={videoPlayersContainerRef} />
 
       {gameGlobals.currentScene ? false : <></>}
 

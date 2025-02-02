@@ -1,19 +1,29 @@
 import { VideoSource } from "pixi.js";
-// import { VideoSource } from "pixi.js/lib/rendering/renderers/shared/texture/sources/VideoSource.js";
 
 export class CustomVideoSource extends VideoSource {
     constructor(options) {
         super(options);
         this._alreadyMediaReady = false;
-        this.video = options.resource; // Ensure video is accessible
+        this.video = options.resource; // Ensure this is set correctly
     }
 
     _mediaReady() {
-        if (this._alreadyMediaReady) return;
-        this._alreadyMediaReady = true;
+        if (this._alreadyMediaReady) return; // Prevent recursion
+        
+        this._alreadyMediaReady = true; // Set before calling super
 
-        super._mediaReady();
+        console.log("CustomVideoSource: Calling _mediaReady()");
 
-        this._alreadyMediaReady = false;
+        try {
+            super._mediaReady(); // Call the parent class method
+        } catch (error) {
+            console.error("Error in _mediaReady:", error);
+        }
+    }
+
+    update() {
+        // Ensure update is only called if media is ready
+        if (!this._alreadyMediaReady) return;
+        super.update();
     }
 }

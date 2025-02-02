@@ -154,8 +154,6 @@ const VideoElementsCreator = () => {
 };
 
 const initVideo = (video: HTMLVideoElement) => {
-  if ((video as any).customVideoInitialized) return video;
-
   video.setAttribute("playsinline", "true");
   video.setAttribute("webkit-playsinline", "true");
   video.muted = true;

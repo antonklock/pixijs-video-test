@@ -8,7 +8,7 @@ import handleUnstageScene from './handleUnstageScene';
 
 export interface GameGlobalsStore extends GameGlobals {
     loadingScenes: Set<string>;
-    videoPlayerRefs: React.RefObject<HTMLVideoElement>[];
+    videoPlayers: HTMLVideoElement[];
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -21,7 +21,7 @@ export interface GameGlobalsStore extends GameGlobals {
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
     isGameRunning: false,
-    videoPlayerRefs: [],
+    videoPlayers: [],
     videoProvider: "mux",
     hitboxes: [],
     loadingScenes: new Set(),

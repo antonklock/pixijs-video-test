@@ -8,13 +8,6 @@ import { initVideo } from "@/utils/loadVideo";
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
 
-  const playerRef_01 = useRef<HTMLVideoElement>(null);
-  const playerRef_02 = useRef<HTMLVideoElement>(null);
-  const playerRef_03 = useRef<HTMLVideoElement>(null);
-  const playerRef_04 = useRef<HTMLVideoElement>(null);
-  const playerRef_05 = useRef<HTMLVideoElement>(null);
-  const playerRef_06 = useRef<HTMLVideoElement>(null);
-  const playerRef_07 = useRef<HTMLVideoElement>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
@@ -50,16 +43,6 @@ const VideoSwitcher = () => {
       gameGlobals.unstageScene(scene.id)
     );
 
-    gameGlobals.videoPlayerRefs = [
-      playerRef_01,
-      playerRef_02,
-      playerRef_03,
-      playerRef_04,
-      playerRef_05,
-      playerRef_06,
-      playerRef_07,
-    ];
-
     return cleanup;
   }, []);
 
@@ -89,10 +72,12 @@ const VideoSwitcher = () => {
 
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
 
-    gameGlobals.videoPlayerRefs.forEach((ref) => {
-      if (ref.current) {
-        ref.current.src = "";
-        ref.current.load();
+    gameGlobals.videoPlayers.forEach((videoElement) => {
+      if (videoElement) {
+        videoElement.classList.remove("video-");
+        while (videoElement.firstChild) {
+          videoElement.removeChild(videoElement.firstChild);
+        }
       }
     });
   };
@@ -100,13 +85,18 @@ const VideoSwitcher = () => {
   const videoPlayersContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gameGlobals.videoPlayerRefs.forEach((ref) => {
+    if (gameGlobals.videoPlayers.length > 0) return;
+    for (let i = 0; i < 7; i++) {
       const newVideoElement = document.createElement("video");
       const video = initVideo(newVideoElement);
+      gameGlobals.videoPlayers.push(video);
       videoPlayersContainerRef.current?.appendChild(video);
-      Object.assign(ref, { current: video });
-    });
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("Video players", gameGlobals.videoPlayers);
+  }, [gameGlobals.videoPlayers]);
 
   return (
     <div

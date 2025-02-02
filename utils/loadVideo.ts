@@ -18,7 +18,7 @@ const loadVideo = async (id: string) => {
         if (!sceneObject) throw new Error(`Scene object not found for ${id}`);
         if (!source) throw new Error(`No URL found for scene ${id}`);
 
-        const loadedVideo = await setupHls(source);
+        const loadedVideo = await setupHls(source, id);
         return loadedVideo;
     } catch (error) {
         console.warn(`Error loading video ${id}: ${error}`);
@@ -26,20 +26,20 @@ const loadVideo = async (id: string) => {
     }
 }
 
-const setupHls = async (source: string) => {
+const setupHls = async (source: string, id: string) => {
     return new Promise<HLSVideo>((resolve, reject) => {
         // const newVideoElement = document.createElement("video");
         // const video = initVideo(newVideoElement);
 
-
-        const videoElementRef = gameGlobals.getState().videoPlayerRefs.find((ref) => {
-            return ref.current?.src === "";
+        const videoPlayer = gameGlobals.getState().videoPlayers.find((videoElement) => {
+            return !videoElement.classList.contains(`video-${id}`);
         });
-        if (!videoElementRef) return reject(new Error("Can load new video. No player available!"));
+        if (!videoPlayer) return reject(new Error("Can load new video. No player available!"));
 
-        const video = videoElementRef.current;
+        if (videoPlayer.classList.contains(`video-${id}`)) return reject(new Error("Video already loaded!"));
 
-        if (!video) return reject(new Error("Can't setup HLS: No video element found!"));
+        videoPlayer.classList.add(`video-${id}`);
+        console.log("Added class to", videoPlayer);
 
         if (Hls.isSupported()) {
             const hls = new Hls({
@@ -49,32 +49,33 @@ const setupHls = async (source: string) => {
             });
 
             hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                // console.log(`HLS media attached for video ${video.id}`);
+                console.log(`HLS media attached for video ${videoPlayer.id}`);
             });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                // console.log(`HLS manifest parsed for video ${video.id}`);
-                resolve({ element: video, hls });
+                console.log(`HLS manifest parsed for video ${videoPlayer.id}`);
+                console.log("hlsVideo: ", { element: videoPlayer, hls });
+                resolve({ element: videoPlayer, hls });
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
-                    console.error(`HLS fatal error ${video.id}: ${data.type}`);
+                    console.error(`HLS fatal error ${videoPlayer.id}: ${data.type}`);
                     reject(data.error);
                     // onError(`HLS fatal error ${video.id}: ${data.type}`);
                 }
             });
 
-            hls.attachMedia(video);
+            hls.attachMedia(videoPlayer);
             hls.loadSource(source);
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = source;
-            video.addEventListener("loadedmetadata", () => {
-                resolve({ element: video, hls: null });
-            });
-            video.addEventListener("error", (error) => {
+        } else if (videoPlayer.canPlayType("application/vnd.apple.mpegurl")) {
+            videoPlayer.src = source;
+            videoPlayer.addEventListener("loadedmetadata", () => {
+                resolve({ element: videoPlayer, hls: null });
+            }, { once: true });
+            videoPlayer.addEventListener("error", (error) => {
                 reject(error.error as Error);
-            });
+            }, { once: true });
         } else {
             reject(new Error("HLS not supported"));
         }
@@ -92,6 +93,7 @@ export const initVideo = (video: HTMLVideoElement) => {
     video.style.opacity = "0";
     video.style.pointerEvents = "none";
     video.style.zIndex = "-1000";
+    video.setAttribute("autoplay", "false");
     document.body.appendChild(video);
 
     return video;

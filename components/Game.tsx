@@ -21,8 +21,8 @@ export default function Game() {
     // TODO: Can we find a more elegant solution? I don't like the timer.
     if (!initialScenePlaying) {
       setTimeout(() => {
-        gameGlobals.switchToScene("G0");
-        setInitialScenePlaying(true);
+        // gameGlobals.switchToScene("G0");
+        // setInitialScenePlaying(true);
       }, 1000);
     }
   }, [
@@ -36,7 +36,7 @@ export default function Game() {
   const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 
   return (
-    <div className="w-full h-full overflow-hidden">
+    <div className="w-full h-full">
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
       <DebugMenu />

@@ -163,7 +163,6 @@ const initVideo = (video: HTMLVideoElement) => {
   video.setAttribute("autoplay", "true");
 
   const customVideo = new CustomVideoSource({ resource: video });
-  (video as any).customVideoInitialized = true;
 
   return customVideo.video;
 };

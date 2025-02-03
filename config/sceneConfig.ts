@@ -314,7 +314,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/1e1c05dbe7ceedbf4f7d4f5931f76145/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/ff2xGQ26CxUrtdoXw3YpCwQuJi029pJ5TjTLZgugwbFI.m3u8'
+            mux: 'https://stream.mux.com/Xvkq6d7Rm3gsyYwq3X2o38V027VDwbHxydleUXgcZi2k.m3u8'
         },
         name: 'Spela tärning',
         nextScenes: ["H2-A", "H2-B"],
@@ -397,10 +397,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-B",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/71d83ef9c9cee94946ff3ca862559e8e/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/DTNlh85rRHQCobiLAE2UXRfIV00WPnOuDM02H81aOvBxY.m3u8'
+            mux: 'https://stream.mux.com/1o8rB9j4WtHuzLM01luUnb00vyCbwiBZ7jtP0037FKvPA8.m3u8'
         },
         name: 'Välter ljus',
-        nextScenes: ["H2-B-1", "H2-B-2"],
+        nextScenes: ["H2-B-1", "H2-B-2", "H2-B-3"],
         video: {
             player: null,
             hls: null,
@@ -440,6 +440,23 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            },
+            {
+                name: "HB-H2-B-3",
+                color: 0x69181b,
+                x: 0.8,
+                y: 0.8,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    useGameGlobalsStore.getState().switchToScene("H2-B-3");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationInterfals: [{
+                    start: 2,
+                    end: 100
+                }]
             }
         ]
     },
@@ -447,9 +464,9 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-B-1",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/23a7a44d0b80ba678a6ac03759a43a8c/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/L027WIpIcgirk01kJKb63700mCQIa2OH00KU1uL7lMJXz2c.m3u8'
+            mux: 'https://stream.mux.com/Hf7nWh9ZoJgogfprtDK5hlQ02eXZbJ2qJCsWd4RZ00Jck.m3u8'
         },
-        name: 'Ta ett mynt',
+        name: 'Ta ett mynt - Lyckas',
         nextScenes: ["H0"],
         video: {
             player: null,
@@ -480,7 +497,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-B-2",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4d3e1cd5a89d1cc67b3acc96bb69a9c1/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/m5d331kNJVqHsnYKX9i9UIq02XDKjkZ2OUcTSgh6lx2g.m3u8'
+            mux: 'https://stream.mux.com/HKZRAA3vCrxFAnrtXT9oGoK6V57YmK6xjXUnB01maIkU.m3u8'
         },
         name: 'Spring mot dörren',
         nextScenes: ["H2-B-2-A", "H2-B-2-B"],
@@ -489,50 +506,15 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
-            {
-                name: "HB-H2-B-2-A",
-                color: 0x4287f5,
-                x: 0.2,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B-2-A");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 100
-                }]
-            },
-            {
-                name: "HB-H2-B-2-B",
-                color: 0x3c731f,
-                x: 0.6,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B-2-B");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 100
-                }]
-            }
-        ]
+        hitboxes: []
     },
     {
-        id: "H2-B-2-A",
+        id: "H2-B-3",
         source: {
-            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/254f451ec392f08be277a883347d61c5/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/KmX9z68lM5rtWk00nAxqGLTzdRNEuq01gglmx2YtLRNgU.m3u8'
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/4d3e1cd5a89d1cc67b3acc96bb69a9c1/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/ULOR72CqZPtPWx3wzpKw17IMseX9OMr8Mn7xXe02zyCs.m3u8'
         },
-        name: 'Värdshusvärden säger STOPP!',
+        name: 'Ta mynt - Misslyckas',
         nextScenes: ["H0"],
         video: {
             player: null,
@@ -542,41 +524,8 @@ export const sceneObjects: SceneObject[] = [
         hitboxes: [
             {
                 name: "HB-H0",
-                color: 0x4287f5,
-                x: 0.2,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 100
-                }]
-            }
-        ]
-    },
-    {
-        id: "H2-B-2-B",
-        source: {
-            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/a9dfcc1329fa0a8ffb98f3c0dbf5fae8/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/jr5NhpbzaGUR5jsGEi1GS4S9zVf4Nak1tA8sJYc86FA.m3u8'
-        },
-        name: 'Hinner ut ur dörren',
-        nextScenes: ["H0"],
-        video: {
-            player: null,
-            hls: null,
-            sprite: null
-        },
-        hitboxes: [
-            {
-                name: "HB-H0",
-                color: 0x70215e,
-                x: 0.6,
+                color: 0x00ffff,
+                x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,

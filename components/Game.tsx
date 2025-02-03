@@ -5,11 +5,22 @@ import { useEffect, useState } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import DebugMenu from "./DebugMenu";
 import DebugInfo from "./DebugInfo";
+import HitboxManager from "./HitboxManager";
+import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
   const [initialScenePlaying, setInitialScenePlaying] = useState(false);
+
+  // Cleanup hitboxes when the app is destroyed
+  useEffect(() => {
+    return () => {
+      if (gameGlobals.app) {
+        removeAllHitboxes();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!gameGlobals.app) return;
@@ -41,6 +52,7 @@ export default function Game() {
       <VideoSwitcher />
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
+      <HitboxManager />
     </div>
   );
 }

@@ -23,11 +23,20 @@ function addHitbox(config: HitboxConfig) {
     if (hitboxExists) return console.warn(`Hitbox with id ${name} already exists`);
 
     try {
+        const hitboxX = app.stage.width * x;
+        const hitboxY = app.stage.height * y;
+        const hitboxWidth = app.stage.width * width;
+        const hitboxHeight = app.stage.height * height;
+
+        const hitboxContainer = new PIXI.Container();
+        hitboxContainer.label = name + "-container";
+
         hitbox = new PIXI.Graphics();
         const showHitboxes = useDebugStore.getState().showHitboxes;
-        hitbox.rect(app.stage.width * x, app.stage.height * y, app.stage.width * width, app.stage.height * height)
-            .fill({ color: 0x00ee00, alpha: 0.1 })
-            .stroke({ width: 2, color: 0xFF0000, alpha: 1 })
+        hitbox.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+            .fill({ color: 0xffffff, alpha: 0.1 })
+
+        hitbox.tint = 0xFF0000;
 
         hitbox.pivot.set(hitbox.width / 2, hitbox.height / 2);
 
@@ -36,35 +45,47 @@ function addHitbox(config: HitboxConfig) {
         hitbox.on('pointerup', onClick);
 
         hitbox.label = name;
-        console.log('Adding hitbox: ', hitbox.label);
 
-        const labelText = new PIXI.Text(name, {
-            fontFamily: "Arial",
-            fontSize: 12,
-            fill: 0xeeeeee,
-            align: "center",
+        const hitboxStroke = new PIXI.Graphics();
+        hitboxStroke.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+            .stroke({ width: 2, color: 0xFF0000, alpha: 1 });
+
+        hitboxStroke.pivot.set(hitboxStroke.width / 2, hitboxStroke.height / 2);
+
+        // hitboxStroke.position.set(hitboxX, hitboxY);
+
+        const labelText = new PIXI.Text({
+            text: name,
+            style: {
+                fontFamily: "Arial",
+                fontSize: 12,
+                fill: 0xeeeeee,
+                align: "center",
+            }
         });
         labelText.anchor.set(0.5);
         labelText.alpha = showHitboxes ? 1 : 0;
-        labelText.position.set(app.stage.width * x + app.stage.width * width / 2, app.stage.height * y + app.stage.height * height / 2);
+        labelText.position.set(hitboxX, hitboxY - 10);
         labelText.label = name + "-label";
-        hitbox.addChild(labelText);
 
-        // New code to display the position of the hitbox
-        const positionText = new PIXI.Text(`(${x}, ${y})`, {
-            fontFamily: "Arial",
-            fontSize: 10,
-            fill: 0xeeeeee,
-            align: "center",
+        const positionText = new PIXI.Text({
+            text: `(${x}, ${y})`,
+            style: {
+                fontFamily: "Arial",
+                fontSize: 10,
+                fill: 0xeeeeee,
+                align: "center",
+            }
         });
         positionText.anchor.set(0.5);
         positionText.alpha = showHitboxes ? 1 : 0;
-        positionText.position.set(app.stage.width * x + app.stage.width * width / 2, app.stage.height * y + app.stage.height * height / 2 + 15); // Adjusted position
         positionText.label = name + "-position";
-        hitbox.addChild(positionText);
+        positionText.position.set(hitboxX, hitboxY + 10);
 
-        app.stage.addChild(hitbox);
-        useGameGlobalsStore.getState().hitboxes.push(hitbox);
+        hitboxContainer.addChild(positionText, labelText, hitbox, hitboxStroke);
+        app.stage.addChild(hitboxContainer);
+
+        useGameGlobalsStore.getState().hitboxes.push(hitboxContainer);
     } catch (error) {
         const hitbox = hitboxes.find(hitbox => hitbox.label === name);
         if (hitbox) {

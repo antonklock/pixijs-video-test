@@ -1,6 +1,7 @@
 import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
+import hitboxIsActive from "@/utils/hitboxActiveCheck";
 
 export const sceneObjects: SceneObject[] = [
     {
@@ -23,14 +24,12 @@ export const sceneObjects: SceneObject[] = [
             y: 0.8,
             width: 0.15,
             height: 0.075,
-            onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H0");
-            },
+            onHit: () => { if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0") },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
-                start: 0.5,
-                end: 100
+            activationIntervals: [{
+                start: 4,
+                end: 999999
             }]
         }]
     },
@@ -55,11 +54,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.15,
             height: 0.50,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H1");
+                if (hitboxIsActive("HB-H1")) useGameGlobalsStore.getState().switchToScene("H1");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 5,
                 end: 100
             }]
@@ -72,11 +71,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.2,
             height: 0.3,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H2");
+                if (hitboxIsActive("HB-H2")) useGameGlobalsStore.getState().switchToScene("H2");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 1,
                 end: 100
             }]
@@ -89,11 +88,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.15,
             height: 0.3,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H3");
+                if (hitboxIsActive("HB-H3")) useGameGlobalsStore.getState().switchToScene("H3");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 8,
                 end: 20
             }]
@@ -106,11 +105,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.2,
             height: 0.3,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H4");
+                if (hitboxIsActive("HB-H4")) useGameGlobalsStore.getState().switchToScene("H4");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 4,
                 end: 30
             }]
@@ -123,11 +122,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.24,
             height: 0.2,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H5");
+                if (hitboxIsActive("HB-H5")) useGameGlobalsStore.getState().switchToScene("H5");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 12,
                 end: 40
             }]
@@ -140,11 +139,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.05,
             height: 0.3,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H6-A");
+                if (hitboxIsActive("HB-H6")) useGameGlobalsStore.getState().switchToScene("H6-A");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 6,
                 end: 30
             }]
@@ -172,13 +171,13 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.7,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H1-A");
+                    if (hitboxIsActive("HB-H1-A")) useGameGlobalsStore.getState().switchToScene("H1-A");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 6
+                activationIntervals: [{
+                    start: 7,
+                    end: 9999999
                 }]
             },
             {
@@ -189,13 +188,13 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.33,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H1-B");
+                    if (hitboxIsActive("HB-H1-B")) useGameGlobalsStore.getState().switchToScene("H1-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 6
+                activationIntervals: [{
+                    start: 7,
+                    end: 9999999
                 }]
             },
             {
@@ -206,13 +205,13 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.7,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H1-C");
+                    if (hitboxIsActive("HB-H1-C")) useGameGlobalsStore.getState().switchToScene("H1-C");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
-                    start: 2,
-                    end: 6
+                activationIntervals: [{
+                    start: 7,
+                    end: 9999999
                 }]
             }
         ]
@@ -238,11 +237,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.2,
             height: 0.2,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H0");
+                if (hitboxIsActive("HB-H1-A")) useGameGlobalsStore.getState().switchToScene("H0");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 4,
                 end: 100
             }]
@@ -269,11 +268,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.2,
             height: 0.2,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H0");
+                if (hitboxIsActive("HB-H1-B")) useGameGlobalsStore.getState().switchToScene("H0");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 2,
                 end: 100
             }]
@@ -300,11 +299,11 @@ export const sceneObjects: SceneObject[] = [
             width: 0.2,
             height: 0.2,
             onHit: () => {
-                useGameGlobalsStore.getState().switchToScene("H0");
+                if (hitboxIsActive("HB-H1-C")) useGameGlobalsStore.getState().switchToScene("H0");
             },
             isLoaded: false,
             isActive: false,
-            activationInterfals: [{
+            activationIntervals: [{
                 start: 2,
                 end: 100
             }]
@@ -332,11 +331,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-A");
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H2-A");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -349,11 +348,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B");
+                    if (hitboxIsActive("HB-H2-B")) useGameGlobalsStore.getState().switchToScene("H2-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -382,11 +381,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -415,11 +414,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B-1");
+                    if (hitboxIsActive("HB-H2-B-1")) useGameGlobalsStore.getState().switchToScene("H2-B-1");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -432,11 +431,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B-2");
+                    if (hitboxIsActive("HB-H2-B-2")) useGameGlobalsStore.getState().switchToScene("H2-B-2");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -449,11 +448,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H2-B-3");
+                    if (hitboxIsActive("HB-H2-B-3")) useGameGlobalsStore.getState().switchToScene("H2-B-3");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -482,11 +481,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H2-B-1")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -530,11 +529,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H2-B-3")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -563,9 +562,9 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.3,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H3-A");
+                    if (hitboxIsActive("HB-H3-A")) useGameGlobalsStore.getState().switchToScene("H3-A");
                 },
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }],
@@ -578,11 +577,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H3-B");
+                    if (hitboxIsActive("HB-H3-B")) useGameGlobalsStore.getState().switchToScene("H3-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -621,7 +620,7 @@ export const sceneObjects: SceneObject[] = [
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -652,11 +651,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H3-A-WIN")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -685,11 +684,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H3-A-LOSS")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -718,11 +717,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H3-A-1")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -751,11 +750,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H3-A-2")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -784,11 +783,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H3-A-3")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -818,11 +817,11 @@ export const sceneObjects: SceneObject[] = [
                 height: 0.2,
                 onHit: () => {
                     // TODO: RESET GAME - START WHEN FINN WAKES UP
-                    useGameGlobalsStore.getState().switchToScene("G0");
+                    if (hitboxIsActive("HB-F1")) useGameGlobalsStore.getState().switchToScene("G0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -851,11 +850,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.3,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H4-A");
+                    if (hitboxIsActive("HB-H4-A")) useGameGlobalsStore.getState().switchToScene("H4-A");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -868,11 +867,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.15,
                 height: 0.25,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H4-B");
+                    if (hitboxIsActive("HB-H4-B")) useGameGlobalsStore.getState().switchToScene("H4-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -885,11 +884,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.15,
                 height: 0.25,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H4-C");
+                    if (hitboxIsActive("HB-H4-C")) useGameGlobalsStore.getState().switchToScene("H4-C");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -918,11 +917,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H4-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -951,11 +950,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H4-B")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -984,11 +983,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H4-C")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1017,11 +1016,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.3,
                 height: 0.6,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H5-A");
+                    if (hitboxIsActive("HB-H5-A")) useGameGlobalsStore.getState().switchToScene("H5-A");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1034,11 +1033,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.25,
                 height: 0.6,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H5-B");
+                    if (hitboxIsActive("HB-H5-B")) useGameGlobalsStore.getState().switchToScene("H5-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1051,11 +1050,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.4,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H5-C");
+                    if (hitboxIsActive("HB-H5-C")) useGameGlobalsStore.getState().switchToScene("H5-C");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1084,11 +1083,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H5-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1117,11 +1116,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H0");
+                    if (hitboxIsActive("HB-H5-B")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1150,11 +1149,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("G0");
+                    if (hitboxIsActive("HB-H5-C")) useGameGlobalsStore.getState().switchToScene("G0");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1183,11 +1182,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H6-A");
+                    if (hitboxIsActive("HB-H6-A")) useGameGlobalsStore.getState().switchToScene("H6-A");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1200,11 +1199,11 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
-                    useGameGlobalsStore.getState().switchToScene("H6-B");
+                    if (hitboxIsActive("HB-H6-B")) useGameGlobalsStore.getState().switchToScene("H6-B");
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1237,7 +1236,7 @@ export const sceneObjects: SceneObject[] = [
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]
@@ -1271,7 +1270,7 @@ export const sceneObjects: SceneObject[] = [
                 },
                 isLoaded: false,
                 isActive: false,
-                activationInterfals: [{
+                activationIntervals: [{
                     start: 2,
                     end: 100
                 }]

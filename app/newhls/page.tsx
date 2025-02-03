@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import React, { useEffect, useRef } from "react";
+import { ErrorData, Events } from "hls.js";
 import * as PIXI from "pixi.js";
 import Hls from "hls.js";
 import { CustomVideoSource } from "@/utils/CustomVideoSource.mjs";
@@ -10,6 +10,10 @@ interface VideoPlayer {
   element: HTMLVideoElement;
   sprite: PIXI.Sprite | null;
   hls: Hls | null;
+}
+
+interface CustomVideoElement extends HTMLVideoElement {
+  customVideoInitialized?: boolean;
 }
 
 const VideoElementsCreator = () => {
@@ -115,7 +119,7 @@ const VideoElementsCreator = () => {
         });
 
         const hlsLoadPromise = new Promise<void>((resolve, reject) => {
-          const onError = (event: any, data: any) => {
+          const onError = (event: Events, data: ErrorData) => {
             if (data.fatal) {
               console.error(`HLS fatal error: ${data.type}`);
               reject(new Error(`HLS fatal error: ${data.type}`));
@@ -250,8 +254,8 @@ const VideoElementsCreator = () => {
   );
 };
 
-const initVideo = (video: HTMLVideoElement) => {
-  if ((video as any).customVideoInitialized) return video;
+const initVideo = (video: CustomVideoElement) => {
+  if (video.customVideoInitialized) return video;
 
   video.setAttribute("playsinline", "true");
   video.setAttribute("webkit-playsinline", "true");
@@ -262,7 +266,7 @@ const initVideo = (video: HTMLVideoElement) => {
   video.setAttribute("autoplay", "true");
 
   const customVideo = new CustomVideoSource({ resource: video });
-  (video as any).customVideoInitialized = true;
+  video.customVideoInitialized = true;
 
   return customVideo.video;
 };

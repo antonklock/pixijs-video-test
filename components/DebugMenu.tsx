@@ -59,6 +59,10 @@ const DebugMenu = () => {
     debugStore.setShowDebugInfo(!debugStore.showDebugInfo);
   };
 
+  const toggleCurrentVideoTime = () => {
+    debugStore.setShowCurrentVideoTime(!debugStore.showCurrentVideoTime);
+  };
+
   React.useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -98,7 +102,7 @@ const DebugMenu = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <button
               onClick={toggleHitboxes}
-              className="block mb-2 text-white border border-white rounded-full p-2"
+              className="flex-grow mb-2 text-white border border-white rounded-full p-2"
             >
               Toggle Hitboxes
             </button>
@@ -113,7 +117,7 @@ const DebugMenu = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <button
               onClick={toggleLoadingIndicators}
-              className="block text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-2"
             >
               Toggle Loading Indicators
             </button>
@@ -130,7 +134,7 @@ const DebugMenu = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <button
               onClick={toggleDebugInfo}
-              className="block text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-2"
             >
               Toggle Debug Info
             </button>
@@ -140,6 +144,23 @@ const DebugMenu = () => {
               }`}
             >
               {debugStore.showDebugInfo ? "ON" : "OFF"}
+            </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              onClick={toggleCurrentVideoTime}
+              className="flex-grow text-white border border-white rounded-full p-2"
+            >
+              Toggle Current Video Time
+            </button>
+            <span
+              className={`text-white ${
+                debugStore.showCurrentVideoTime
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {debugStore.showCurrentVideoTime ? "ON" : "OFF"}
             </span>
           </div>
         </div>

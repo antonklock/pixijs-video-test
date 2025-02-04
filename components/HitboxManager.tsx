@@ -3,13 +3,14 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
+import debugStore from "@/stores/debug/debugStore";
 
 // TODO: Clean up this component
 const HitboxManager = () => {
   const gameGlobals = useGameGlobalsStore();
   const videoPlayerRef = gameGlobals.currentScene?.video.player;
   const [currentVideoTime, setCurrentVideoTime] = useState(0);
-
+  const { showCurrentVideoTime } = debugStore();
   useEffect(() => {
     const currentVideoPlayer = gameGlobals.currentScene?.video.player;
     if (!currentVideoPlayer) return;
@@ -110,9 +111,11 @@ const HitboxManager = () => {
 
   return (
     <>
-      <div>
-        <p>Current video time: {currentVideoTime}</p>
-      </div>
+      {showCurrentVideoTime && (
+        <div>
+          <p>Current video time: {currentVideoTime}</p>
+        </div>
+      )}
     </>
   );
 };

@@ -47,12 +47,12 @@ function addHitbox(config: HitboxConfig) {
         hitbox.label = name;
 
         const hitboxStroke = new PIXI.Graphics();
-        hitboxStroke.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
-            .stroke({ width: 2, color: 0xFF0000, alpha: 1 });
-
+        hitboxStroke
+            .rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+            .stroke({ width: 2, color: 0xFF0000 });
         hitboxStroke.pivot.set(hitboxStroke.width / 2, hitboxStroke.height / 2);
-
-        // hitboxStroke.position.set(hitboxX, hitboxY);
+        hitboxStroke.label = name + "-stroke";
+        hitboxStroke.alpha = showHitboxes ? 1 : 0;
 
         const labelText = new PIXI.Text({
             text: name,

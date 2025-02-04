@@ -60,7 +60,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 5,
-                end: 100
+                end: 99999
             }]
         },
         {
@@ -77,7 +77,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 1,
-                end: 100
+                end: 99999
             }]
         },
         {
@@ -94,7 +94,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 8,
-                end: 20
+                end: 99999
             }]
         },
         {
@@ -111,7 +111,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 4,
-                end: 30
+                end: 99999
             }]
         },
         {
@@ -128,7 +128,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 12,
-                end: 40
+                end: 99999
             }]
         },
         {
@@ -145,7 +145,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 6,
-                end: 30
+                end: 99999
             }]
         }]
     },
@@ -243,7 +243,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 4,
-                end: 100
+                end: 99999
             }]
         }]
     },
@@ -274,7 +274,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 2,
-                end: 100
+                end: 99999
             }]
         }]
     },
@@ -305,7 +305,7 @@ export const sceneObjects: SceneObject[] = [
             isActive: false,
             activationIntervals: [{
                 start: 2,
-                end: 100
+                end: 99999
             }]
         }]
     },
@@ -337,7 +337,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -354,7 +354,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -420,7 +420,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -437,7 +437,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -454,7 +454,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -487,7 +487,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -535,7 +535,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -566,7 +566,7 @@ export const sceneObjects: SceneObject[] = [
                 },
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }],
             },
             {
@@ -583,7 +583,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -622,7 +622,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
         ], customProperties: {
@@ -657,7 +657,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -690,7 +690,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -723,7 +723,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -756,7 +756,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -789,7 +789,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -823,7 +823,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -856,7 +856,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -873,7 +873,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -890,7 +890,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -923,7 +923,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -956,7 +956,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -989,7 +989,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1022,7 +1022,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -1039,7 +1039,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -1056,7 +1056,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1089,7 +1089,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1122,7 +1122,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1155,7 +1155,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1188,7 +1188,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             },
             {
@@ -1205,7 +1205,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1238,7 +1238,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]
@@ -1272,7 +1272,7 @@ export const sceneObjects: SceneObject[] = [
                 isActive: false,
                 activationIntervals: [{
                     start: 2,
-                    end: 100
+                    end: 99999
                 }]
             }
         ]

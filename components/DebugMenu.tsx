@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import cogIcon from "@/public/icons/cog.svg";
 import Image from "next/image";
@@ -10,6 +10,7 @@ const DebugMenu = () => {
   const [position, setPosition] = useState({ x: 4, y: 4 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [fadeIn, setFadeIn] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setDragging(true);
@@ -63,6 +64,10 @@ const DebugMenu = () => {
     debugStore.setShowCurrentVideoTime(!debugStore.showCurrentVideoTime);
   };
 
+  useEffect(() => {
+    setFadeIn(true);
+  }, []);
+
   React.useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -70,7 +75,7 @@ const DebugMenu = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [dragging]);
+  }, [dragging, isOpen]);
 
   return (
     <div
@@ -80,6 +85,8 @@ const DebugMenu = () => {
         top: position.y,
         left: position.x,
         cursor: "move",
+        opacity: fadeIn ? 1 : 0,
+        transition: "opacity 0.5s ease",
       }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}

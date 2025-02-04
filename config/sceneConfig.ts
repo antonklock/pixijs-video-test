@@ -21,7 +21,7 @@ export const sceneObjects: SceneObject[] = [
             name: "HB-H0",
             color: 0x00ff00,
             x: 0.8,
-            y: 0.8,
+            y: 0.75,
             width: 0.15,
             height: 0.075,
             onHit: () => { if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0") },

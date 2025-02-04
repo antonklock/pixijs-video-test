@@ -8,6 +8,7 @@ import DebugInfo from "./DebugInfo";
 import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 import MusicPlayer from "./MusicPlayer";
+import DisplaySkipIntro from "./DisplaySkipIntro";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -21,7 +22,7 @@ export default function Game() {
         removeAllHitboxes();
       }
     };
-  }, []);
+  }, [gameGlobals.app]);
 
   useEffect(() => {
     if (!gameGlobals.app) return;
@@ -54,7 +55,8 @@ export default function Game() {
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
-      <MusicPlayer />
+      {gameGlobals.isGameRunning && <MusicPlayer />}
+      <DisplaySkipIntro />
     </div>
   );
 }

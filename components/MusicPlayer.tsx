@@ -1,5 +1,6 @@
 "use client";
 
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useRef, useState, useEffect } from "react";
 import * as Tone from "tone";
 
@@ -10,15 +11,17 @@ const MusicPlayer = () => {
   const playerRef = useRef<Tone.Player | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const { isGameRunning } = useGameGlobalsStore();
+
   useEffect(() => {
-    loadMusic();
+    if (isGameRunning) loadMusic();
 
     // Cleanup function
     return () => {
       playerRef.current?.stop();
       playerRef.current?.dispose();
     };
-  }, []);
+  }, [isGameRunning]);
 
   const loadMusic = async () => {
     playerRef.current = new Tone.Player(musicUrl).toDestination();

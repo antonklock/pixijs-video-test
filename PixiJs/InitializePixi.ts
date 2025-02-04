@@ -49,7 +49,7 @@ export const initializePixi = async (dimensions: { width: number; height: number
 
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0x222222 })
+        .setStrokeStyle({ width: 2, color: 0x000000 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     app.stage.addChild(debugRect);

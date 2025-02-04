@@ -7,6 +7,7 @@ import DebugMenu from "./DebugMenu";
 import DebugInfo from "./DebugInfo";
 import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
+import MusicPlayer from "./MusicPlayer";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -53,6 +54,7 @@ export default function Game() {
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
+      <MusicPlayer />
     </div>
   );
 }

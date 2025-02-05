@@ -2,7 +2,7 @@ import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
-import getRandomDiceScene from "@/utils/randomDiceScenes";
+import getRandomDiceScenes from "@/utils/randomDiceScenes";
 
 export const sceneObjects: SceneObject[] = [
     {
@@ -29,7 +29,7 @@ export const sceneObjects: SceneObject[] = [
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 4,
+                start: 2,
                 end: 999999
             }]
         }]
@@ -317,7 +317,7 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/Xvkq6d7Rm3gsyYwq3X2o38V027VDwbHxydleUXgcZi2k.m3u8'
         },
         name: 'Spela tärning',
-        nextScenes: ["H2-A", "H2-B"],
+        nextScenes: ["H2-A", "H2-B"].concat(getRandomDiceScenes()),
         video: {
             player: null,
             hls: null,
@@ -332,7 +332,8 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H2-A");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[2];
+                    if (hitboxIsActive("HB-H2-A") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -361,46 +362,13 @@ export const sceneObjects: SceneObject[] = [
         ]
     },
     {
-        id: "H2-A",
-        source: {
-            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
-        },
-        name: 'Spela tärning',
-        nextScenes: getRandomDiceScene(),
-        video: {
-            player: null,
-            hls: null,
-            sprite: null
-        },
-        hitboxes: [
-            {
-                name: "HB-H0",
-                color: 0x00ffff,
-                x: 0.5,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 100
-                }]
-            }
-        ]
-    },
-    {
         id: "H2-A-O1",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/W9T8siBEaYxiQciD49S5vGytTrSIwSmThkCzdqmjD00o.m3u8'
         },
         name: 'Motståndare rullar tärning - 3',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -408,14 +376,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O1",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O1 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O1") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -430,10 +400,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-O2",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/p7rHmNQIOL5VqFIMCivEBpxPoUHRJURDpd02286MjW1s.m3u8'
         },
         name: 'Motståndare rullar tärning - 5',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -441,14 +411,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O2",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O2 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O2") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -463,10 +435,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-O3",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/aEUXGvDmOJCQfjbDar502Ken013LhTSISuWH3ZMy01ngxo.m3u8'
         },
         name: 'Motståndare rullar tärning - 6',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -474,14 +446,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O3",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O3 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O3") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -496,10 +470,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-O4",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/92uVPa9H9m7o11cMso7029dj3gjkto6BY00myx9lXVKcY.m3u8'
         },
         name: 'Motståndare rullar tärning - 8',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -507,14 +481,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O4",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O4 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O4") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -529,10 +505,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-O5",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/FxtDCH1cGBazV00XJbbKn3K3oXWgpEKuiyZmdPLwAJqk.m3u8'
         },
         name: 'Motståndare rullar tärning - 10',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -540,14 +516,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O5",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O5 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O5") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -562,10 +540,10 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-O6",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/vtk700nmmVdB8ABCqiRN00ywwgERkOYNPTTJDDhLbZXP8.m3u8'
         },
         name: 'Motståndare rullar tärning - 11',
-        nextScenes: ["H0"],
+        nextScenes: [],
         video: {
             player: null,
             hls: null,
@@ -573,14 +551,16 @@ export const sceneObjects: SceneObject[] = [
         },
         hitboxes: [
             {
-                name: "HB-H0",
+                name: "HB-H2-A-O6",
                 color: 0x00ffff,
                 x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    console.log("HB-H2-A-O6 hit. Next scene: ", nextScene);
+                    if (hitboxIsActive("HB-H2-A-O6") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
                 isLoaded: false,
                 isActive: false,
@@ -595,7 +575,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P1-LOSS",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/J7v02Z3X4iy44RhJU0101AP41qLqF0161zPy6Q3xSigDCBs.m3u8'
         },
         name: 'Spelare rullar tärning - 2',
         nextScenes: ["H0"],
@@ -628,7 +608,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P2-LOSS",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/DcEsGlvsOP5skN7DwCfd9E2n8WtAe48rOXzGCpEGuto.m3u8'
         },
         name: 'Spelare rullar tärning - 5',
         nextScenes: ["H0"],
@@ -661,7 +641,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P2-WIN",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/bo1zgeZWEGe69opOV8Z01CEbco3aKdInW9Uvd8Xh4gD4.m3u8'
         },
         name: 'Spelare rullar tärning - 5',
         nextScenes: ["H0"],
@@ -694,7 +674,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P3-LOSS",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/ZpyxMJBpYPhP4vngTecv00lpqJ6vMrAfbUanGhFOVvDM.m3u8'
         },
         name: 'Spelare rullar tärning - 6',
         nextScenes: ["H0"],
@@ -727,7 +707,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P3-WIN",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/LSwHUufCA7rkrnTzwwElP0200fjyJ5vorZzo01TkWJ41eQ.m3u8'
         },
         name: 'Spelare rullar tärning - 6',
         nextScenes: ["H0"],
@@ -760,7 +740,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P4-LOSS",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/i983yJasoq5B600Ub1nMwA5pLVmF02HvRRLo4OMmPfAJo.m3u8'
         },
         name: 'Spelare rullar tärning - 8',
         nextScenes: ["H0"],
@@ -793,7 +773,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P4-WIN",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/zBsVwp9In6cGI01OJB9i01qNANJUHwzF7CInZVUfrb4ws.m3u8'
         },
         name: 'Spelare rullar tärning - 8',
         nextScenes: ["H0"],
@@ -826,7 +806,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P5-LOSS",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/fNXVEOHi58FHopHFtSdL9oJXj02fPzSZkDEpuqjcciVE.m3u8'
         },
         name: 'Spelare rullar tärning - 11',
         nextScenes: ["H0"],
@@ -859,7 +839,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P5-WIN",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/RF1rx5wfLATLA1ne7pyA1PcZanLDlncttXu4XQZGhmw.m3u8'
         },
         name: 'Spelare rullar tärning - 11',
         nextScenes: ["H0"],
@@ -892,7 +872,7 @@ export const sceneObjects: SceneObject[] = [
         id: "H2-A-P6-WIN",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+            mux: 'https://stream.mux.com/Akwc7siInHF1LnFqdwzWVj6QZ5DhmZCNr011RkvNc6ck.m3u8'
         },
         name: 'Spelare rullar tärning - 12',
         nextScenes: ["H0"],

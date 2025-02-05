@@ -4,10 +4,14 @@ import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 function removeAllHitboxes(): void {
     const app = gameGlobals.getState().app;
     app.stage.children.forEach((child: PIXI.Container) => {
-        if (child) {
-            child.children.forEach((child: PIXI.Container | PIXI.Graphics) => {
+        child.children.forEach((child: PIXI.Container | PIXI.Graphics) => {
+            if (child.label && child.label.includes("HB")) {
                 child.destroy();
-            });
+            }
+        });
+
+        if (child.label && child.label.includes("HB")) {
+            child.destroy();
         }
     });
 

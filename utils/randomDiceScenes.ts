@@ -5,7 +5,7 @@
 //O5 - 10  ||  P5 - 11
 //O6 - 11  ||  P6 - 12
 
-const getRandomDiceScene = () => {
+const getRandomDiceScenes = () => {
     const opponantScenes = ["O1", "O2", "O3", "O4", "O5", "O6"];
     const playerScenes = ["P1", "P2", "P3", "P4", "P5", "P6"];
 
@@ -37,4 +37,4 @@ const getRandomDiceScene = () => {
     }
 };
 
-export default getRandomDiceScene;
+export default getRandomDiceScenes;

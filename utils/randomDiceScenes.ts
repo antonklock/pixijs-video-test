@@ -5,22 +5,12 @@
 //O5 - 10  ||  P5 - 11
 //O6 - 11  ||  P6 - 12
 
-// interface DiceScenes {
-//     opponent: "H2-A-O1" | "H2-A-O2" | "H2-A-O3" | "H2-A-O4" | "H2-A-O5" | "H2-A-O6";
-//     player: "H2-A-P1" | "H2-A-P2" | "H2-A-P3" | "H2-A-P4" | "H2-A-P5" | "H2-A-P6";
-// }
 interface DiceScenes {
     opponent: string;
     player: string;
 }
 
 const getRandomDiceScenes = (diceScenes: DiceScenes) => {
-    // const opponantScenes = ["O1", "O2", "O3", "O4", "O5", "O6"];
-    // const playerScenes = ["P1", "P2", "P3", "P4", "P5", "P6"];
-
-    // const randomOpponantScene = opponantScenes[Math.floor(Math.random() * opponantScenes.length)];
-    // const randomPlayerScene = playerScenes[Math.floor(Math.random() * playerScenes.length)];
-
     const randomOpponantScene = diceScenes.opponent;
     const randomPlayerScene = diceScenes.player;
 
@@ -84,5 +74,4 @@ const calculateDiceWinner = (diceScenes: DiceScenes) => {
     return [`${randomPlayerScene}${opponentValue > playerValue ? '-LOSS' : '-WIN'}`];
 };
 
-export default getRandomDiceScenes;
 export { calculateDiceWinner, getRandomOpponentDiceScene, getRandomPlayerDiceScene };

@@ -22,14 +22,9 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
                 }
                 else {
                     newScene.nextScenes = playerSceneResult;
-
-                    console.log("New scene", newScene.id);
-                    console.log("nextScenes", newScene.nextScenes);
                 }
             }
         }
-
-        console.log("New scene", newScene);
 
         const stagedScene: StagedSceneObject = {
             ...newScene,
@@ -49,7 +44,6 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
             customProperties: newScene.customProperties
         };
 
-        console.log("Staged scene", stagedScene);
         return stagedScene;
     } catch (error) {
         console.error("Error creating scene from id", error);

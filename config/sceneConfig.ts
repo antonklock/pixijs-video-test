@@ -2,7 +2,7 @@ import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
-import getRandomDiceScenes, { getRandomOpponentDiceScene } from "@/utils/randomDiceScenes";
+import { getRandomOpponentDiceScene } from "@/utils/randomDiceScenes";
 
 export const sceneObjects: SceneObject[] = [
     {

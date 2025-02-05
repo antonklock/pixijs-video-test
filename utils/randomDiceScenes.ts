@@ -45,7 +45,7 @@ const getRandomOpponentDiceScene = () => {
 }
 
 const getRandomPlayerDiceScene = () => {
-    // TODO: Make sure the player dice scene value is not the same as the opponent dice scene value
+    // TODO: Make sure the player dice scene value is not the same as the opponent dice scene value!
 
     const playerScenes = ["H2-A-P1", "H2-A-P2", "H2-A-P3", "H2-A-P4", "H2-A-P5", "H2-A-P6"];
     return playerScenes[Math.floor(Math.random() * playerScenes.length)];

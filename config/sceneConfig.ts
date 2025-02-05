@@ -2,6 +2,7 @@ import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
+import getRandomDiceScene from "@/utils/randomDiceScenes";
 
 export const sceneObjects: SceneObject[] = [
     {
@@ -366,6 +367,534 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
         },
         name: 'Spela tärning',
+        nextScenes: getRandomDiceScene(),
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O1",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 3',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O2",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 5',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O3",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 6',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O4",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 8',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O5",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 10',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-O6",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Motståndare rullar tärning - 11',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P1-LOSS",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 2',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P2-LOSS",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 5',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P2-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 5',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P3-LOSS",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 6',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P3-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 6',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P4-LOSS",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 8',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P4-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 8',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P5-LOSS",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 11',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P5-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 11',
+        nextScenes: ["H0"],
+        video: {
+            player: null,
+            hls: null,
+            sprite: null
+        },
+        hitboxes: [
+            {
+                name: "HB-H0",
+                color: 0x00ffff,
+                x: 0.5,
+                y: 0.5,
+                width: 0.2,
+                height: 0.2,
+                onHit: () => {
+                    if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                isLoaded: false,
+                isActive: false,
+                activationIntervals: [{
+                    start: 2,
+                    end: 100
+                }]
+            }
+        ]
+    },
+    {
+        id: "H2-A-P6-WIN",
+        source: {
+            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
+            mux: 'https://stream.mux.com/Vw02x6dZe5pBtMtXHiuI18pruEgEW9yki0201ancYEeMTo.m3u8'
+        },
+        name: 'Spelare rullar tärning - 12',
         nextScenes: ["H0"],
         video: {
             player: null,

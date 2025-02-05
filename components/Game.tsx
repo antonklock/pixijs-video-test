@@ -9,6 +9,7 @@ import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 import MusicPlayer from "./MusicPlayer";
 import DisplaySkipIntro from "./DisplaySkipIntro";
+import SceneEventManager from "./SceneEventManager";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -57,7 +58,8 @@ export default function Game() {
       {gameGlobals.isGameRunning && <MusicPlayer />}
       <DisplaySkipIntro />
       {showLoadingIndicators && <SceneLoadingIndicators />}
-      <p className="text-white text-2xl font-bold">
+      <SceneEventManager />
+      <p className="text-white text-2xl font-bold absolute bottom-10 right-10">
         Coins: {gameGlobals.coins}
       </p>
     </div>

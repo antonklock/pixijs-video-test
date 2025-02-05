@@ -5,12 +5,13 @@ import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { getRandomOpponentDiceScene } from "@/utils/randomDiceScenes";
 import * as PIXI from "pixi.js";
 import getNextDiceScene from "@/utils/getNextDiceScene";
+import removeHitboxById from "@/PixiJs/removeHitbox";
 export const sceneObjects: SceneObject[] = [
     {
         id: "G0",
         source: {
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f63d15e200eb568dfef34b3b6696a761/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/6TLRQJ1e2xp02lshfjpBg42DYMdCoLf3MongqkQRUmLo.m3u8'
+            mux: 'https://stream.mux.com/SbcBoRA74N8PM0291B9YSRHsBkbR2eyXObPCel4JBNYA.m3u8'
         },
         name: 'Intro sovrum',
         nextScenes: ['H0'],
@@ -37,7 +38,17 @@ export const sceneObjects: SceneObject[] = [
                 start: 2,
                 end: 999999
             }]
-        }]
+        }],
+        sceneEvents: [
+            {
+                name: "intro-end",
+                triggerTime: 70.5,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
+        ]
     },
     {
         id: "H0",
@@ -226,6 +237,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 9999999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H1-END",
+                triggerTime: 44,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -257,7 +278,17 @@ export const sceneObjects: SceneObject[] = [
                 start: 4,
                 end: 99999
             }]
-        }]
+        }],
+        sceneEvents: [
+            {
+                name: "H1-A-END",
+                triggerTime: 13,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
+        ]
     },
     {
         id: "H1-B",
@@ -288,7 +319,17 @@ export const sceneObjects: SceneObject[] = [
                 start: 2,
                 end: 99999
             }]
-        }]
+        }],
+        sceneEvents: [
+            {
+                name: "H1-B-END",
+                triggerTime: 26,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
+        ]
     },
     {
         id: "H1-C",
@@ -319,7 +360,17 @@ export const sceneObjects: SceneObject[] = [
                 start: 2,
                 end: 99999
             }]
-        }]
+        }],
+        sceneEvents: [
+            {
+                name: "H1-C-END",
+                triggerTime: 11,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
+        ]
     },
     {
         id: "H2",
@@ -338,10 +389,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H2-A",
                 color: 0xeb4034,
-                x: 0.2,
-                y: 0.5,
+                x: 0.48,
+                y: 0.7,
                 width: 0.2,
-                height: 0.2,
+                height: 0.4,
                 onHit: () => {
                     const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[2];
                     if (hitboxIsActive("HB-H2-A") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
@@ -356,10 +407,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H2-B",
                 color: 0x4287f5,
-                x: 0.5,
-                y: 0.5,
+                x: 0.7,
+                y: 0.7,
                 width: 0.2,
-                height: 0.2,
+                height: 0.4,
                 onHit: () => {
                     if (hitboxIsActive("HB-H2-B")) useGameGlobalsStore.getState().switchToScene("H2-B");
                 },
@@ -369,6 +420,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 99999
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-B-END",
+                triggerTime: 25,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -405,6 +466,17 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O1-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -439,6 +511,17 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O2-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
             }
         ]
     },
@@ -475,6 +558,17 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O3-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -509,6 +603,17 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O4-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
             }
         ]
     },
@@ -545,6 +650,17 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O5-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -580,6 +696,17 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-O6-END",
+                triggerTime: 28,
+                runEvent: () => {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -612,6 +739,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P1-LOSS-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -646,6 +783,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P2-LOSS-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -678,6 +825,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P2-WIN-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -712,6 +869,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P3-LOSS-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -744,6 +911,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P3-WIN-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -778,6 +955,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P4-LOSS-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -810,6 +997,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P4-WIN-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -844,6 +1041,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P5-LOSS-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -876,6 +1083,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 100
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P5-WIN-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -910,6 +1127,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 100
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-A-P6-WIN-END",
+                triggerTime: 12,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -929,7 +1156,7 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H2-B-1",
                 color: 0x466918,
-                x: 0.2,
+                x: 0.5,
                 y: 0.5,
                 width: 0.2,
                 height: 0.2,
@@ -939,16 +1166,16 @@ export const sceneObjects: SceneObject[] = [
                 isLoaded: false,
                 isActive: false,
                 activationIntervals: [{
-                    start: 2,
-                    end: 99999
+                    start: 9,
+                    end: 11
                 }]
             },
             {
                 name: "HB-H2-B-2",
                 color: 0x69181b,
-                x: 0.6,
-                y: 0.5,
-                width: 0.2,
+                x: 0.7,
+                y: 0.4,
+                width: 0.05,
                 height: 0.2,
                 onHit: () => {
 
@@ -959,15 +1186,15 @@ export const sceneObjects: SceneObject[] = [
                 isLoaded: false,
                 isActive: false,
                 activationIntervals: [{
-                    start: 2,
-                    end: 99999
+                    start: 9.5,
+                    end: 11
                 }]
             },
             {
                 name: "HB-H2-B-3",
                 color: 0x69181b,
-                x: 0.8,
-                y: 0.8,
+                x: 0.5,
+                y: 0.5,
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
@@ -976,9 +1203,27 @@ export const sceneObjects: SceneObject[] = [
                 isLoaded: false,
                 isActive: false,
                 activationIntervals: [{
-                    start: 2,
-                    end: 99999
+                    start: 7.5,
+                    end: 9
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H2-B-2-REMOVE-HITBOX",
+                triggerTime: 9,
+                runEvent: () => {
+                    removeHitboxById("HB-H2-B-3");
+                },
+                hasRun: false
+            },
+            {
+                name: "H2-B-3-END",
+                triggerTime: 29,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -995,23 +1240,23 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
+        hitboxes: [],
+        sceneEvents: [
             {
-                name: "HB-H0",
-                color: 0x00ffff,
-                x: 0.5,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
+                name: "H2-B-1-COIN",
+                triggerTime: 3,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                 },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
+                hasRun: false
+            },
+            {
+                name: "H2-B-1-END",
+                triggerTime: 6,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -1043,23 +1288,15 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
+        hitboxes: [],
+        sceneEvents: [
             {
-                name: "HB-H0",
-                color: 0x00ffff,
-                x: 0.5,
-                y: 0.5,
-                width: 0.2,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
+                name: "H2-B-3-END",
+                triggerTime: 9,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
                 },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
+                hasRun: false
             }
         ]
     },
@@ -1080,10 +1317,10 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H3-A",
                 color: 0x70215e,
-                x: 0.5,
-                y: 0.5,
+                x: 0.45,
+                y: 0.55,
                 width: 0.2,
-                height: 0.3,
+                height: 0.45,
                 onHit: () => {
                     if (hitboxIsActive("HB-H3-A")) useGameGlobalsStore.getState().switchToScene("H3-A");
                 },
@@ -1095,9 +1332,9 @@ export const sceneObjects: SceneObject[] = [
             {
                 name: "HB-H3-B",
                 color: 0x70215e,
-                x: 0.4,
-                y: 0.2,
-                width: 0.1,
+                x: 0.65,
+                y: 0.8,
+                width: 0.2,
                 height: 0.2,
                 onHit: () => {
                     if (hitboxIsActive("HB-H3-B")) useGameGlobalsStore.getState().switchToScene("H3-B");
@@ -1108,6 +1345,16 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 99999
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H3-END",
+                triggerTime: 15,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -1148,9 +1395,7 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             },
-        ], customProperties: {
-            hits: 0
-        }
+        ]
     },
     {
         id: "H3-A-WIN",
@@ -1182,6 +1427,24 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 99999
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H3-A-LOSS-COIN",
+                triggerTime: 6,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                },
+                hasRun: false
+            },
+            {
+                name: "H3-A-WIN-END",
+                triggerTime: 8,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -1216,6 +1479,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H3-A-LOSS-END",
+                triggerTime: 9,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1231,25 +1504,7 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
-            {
-                name: "HB-H0",
-                color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
-            }
-        ]
+        hitboxes: []
     },
     {
         id: "H3-A-2",
@@ -1264,25 +1519,7 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
-            {
-                name: "HB-H0",
-                color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
-            }
-        ]
+        hitboxes: []
     },
     {
         id: "H3-A-3",
@@ -1297,25 +1534,7 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
-            {
-                name: "HB-H0",
-                color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
-            }
-        ]
+        hitboxes: []
     },
     {
         id: "H3-B",
@@ -1330,24 +1549,15 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
+        hitboxes: [],
+        sceneEvents: [
             {
-                name: "HB-F1",
-                color: 0x70215e,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    // TODO: RESET GAME - START WHEN FINN WAKES UP
-                    if (hitboxIsActive("HB-F1")) useGameGlobalsStore.getState().switchToScene("G0");
+                name: "H3-B-END",
+                triggerTime: 6,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("G0");
                 },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
+                hasRun: false
             }
         ]
     },
@@ -1373,7 +1583,6 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.3,
                 onHit: () => {
-                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H4-A")) useGameGlobalsStore.getState().switchToScene("H4-A");
                 },
                 isLoaded: false,
@@ -1417,6 +1626,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H4-END",
+                triggerTime: 6,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1425,7 +1644,7 @@ export const sceneObjects: SceneObject[] = [
             cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/e6013c545482ee6322457767a0ee39ae/manifest/video.m3u8',
             mux: 'https://stream.mux.com/OgjZWdscuZk7SihdY02HvssVLBjvJlaa3BegMkgvzBmQ.m3u8'
         },
-        name: 'Vält pirat - Ta pengar',
+        name: 'Ta pengar - Lyckas',
         nextScenes: ["H0"],
         video: {
             player: null,
@@ -1449,6 +1668,24 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 99999
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H4-A-COIN",
+                triggerTime: 8.5,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                },
+                hasRun: false
+            },
+            {
+                name: "H4-A-END",
+                triggerTime: 10,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -1483,6 +1720,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H4-B-END",
+                triggerTime: 9,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1516,6 +1763,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H4-C-END",
+                triggerTime: 10,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1540,7 +1797,6 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.3,
                 height: 0.6,
                 onHit: () => {
-                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H5-A")) useGameGlobalsStore.getState().switchToScene("H5-A");
                 },
                 isLoaded: false,
@@ -1584,6 +1840,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H5-C-END",
+                triggerTime: 45,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1616,6 +1882,24 @@ export const sceneObjects: SceneObject[] = [
                     start: 2,
                     end: 99999
                 }]
+            }
+        ],
+        sceneEvents: [
+            {
+                name: "H5-A-COIN",
+                triggerTime: 25,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                },
+                hasRun: false
+            },
+            {
+                name: "H5-A-END",
+                triggerTime: 26,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
             }
         ]
     },
@@ -1650,6 +1934,16 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
+        ],
+        sceneEvents: [
+            {
+                name: "H5-B-END",
+                triggerTime: 10,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("H0");
+                },
+                hasRun: false
+            }
         ]
     },
     {
@@ -1683,58 +1977,68 @@ export const sceneObjects: SceneObject[] = [
                     end: 99999
                 }]
             }
-        ]
-    },
-    {
-        id: "H6",
-        source: {
-            cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f86ab9a57fcb6735683a3b12a03cd485/manifest/video.m3u8',
-            mux: 'https://stream.mux.com/0101K1jiXHKf3vJwLjxbGPgrQJ4y4JIl3LX6jt731xB02M.m3u8'
-        },
-        name: 'Gå mot dörren',
-        nextScenes: ["H6-A", "H6-B"],
-        video: {
-            player: null,
-            hls: null,
-            sprite: null
-        },
-        hitboxes: [
+        ],
+        sceneEvents: [
             {
-                name: "HB-H6-A",
-                color: 0x4c1b7d,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H6-A")) useGameGlobalsStore.getState().switchToScene("H6-A");
+                name: "H5-C-END",
+                triggerTime: 22,
+                runEvent: () => {
+                    useGameGlobalsStore.getState().switchToScene("G0");
                 },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
-            },
-            {
-                name: "HB-H6-B",
-                color: 0x7d1b53,
-                x: 0.4,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    if (hitboxIsActive("HB-H6-B")) useGameGlobalsStore.getState().switchToScene("H6-B");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
+                hasRun: false
             }
         ]
     },
+    // {
+    //     id: "H6",
+    //     source: {
+    //         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f86ab9a57fcb6735683a3b12a03cd485/manifest/video.m3u8',
+    //         mux: 'https://stream.mux.com/0101K1jiXHKf3vJwLjxbGPgrQJ4y4JIl3LX6jt731xB02M.m3u8'
+    //     },
+    //     name: 'Gå mot dörren',
+    //     nextScenes: ["H6-A", "H6-B"],
+    //     video: {
+    //         player: null,
+    //         hls: null,
+    //         sprite: null
+    //     },
+    //     hitboxes: [
+    //         {
+    //             name: "HB-H6-A",
+    //             color: 0x4c1b7d,
+    //             x: 0.2,
+    //             y: 0.2,
+    //             width: 0.1,
+    //             height: 0.2,
+    //             onHit: () => {
+    //                 if (hitboxIsActive("HB-H6-A")) useGameGlobalsStore.getState().switchToScene("H6-A");
+    //             },
+    //             isLoaded: false,
+    //             isActive: false,
+    //             activationIntervals: [{
+    //                 start: 2,
+    //                 end: 99999
+    //             }]
+    //         },
+    //         {
+    //             name: "HB-H6-B",
+    //             color: 0x7d1b53,
+    //             x: 0.4,
+    //             y: 0.2,
+    //             width: 0.1,
+    //             height: 0.2,
+    //             onHit: () => {
+    //                 if (hitboxIsActive("HB-H6-B")) useGameGlobalsStore.getState().switchToScene("H6-B");
+    //             },
+    //             isLoaded: false,
+    //             isActive: false,
+    //             activationIntervals: [{
+    //                 start: 2,
+    //                 end: 99999
+    //             }]
+    //         }
+    //     ]
+    // },
     {
         id: "H6-A",
         source: {
@@ -1748,23 +2052,15 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
+        hitboxes: [],
+        sceneEvents: [
             {
-                name: "HB-H0",
-                color: 0x4c1b7d,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
+                name: "H6-A-END",
+                triggerTime: 4,
+                runEvent: () => {
                     useGameGlobalsStore.getState().switchToScene("H0");
                 },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
+                hasRun: false
             }
         ]
     },
@@ -1781,25 +2077,6 @@ export const sceneObjects: SceneObject[] = [
             hls: null,
             sprite: null
         },
-        hitboxes: [
-            {
-                name: "HB-V1",
-                color: 0x4c1b7d,
-                x: 0.2,
-                y: 0.2,
-                width: 0.1,
-                height: 0.2,
-                onHit: () => {
-                    console.log("Switching to V1");
-                    // useGameGlobalsStore.getState().switchToScene("V1");
-                },
-                isLoaded: false,
-                isActive: false,
-                activationIntervals: [{
-                    start: 2,
-                    end: 99999
-                }]
-            }
-        ]
+        hitboxes: []
     }
 ];

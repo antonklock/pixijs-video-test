@@ -2,15 +2,18 @@ import * as PIXI from "pixi.js";
 import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 
 function removeHitboxById(hitboxId: string): void {
+    const app = gameGlobals.getState().app;
     const hitboxes = gameGlobals.getState().hitboxes;
-    const hitbox: PIXI.Graphics | undefined = hitboxes.find(hitbox => (hitbox.label as string) === hitboxId);
+    const children = app.stage.children;
+    const hitboxContainer: PIXI.Container = children.find((container: PIXI.Container) => (container.label) === hitboxId + "-container");
 
-    if (hitbox) {
-        hitbox.destroy();
-        hitboxes.splice(hitboxes.indexOf(hitbox), 1);
+    if (hitboxContainer) {
+        hitboxContainer.children.forEach(child => child.destroy());
+        hitboxContainer.destroy();
+        hitboxes.splice(hitboxes.indexOf(hitboxContainer), 1);
         gameGlobals.setState({ hitboxes: hitboxes });
     } else {
-        console.warn(`Couldn't delete hitbox ${hitboxId}! Hitbox not found`);
+        console.warn(`Couldn't delete hitbox ${hitboxId + "-container"}! Hitbox not found`);
     }
 }
 

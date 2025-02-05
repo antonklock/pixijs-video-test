@@ -22,6 +22,13 @@ export interface PendingVideo {
     clear: () => void;
 }
 
+export interface SceneEvent {
+    name: string;
+    triggerTime: number;
+    runEvent: () => void;
+    hasRun: boolean;
+}
+
 export interface SceneObject {
     id: string;
     name: string | undefined;
@@ -36,6 +43,7 @@ export interface SceneObject {
     }
     nextScenes: string[];
     autoplay?: boolean;
+    sceneEvents?: SceneEvent[];
     // player: MediaPlayerElement | undefined;
     // canPlay: boolean;
     // isLoaded: boolean;

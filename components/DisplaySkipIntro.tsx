@@ -27,7 +27,7 @@ function DisplaySkipIntro({ startDelay = 3000 }: DisplaySkipIntroProps) {
       app.stage.addChild(sprite);
       sprite.pivot.set(sprite.width / 2, sprite.height / 2);
       sprite.position.set(hitboxX, hitboxY);
-      sprite.scale.set(0.2);
+      sprite.scale.set(0.18);
 
       sprite.label = "skip-intro";
 

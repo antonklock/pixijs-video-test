@@ -3,7 +3,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { getRandomOpponentDiceScene } from "@/utils/randomDiceScenes";
-
+import * as PIXI from "pixi.js";
 export const sceneObjects: SceneObject[] = [
     {
         id: "G0",
@@ -25,7 +25,11 @@ export const sceneObjects: SceneObject[] = [
             y: 0.75,
             width: 0.15,
             height: 0.075,
-            onHit: () => { if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0") },
+            onHit: () => {
+                const skipIntro = useGameGlobalsStore.getState().app.stage.children.find((child: PIXI.Sprite) => child.label === "skip-intro");
+                if (skipIntro) skipIntro.destroy();
+                if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0")
+            },
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
@@ -189,6 +193,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.33,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H1-B")) useGameGlobalsStore.getState().switchToScene("H1-B");
                 },
                 isLoaded: false,
@@ -659,6 +664,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -725,6 +731,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -791,6 +798,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -857,6 +865,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -890,6 +899,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-A")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -923,6 +933,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H2-B-1")) useGameGlobalsStore.getState().switchToScene("H2-B-1");
                 },
                 isLoaded: false,
@@ -940,6 +951,9 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
+
+                    // TODO: Add WIN scenario
+
                     if (hitboxIsActive("HB-H2-B-2")) useGameGlobalsStore.getState().switchToScene("H2-B-2");
                 },
                 isLoaded: false,
@@ -1160,6 +1174,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.1,
                 height: 0.2,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H3-A-WIN")) useGameGlobalsStore.getState().switchToScene("H0");
                 },
                 isLoaded: false,
@@ -1359,6 +1374,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.3,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H4-A")) useGameGlobalsStore.getState().switchToScene("H4-A");
                 },
                 isLoaded: false,
@@ -1525,6 +1541,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.3,
                 height: 0.6,
                 onHit: () => {
+                    useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                     if (hitboxIsActive("HB-H5-A")) useGameGlobalsStore.getState().switchToScene("H5-A");
                 },
                 isLoaded: false,

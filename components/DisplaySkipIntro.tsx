@@ -29,6 +29,8 @@ function DisplaySkipIntro({ startDelay = 3000 }: DisplaySkipIntroProps) {
       sprite.position.set(hitboxX, hitboxY);
       sprite.scale.set(0.2);
 
+      sprite.label = "skip-intro";
+
       let currentFrame = 0;
       const frameInterval = 100;
 

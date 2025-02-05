@@ -50,13 +50,16 @@ export default function Game() {
 
   return (
     <div className="w-full h-full overflow-hidden">
-      {showLoadingIndicators && <SceneLoadingIndicators />}
       <VideoSwitcher />
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
       {gameGlobals.isGameRunning && <MusicPlayer />}
       <DisplaySkipIntro />
+      {showLoadingIndicators && <SceneLoadingIndicators />}
+      <p className="text-white text-2xl font-bold">
+        Coins: {gameGlobals.coins}
+      </p>
     </div>
   );
 }

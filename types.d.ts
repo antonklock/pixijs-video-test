@@ -68,4 +68,5 @@ export interface GameGlobals {
     stagedScenes: StagedSceneObject[];
     videoProvider: "mux" | "cloudflare";
     hitboxes: PIXI.Container[];
+    coins: number;
 }

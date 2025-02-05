@@ -2,7 +2,7 @@ import { SceneObject } from "@/types";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
-import getRandomDiceScenes from "@/utils/randomDiceScenes";
+import getRandomDiceScenes, { getRandomOpponentDiceScene } from "@/utils/randomDiceScenes";
 
 export const sceneObjects: SceneObject[] = [
     {
@@ -317,7 +317,7 @@ export const sceneObjects: SceneObject[] = [
             mux: 'https://stream.mux.com/Xvkq6d7Rm3gsyYwq3X2o38V027VDwbHxydleUXgcZi2k.m3u8'
         },
         name: 'Spela tärning',
-        nextScenes: ["H2-A", "H2-B"].concat(getRandomDiceScenes()),
+        nextScenes: ["H2-A", "H2-B"].concat(getRandomOpponentDiceScene()),
         video: {
             player: null,
             hls: null,
@@ -383,7 +383,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O1 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O1") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
@@ -418,7 +418,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O2 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O2") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
@@ -453,7 +453,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O3 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O3") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
@@ -488,7 +488,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O4 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O4") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
@@ -523,7 +523,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O5 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O5") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },
@@ -558,7 +558,7 @@ export const sceneObjects: SceneObject[] = [
                 width: 0.2,
                 height: 0.2,
                 onHit: () => {
-                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[1];
+                    const nextScene = useGameGlobalsStore.getState().currentScene?.nextScenes?.[0];
                     console.log("HB-H2-A-O6 hit. Next scene: ", nextScene);
                     if (hitboxIsActive("HB-H2-A-O6") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
                 },

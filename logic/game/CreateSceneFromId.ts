@@ -2,7 +2,7 @@ import { sceneObjects } from "@/config/sceneConfig";
 import { StagedSceneObject } from "@/types";
 import { cleanupSprite } from "@/utils/cleanupSprite";
 import { cleanupVideo } from "@/utils/cleanupVideo";
-import { getPlayerDiceScene } from "@/utils/getDiceScene";
+import { calculateDiceWinner, getRandomPlayerDiceScene } from "@/utils/randomDiceScenes";
 
 const createSceneFromId = (id: string, autoplay: boolean = false) => {
     try {
@@ -11,13 +11,25 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
 
         // TODO: FIX THIS HACK
         if (newScene.id?.includes("H2-A-O")) {
-            const playerScene = getPlayerDiceScene();
-            if (!playerScene) return;
-            newScene.nextScenes = [playerScene];
+            const newPlayerScene = getRandomPlayerDiceScene();
+            if (!newPlayerScene) {
+                console.warn("Couldn't get random player dice scene");
+            }
+            else {
+                const playerSceneResult = calculateDiceWinner({ opponent: newScene.id, player: newPlayerScene });
+                if (!playerSceneResult) {
+                    console.warn("Couldn't calculate dice winner");
+                }
+                else {
+                    newScene.nextScenes = playerSceneResult;
 
-            console.log("New scene", newScene.id);
-            console.log("nextScenes", newScene.nextScenes);
+                    console.log("New scene", newScene.id);
+                    console.log("nextScenes", newScene.nextScenes);
+                }
+            }
         }
+
+        console.log("New scene", newScene);
 
         const stagedScene: StagedSceneObject = {
             ...newScene,
@@ -36,6 +48,8 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
             },
             customProperties: newScene.customProperties
         };
+
+        console.log("Staged scene", stagedScene);
         return stagedScene;
     } catch (error) {
         console.error("Error creating scene from id", error);

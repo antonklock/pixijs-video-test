@@ -43,18 +43,7 @@ export interface SceneObject {
     nextScenes: string[];
     autoplay?: boolean;
     sceneEvents?: SceneEvent[];
-    // player: MediaPlayerElement | undefined;
-    // canPlay: boolean;
-    // isLoaded: boolean;
-    // isCurrent: boolean;
-    // loop: boolean;
-    // isActive: boolean;
     hitboxes: Hitbox[];
-    // sceneEndTime?: number;
-    // triggerTime?: number;
-    // play?: () => void;
-    // onSceneEnd?: () => void;
-    // runFunctionAtTime?: () => void;
     customProperties?: {
         [key: string]: string | number | boolean;
     }

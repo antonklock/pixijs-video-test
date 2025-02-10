@@ -1,6 +1,5 @@
 import addHitbox from '@/PixiJs/addHitbox';
 import { GameGlobalsStore } from './gameGlobals';
-import removeHitbox from '@/PixiJs/removeHitbox';
 import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';

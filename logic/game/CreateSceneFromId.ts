@@ -35,11 +35,11 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
             clear: () => {
                 cleanupVideo(stagedScene);
                 cleanupSprite(stagedScene);
-                console.log(
-                    "%cClearing scene %c" + newScene.id,
-                    "color: orange",
-                    "color: cyan"
-                );
+                // console.log(
+                //     "%cClearing scene %c" + newScene.id,
+                //     "color: orange",
+                //     "color: cyan"
+                // );
             },
             customProperties: newScene.customProperties
         };

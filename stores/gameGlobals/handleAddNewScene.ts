@@ -11,14 +11,14 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
         get().loadingScenes.add(sceneId);
 
         const newStagedScene = createNewStagedScene(sceneId, false);
-        if (!newStagedScene) return console.warn("Couldn't create scene config.");
+        if (!newStagedScene) return console.warn("Couldn't create scene config for scene: ", sceneId);
 
         const newVideo = await loadVideo(sceneId);
-        if (!newVideo?.element) return console.warn("Couldn't load video.");
-        if (!newVideo?.hls) return console.warn("Couldn't load hls.");
+        if (!newVideo?.element) return console.warn("Couldn't load video for scene: ", sceneId);
+        if (!newVideo?.hls) return console.warn("Couldn't load hls for scene: ", sceneId);
 
         const newSprite = await createVideoSprite(newVideo.element, get().app);
-        if (!newSprite) return console.warn("Couldn't create sprite.");
+        if (!newSprite) return console.warn("Couldn't create sprite for scene: ", sceneId);
 
         newStagedScene.video.sprite = newSprite;
         newStagedScene.video.hls = newVideo.hls;
@@ -32,7 +32,7 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
 
         set({ ...get(), stagedScenes: [...get().stagedScenes, newStagedScene] });
     } catch (error) {
-        console.error("Error loading scene", sceneId, error);
+        console.error("Error loading scene: ", sceneId, error);
     } finally {
         get().loadingScenes.delete(sceneId);
         if (createNewStagedScene) return createNewStagedScene;

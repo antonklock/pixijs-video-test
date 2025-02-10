@@ -41,7 +41,6 @@ const H1: SceneObject = {
             width: 0.2,
             height: 0.33,
             onHit: () => {
-                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
                 if (hitboxIsActive("HB-H1-B")) useGameGlobalsStore.getState().switchToScene("H1-B");
             },
             isLoaded: false,

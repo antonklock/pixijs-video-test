@@ -1,15 +1,12 @@
 "use client";
 
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useEffect, useState } from "react";
-import debugStore from "@/stores/debug/debugStore";
+import { useEffect } from "react";
 
 // TODO: Clean up this component
 const SceneEventManager = () => {
   const gameGlobals = useGameGlobalsStore();
   const videoPlayerRef = gameGlobals.currentScene?.video.player;
-  const [currentVideoTime, setCurrentVideoTime] = useState(0);
-  const { showCurrentVideoTime } = debugStore();
 
   useEffect(() => {
     const currentVideoPlayer = gameGlobals.currentScene?.video.player;
@@ -40,28 +37,22 @@ const SceneEventManager = () => {
   const handleTimeUpdate = () => {
     if (videoPlayerRef.current) {
       const newTime = videoPlayerRef.current.currentTime;
-      setCurrentVideoTime(newTime);
 
       // Handle scene events
       gameGlobals.currentScene?.sceneEvents?.forEach((sceneEvent) => {
-        if (newTime > sceneEvent.triggerTime && !sceneEvent.hasRun) {
+        if (
+          newTime > sceneEvent.triggerTime &&
+          !gameGlobals.sceneEvents.has(sceneEvent.name)
+        ) {
           console.log("Scene event triggered:", sceneEvent.name);
           sceneEvent.runEvent();
-          sceneEvent.hasRun = true;
+          gameGlobals.sceneEvents.add(sceneEvent.name);
         }
       });
     }
   };
 
-  return (
-    <>
-      {/* {showCurrentVideoTime && (
-        <div>
-          <p>Current video time: {currentVideoTime}</p>
-        </div>
-      )} */}
-    </>
-  );
+  return <></>;
 };
 
 export default SceneEventManager;

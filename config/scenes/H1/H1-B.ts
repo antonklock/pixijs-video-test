@@ -34,6 +34,14 @@ const H1B: SceneObject = {
     }],
     sceneEvents: [
         {
+            name: "H1-B-COIN",
+            triggerTime: 22,
+            runEvent: () => {
+                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+            },
+            hasRun: false
+        },
+        {
             name: "H1-B-END",
             triggerTime: 26,
             runEvent: () => {

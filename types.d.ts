@@ -77,4 +77,5 @@ export interface GameGlobals {
     videoProvider: "mux" | "cloudflare";
     hitboxes: PIXI.Container[];
     coins: number;
+    sceneEvents: Set<string>;
 }

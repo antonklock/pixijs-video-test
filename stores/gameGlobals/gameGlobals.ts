@@ -9,6 +9,7 @@ import handleUnstageScene from './handleUnstageScene';
 export interface GameGlobalsStore extends GameGlobals {
     coins: number;
     loadingScenes: Set<string>;
+    sceneEvents: Set<string>;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -18,6 +19,7 @@ export interface GameGlobalsStore extends GameGlobals {
     switchToScene: (sceneId: string, loadNextScenes?: boolean) => Promise<void>;
     unstageScene: (sceneId: string) => void;
     setCoins: (coins: number) => void;
+    setSceneEvents: (sceneEvents: Set<string>) => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
@@ -30,7 +32,9 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
     app: null,
     canvas: null,
     coins: 0,
+    sceneEvents: new Set(),
     setCoins: (coins: number) => set({ coins }),
+    setSceneEvents: (sceneEvents: Set<string>) => set({ sceneEvents }),
     setApp: (app) => set({ app }),
     setCanvas: (canvas) => set({ canvas }),
     setIsGameRunning: (isRunning) => set({ isGameRunning: isRunning }),

@@ -41,7 +41,6 @@ const H2AP2Loss: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

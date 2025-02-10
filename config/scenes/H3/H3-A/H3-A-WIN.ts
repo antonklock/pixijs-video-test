@@ -41,7 +41,6 @@ const H3AWin: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
             },
-            hasRun: false
         },
         {
             name: "H3-A-WIN-END",
@@ -49,7 +48,6 @@ const H3AWin: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

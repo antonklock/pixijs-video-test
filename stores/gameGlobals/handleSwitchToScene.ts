@@ -1,6 +1,5 @@
 import addHitbox from '@/PixiJs/addHitbox';
 import { GameGlobalsStore } from './gameGlobals';
-import removeHitbox from '@/PixiJs/removeHitbox';
 import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
@@ -23,7 +22,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // If scene not found, try to add it and retry
     if (!scene) {
-        console.warn(`Can't play scene! Scene ${sceneId} not found. Trying to add it...`);
+        console.warn(`Can't play scene! Scene ${sceneId} not found in staged scenes. Trying to add it...`);
 
         // TODO: Lets add a limit on how many times we can retry adding the scene
         if (!scene) {
@@ -41,6 +40,9 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     scene.video.player?.play();
     scene.isActive = true;
     set({ ...get(), currentScene: scene });
+    get().setSceneEvents(new Set(scene.sceneEvents?.map(event => event.name) ?? []));
+    const sceneEvents = get().sceneEvents;
+    console.log("Scene events set:", sceneEvents);
 
     if (!loadNextScenes) {
         const { stagedScenes } = get();

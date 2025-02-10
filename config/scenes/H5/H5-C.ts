@@ -41,7 +41,6 @@ const H5C: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("G0");
             },
-            hasRun: false
         }
     ]
 }

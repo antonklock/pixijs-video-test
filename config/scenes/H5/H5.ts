@@ -29,7 +29,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 10,
                 end: 99999
             }]
         },
@@ -46,7 +46,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 10,
                 end: 99999
             }]
         },
@@ -63,7 +63,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 10,
                 end: 99999
             }]
         }
@@ -75,7 +75,6 @@ const H5: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

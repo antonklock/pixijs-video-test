@@ -26,7 +26,6 @@ export interface SceneEvent {
     name: string;
     triggerTime: number;
     runEvent: () => void;
-    hasRun: boolean;
 }
 
 export interface SceneObject {

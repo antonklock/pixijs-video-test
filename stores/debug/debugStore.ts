@@ -7,6 +7,7 @@ export interface DebugStore {
     showDebugMenu: boolean;
     showDebugInfo: boolean;
     showCurrentVideoTime: boolean;
+    sceneEvents: Set<string>;
     setShowHitboxes: (value: boolean) => void;
     setShowLoadingIndicators: (value: boolean) => void;
     setShowDebugMenu: (value: boolean) => void;
@@ -20,6 +21,7 @@ const useDebugStore = create<DebugStore>((set) => ({
     showDebugMenu: false,
     showDebugInfo: false,
     showCurrentVideoTime: false,
+    sceneEvents: new Set(),
     setShowHitboxes: (value: boolean) => {
         set({ showHitboxes: value });
         if (typeof window !== 'undefined') {

@@ -47,6 +47,15 @@ export default function Game() {
     gameGlobals,
   ]);
 
+  // useEffect(() => {
+  //   if (gameGlobals.currentScene) {
+  //     const sceneEventNames =
+  //       gameGlobals.currentScene.sceneEvents?.map((event) => event.name) ?? [];
+  //     gameGlobals.setSceneEvents(new Set(sceneEventNames));
+  //     console.log("Scene events set:", sceneEventNames);
+  //   }
+  // }, [gameGlobals.currentScene]);
+
   const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 
   return (

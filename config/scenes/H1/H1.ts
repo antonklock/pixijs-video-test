@@ -74,8 +74,7 @@ const H1: SceneObject = {
             triggerTime: 44,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
-            },
-            hasRun: false
+            }
         }
     ]
 }

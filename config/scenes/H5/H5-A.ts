@@ -41,7 +41,6 @@ const H5A: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
             },
-            hasRun: false
         },
         {
             name: "H5-A-END",
@@ -49,7 +48,6 @@ const H5A: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

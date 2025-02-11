@@ -6,7 +6,8 @@ const H1A: SceneObject = {
     id: "H1-A",
     source: {
         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/36597fa6c0bf1a5820b712e1e832cf8f/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/cLZvm9Cue6iqHFP3tkImW01jNIyTH02XPMrsRarh1zwII.m3u8'
+        // mux: 'https://stream.mux.com/cLZvm9Cue6iqHFP3tkImW01jNIyTH02XPMrsRarh1zwII.m3u8' // Mux
+        mux: 'https://klockworks.xyz/H1-A/playlist.m3u8' // R2
     },
     name: 'Skura golvet',
     nextScenes: ["H0"],

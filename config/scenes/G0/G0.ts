@@ -7,8 +7,9 @@ const G0: SceneObject = {
     id: "G0",
     source: {
         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f63d15e200eb568dfef34b3b6696a761/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/SbcBoRA74N8PM0291B9YSRHsBkbR2eyXObPCel4JBNYA.m3u8'
-        mux: 'https://2b46b32ca0318933bea825a208cf2131.r2.cloudflarestorage.com/ybp-raiseyourglass/G0/playlist.m3u8'
+        // mux: 'https://stream.mux.com/SbcBoRA74N8PM0291B9YSRHsBkbR2eyXObPCel4JBNYA.m3u8' // Mux
+        mux: 'https://klockworks.xyz/G0/playlist.m3u8' // Custom R2 domain
+        // mux: 'https://pub-3d195669b2f149b99b13aeea19bd7cfa.r2.dev/G0/playlist.m3u8' // Cloudflare R2.dev
     },
     name: 'Intro sovrum',
     nextScenes: ['H0'],

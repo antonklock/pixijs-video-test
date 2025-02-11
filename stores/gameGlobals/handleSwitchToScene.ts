@@ -4,12 +4,22 @@ import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
+import * as Tone from "tone";
 
 interface SwitchToSceneConfig {
     sceneId: string;
     loadNextScenes: boolean;
     get: () => GameGlobalsStore;
     set: (state: GameGlobalsStore) => void;
+}
+
+
+function convertTimeToSeconds(time: string): number {
+    const parts = time.split(':');
+    const hours = parseFloat(parts[0]) || 0;
+    const minutes = parseFloat(parts[1]) || 0;
+    const seconds = parseFloat(parts[2]) || 0;
+    return hours * 3600 + minutes * 60 + seconds - 60;
 }
 
 async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }: SwitchToSceneConfig) {
@@ -35,9 +45,23 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }
     }
 
+    const seconds = Tone.getTransport().seconds;
+    const newCurrentTime = seconds;
+    const player = scene.video.player as HTMLVideoElement;
+
+    // Convert position to seconds and set player currentTime
+    if (scene.id === "H0") {
+        player.currentTime = newCurrentTime;
+        player.play();
+    } else {
+        player.play();
+    }
+
+    // console.log("position", position);
+
     // Activating scene
     scene.video.sprite.visible = true;
-    scene.video.player?.play();
+    // scene.video.player?.play();
     scene.isActive = true;
     set({ ...get(), currentScene: scene });
     get().setSceneEvents(new Set(scene.sceneEvents?.map(event => event.name) ?? []));

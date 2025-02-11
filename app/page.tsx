@@ -2,20 +2,25 @@
 
 import Game from "@/components/Game";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import * as Tone from "tone";
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
   const [isFading, setIsFading] = useState(false);
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
 
-  const handleStartGame = () => {
+  const handleStartGame = async () => {
     setIsFading(true);
     setBgColor("bg-black");
+    await Tone.start();
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
     }, 500);
   };
+
+  useEffect(() => {
+    console.log("isGameRunning", gameGlobals.isGameRunning);
+  }, [gameGlobals.isGameRunning]);
 
   return (
     <div

@@ -1,7 +1,7 @@
 "use client";
 
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect } from "react";
 import * as Tone from "tone";
 
 const musicUrl =

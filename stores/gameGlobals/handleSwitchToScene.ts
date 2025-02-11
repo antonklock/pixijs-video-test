@@ -5,6 +5,8 @@ import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
 import * as Tone from "tone";
+import useFxStore from '../FX/fxStore';
+import useGameSessionStore from '../gameSession/gameSession';
 
 interface SwitchToSceneConfig {
     sceneId: string;
@@ -13,31 +15,30 @@ interface SwitchToSceneConfig {
     set: (state: GameGlobalsStore) => void;
 }
 
-
-function convertTimeToSeconds(time: string): number {
-    const parts = time.split(':');
-    const hours = parseFloat(parts[0]) || 0;
-    const minutes = parseFloat(parts[1]) || 0;
-    const seconds = parseFloat(parts[2]) || 0;
-    return hours * 3600 + minutes * 60 + seconds - 60;
-}
-
 async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }: SwitchToSceneConfig) {
+    const currentScene = get().currentScene;
+    const currentSceneId = currentScene?.id;
+
+    if (sceneId === currentSceneId) {
+        console.log("Scene already loaded. Skipping...");
+        return;
+    }
+
     if (!sceneObjects.some(sceneObject => sceneObject.id === sceneId)) {
         console.warn(`Scene ${sceneId} config not found in sceneObjects`);
         return;
     }
 
-    let scene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
+    let newScene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
     // If scene not found, try to add it and retry
-    if (!scene) {
+    if (!newScene) {
         console.warn(`Can't play scene! Scene ${sceneId} not found in staged scenes. Trying to add it...`);
 
         // TODO: Lets add a limit on how many times we can retry adding the scene
-        if (!scene) {
+        if (!newScene) {
             setTimeout(async () => {
-                scene = await useGameGlobalsStore.getState().addNewScene(sceneId);
+                newScene = await useGameGlobalsStore.getState().addNewScene(sceneId);
                 handleSwitchToScene({ sceneId, loadNextScenes: true, get, set });
                 return;
             }, 200);
@@ -47,22 +48,24 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const seconds = Tone.getTransport().seconds;
     const newCurrentTime = seconds;
-    const player = scene.video.player as HTMLVideoElement;
+    const player = newScene.video.player as HTMLVideoElement;
 
     // Convert position to seconds and set player currentTime
-    if (scene.id === "H0") {
+    if (newScene.id === "H0") {
         player.currentTime = newCurrentTime;
+        await useFxStore.getState().fadeToBlack(250);
         await player.play();
+        useFxStore.getState().unfadeToBlack(250);
     } else {
         await player.play();
     }
 
     // Activating scene
-    scene.video.sprite.visible = true;
+    newScene.video.sprite.visible = true;
     // scene.video.player?.play();
-    scene.isActive = true;
-    set({ ...get(), currentScene: scene });
-    get().setSceneEvents(new Set(scene.sceneEvents?.map(event => event.name) ?? []));
+    newScene.isActive = true;
+    set({ ...get(), currentScene: newScene });
+    get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));
     const sceneEvents = get().sceneEvents;
     console.log("Scene events set:", sceneEvents);
 
@@ -88,7 +91,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     get().hitboxes.forEach(removeAllHitboxes);
 
     // Adding new hitboxes
-    scene.hitboxes.forEach(hitboxConfig => {
+    newScene.hitboxes.forEach(hitboxConfig => {
         const { onHit, ...config } = hitboxConfig;
         addHitbox({
             ...config, onClick: () => {
@@ -114,9 +117,21 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     });
 
     // Add next scenes
-    scene.nextScenes.forEach(nextSceneId => {
+    newScene.nextScenes.forEach(nextSceneId => {
         get().addNewScene(nextSceneId);
     });
+
+    // End previous scene
+    const newDate = new Date();
+
+    if (currentScene) {
+        useGameSessionStore.getState().endScene(currentScene, newDate);
+    } else {
+        console.warn("Can't end previous scene in session. No previous scene found");
+    }
+
+    // Add scene to session
+    useGameSessionStore.getState().startScene(newScene, newDate);
 }
 
 export default handleSwitchToScene;

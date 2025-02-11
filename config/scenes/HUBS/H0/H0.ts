@@ -1,6 +1,7 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
+import { isSceneStarted } from "@/utils/sceneStartedCheck";
 
 const H0: SceneObject = {
     id: "H0",
@@ -23,7 +24,7 @@ const H0: SceneObject = {
         width: 0.15,
         height: 0.50,
         onHit: () => {
-            if (hitboxIsActive("HB-H1")) useGameGlobalsStore.getState().switchToScene("H1");
+            if (hitboxIsActive("HB-H1") && !isSceneStarted("H1")) useGameGlobalsStore.getState().switchToScene("H1");
         },
         isLoaded: false,
         isActive: false,
@@ -40,7 +41,7 @@ const H0: SceneObject = {
         width: 0.2,
         height: 0.3,
         onHit: () => {
-            if (hitboxIsActive("HB-H2")) useGameGlobalsStore.getState().switchToScene("H2");
+            if (hitboxIsActive("HB-H2") && !isSceneStarted("H2")) useGameGlobalsStore.getState().switchToScene("H2");
         },
         isLoaded: false,
         isActive: false,
@@ -57,7 +58,7 @@ const H0: SceneObject = {
         width: 0.15,
         height: 0.3,
         onHit: () => {
-            if (hitboxIsActive("HB-H3")) useGameGlobalsStore.getState().switchToScene("H3");
+            if (hitboxIsActive("HB-H3") && !isSceneStarted("H3")) useGameGlobalsStore.getState().switchToScene("H3");
         },
         isLoaded: false,
         isActive: false,
@@ -74,7 +75,7 @@ const H0: SceneObject = {
         width: 0.2,
         height: 0.3,
         onHit: () => {
-            if (hitboxIsActive("HB-H4")) useGameGlobalsStore.getState().switchToScene("H4");
+            if (hitboxIsActive("HB-H4") && !isSceneStarted("H4")) useGameGlobalsStore.getState().switchToScene("H4");
         },
         isLoaded: false,
         isActive: false,
@@ -91,7 +92,7 @@ const H0: SceneObject = {
         width: 0.24,
         height: 0.2,
         onHit: () => {
-            if (hitboxIsActive("HB-H5")) useGameGlobalsStore.getState().switchToScene("H5");
+            if (hitboxIsActive("HB-H5") && !isSceneStarted("H5")) useGameGlobalsStore.getState().switchToScene("H5");
         },
         isLoaded: false,
         isActive: false,
@@ -110,7 +111,7 @@ const H0: SceneObject = {
         onHit: () => {
             const coins = useGameGlobalsStore.getState().coins;
             if (coins >= 3) {
-                if (hitboxIsActive("HB-H6")) useGameGlobalsStore.getState().switchToScene("H6-B");
+                if (hitboxIsActive("HB-H6") && !isSceneStarted("H6-B")) useGameGlobalsStore.getState().switchToScene("H6-B");
             } else {
                 if (hitboxIsActive("HB-H6")) useGameGlobalsStore.getState().switchToScene("H6-A");
             }

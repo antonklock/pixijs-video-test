@@ -10,11 +10,16 @@ import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 import MusicPlayer from "./MusicPlayer";
 import DisplaySkipIntro from "./DisplaySkipIntro";
 import SceneEventManager from "./SceneEventManager";
+import useFxStore from "@/stores/FX/fxStore";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
+import CoinCounter from "./CoinCounter";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
   const [initialScenePlaying, setInitialScenePlaying] = useState(false);
+
+  const { showCoins } = useDebugStore();
 
   // Cleanup hitboxes when the app is destroyed
   useEffect(() => {
@@ -30,6 +35,8 @@ export default function Game() {
     if (!initialSceneLoaded) {
       gameGlobals.addNewScene("G0");
       setInitialSceneLoaded(true);
+      useFxStore.getState().initiateFadePlate();
+      useGameSessionStore.getState().clearSession();
     }
 
     // TODO: Can we find a more elegant solution? I don't like the timer.
@@ -47,15 +54,6 @@ export default function Game() {
     gameGlobals,
   ]);
 
-  // useEffect(() => {
-  //   if (gameGlobals.currentScene) {
-  //     const sceneEventNames =
-  //       gameGlobals.currentScene.sceneEvents?.map((event) => event.name) ?? [];
-  //     gameGlobals.setSceneEvents(new Set(sceneEventNames));
-  //     console.log("Scene events set:", sceneEventNames);
-  //   }
-  // }, [gameGlobals.currentScene]);
-
   const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 
   return (
@@ -68,9 +66,7 @@ export default function Game() {
       <DisplaySkipIntro />
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <SceneEventManager />
-      <p className="text-white text-2xl font-bold absolute bottom-10 right-10">
-        Coins: {gameGlobals.coins}
-      </p>
+      {showCoins && <CoinCounter />}
     </div>
   );
 }

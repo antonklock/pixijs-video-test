@@ -64,6 +64,10 @@ const DebugMenu = () => {
     debugStore.setShowCurrentVideoTime(!debugStore.showCurrentVideoTime);
   };
 
+  const toggleShowCoins = () => {
+    debugStore.setShowCoins(!debugStore.showCoins);
+  };
+
   useEffect(() => {
     setFadeIn(true);
   }, []);
@@ -168,6 +172,21 @@ const DebugMenu = () => {
               }`}
             >
               {debugStore.showCurrentVideoTime ? "ON" : "OFF"}
+            </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              onClick={toggleShowCoins}
+              className="flex-grow text-white border border-white rounded-full p-2"
+            >
+              Toggle Show Coins
+            </button>
+            <span
+              className={`text-white ${
+                debugStore.showCoins ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {debugStore.showCoins ? "ON" : "OFF"}
             </span>
           </div>
         </div>

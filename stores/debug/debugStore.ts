@@ -8,11 +8,13 @@ export interface DebugStore {
     showDebugInfo: boolean;
     showCurrentVideoTime: boolean;
     sceneEvents: Set<string>;
+    showCoins: boolean;
     setShowHitboxes: (value: boolean) => void;
     setShowLoadingIndicators: (value: boolean) => void;
     setShowDebugMenu: (value: boolean) => void;
     setShowDebugInfo: (value: boolean) => void;
     setShowCurrentVideoTime: (value: boolean) => void;
+    setShowCoins: (value: boolean) => void;
 }
 
 const useDebugStore = create<DebugStore>((set) => ({
@@ -22,6 +24,7 @@ const useDebugStore = create<DebugStore>((set) => ({
     showDebugInfo: false,
     showCurrentVideoTime: false,
     sceneEvents: new Set(),
+    showCoins: false,
     setShowHitboxes: (value: boolean) => {
         set({ showHitboxes: value });
         if (typeof window !== 'undefined') {
@@ -40,6 +43,7 @@ const useDebugStore = create<DebugStore>((set) => ({
     setShowCurrentVideoTime: (value: boolean) => {
         set((state) => ({ ...state, showCurrentVideoTime: value }));
     },
+    setShowCoins: (value: boolean) => set({ showCoins: value }),
 }));
 
 export default useDebugStore;

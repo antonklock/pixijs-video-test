@@ -27,7 +27,10 @@ export default function Home() {
       className={`w-full h-full flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
     >
       {gameGlobals.isGameRunning ? (
-        <Game />
+        // <Game />
+        <>
+          <p>{"You're playing the game!"}</p>
+        </>
       ) : (
         <button
           className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded transition-opacity duration-500 ${

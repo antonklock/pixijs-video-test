@@ -16,27 +16,11 @@ const H1C: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: [{
-        name: "HB-H0",
-        color: 0x00ffff,
-        x: 0.5,
-        y: 0.5,
-        width: 0.2,
-        height: 0.2,
-        onHit: () => {
-            if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-        },
-        isLoaded: false,
-        isActive: false,
-        activationIntervals: [{
-            start: 2,
-            end: 99999
-        }]
-    }],
+    hitboxes: [],
     sceneEvents: [
         {
             name: "H1-C-END",
-            triggerTime: 11,
+            triggerTime: 18,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

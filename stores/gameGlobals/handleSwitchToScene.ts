@@ -52,12 +52,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     // Convert position to seconds and set player currentTime
     if (scene.id === "H0") {
         player.currentTime = newCurrentTime;
-        player.play();
+        await player.play();
     } else {
-        player.play();
+        await player.play();
     }
-
-    // console.log("position", position);
 
     // Activating scene
     scene.video.sprite.visible = true;

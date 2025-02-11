@@ -1,6 +1,5 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
-import hitboxIsActive from "@/utils/hitboxActiveCheck";
 
 const H3AWin: SceneObject = {
     id: "H3-A-WIN",
@@ -15,28 +14,10 @@ const H3AWin: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: [
-        {
-            name: "HB-H0",
-            color: 0x70215e,
-            x: 0.1,
-            y: 0.1,
-            width: 0.1,
-            height: 0.2,
-            onHit: () => {
-                if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-            },
-            isLoaded: false,
-            isActive: false,
-            activationIntervals: [{
-                start: 2,
-                end: 99999
-            }]
-        }
-    ],
+    hitboxes: [],
     sceneEvents: [
         {
-            name: "H3-A-LOSS-COIN",
+            name: "H3-A-WIN-COIN",
             triggerTime: 6,
             runEvent: () => {
                 useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);

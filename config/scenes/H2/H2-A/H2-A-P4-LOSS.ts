@@ -15,25 +15,7 @@ const H2AP4Loss: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: [
-        {
-            name: "HB-H0",
-            color: 0x00ffff,
-            x: 0.5,
-            y: 0.5,
-            width: 0.2,
-            height: 0.2,
-            onHit: () => {
-                if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-            },
-            isLoaded: false,
-            isActive: false,
-            activationIntervals: [{
-                start: 2,
-                end: 100
-            }]
-        }
-    ],
+    hitboxes: [],
     sceneEvents: [
         {
             name: "H2-A-P4-LOSS-END",

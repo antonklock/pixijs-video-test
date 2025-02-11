@@ -45,7 +45,6 @@ const H2AO3: SceneObject = {
                 const nextScene = getNextDiceScene();
                 if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
             },
-            hasRun: false
         }
     ]
 }

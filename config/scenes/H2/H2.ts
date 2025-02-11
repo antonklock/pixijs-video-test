@@ -60,7 +60,6 @@ const H2: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

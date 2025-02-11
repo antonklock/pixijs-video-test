@@ -42,11 +42,11 @@ const SceneEventManager = () => {
       gameGlobals.currentScene?.sceneEvents?.forEach((sceneEvent) => {
         if (
           newTime > sceneEvent.triggerTime &&
-          !gameGlobals.sceneEvents.has(sceneEvent.name)
+          gameGlobals.sceneEvents.has(sceneEvent.name)
         ) {
           console.log("Scene event triggered:", sceneEvent.name);
           sceneEvent.runEvent();
-          gameGlobals.sceneEvents.add(sceneEvent.name);
+          gameGlobals.sceneEvents.delete(sceneEvent.name);
         }
       });
     }

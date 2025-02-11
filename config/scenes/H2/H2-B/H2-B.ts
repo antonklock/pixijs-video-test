@@ -79,7 +79,6 @@ const H2B: SceneObject = {
             runEvent: () => {
                 removeHitboxById("HB-H2-B-3");
             },
-            hasRun: false
         },
         {
             name: "H2-B-3-END",
@@ -87,7 +86,6 @@ const H2B: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

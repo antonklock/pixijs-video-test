@@ -22,7 +22,6 @@ const H2B1: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
             },
-            hasRun: false
         },
         {
             name: "H2-B-1-END",
@@ -30,7 +29,6 @@ const H2B1: SceneObject = {
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
-            hasRun: false
         }
     ]
 }

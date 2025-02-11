@@ -69,6 +69,42 @@ const DebugInfo = () => {
           ))}
         </ul>
       </div>
+
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">Scene Triggers</h3>
+        <ul>
+          {useGameGlobalsStore
+            .getState()
+            .currentScene?.sceneEvents?.map((event, index) => (
+              <li className="flex flex-row gap-2" key={index}>
+                <span>{event.name}</span>
+                <span>-</span>
+                <span>
+                  {
+                    useGameGlobalsStore
+                      .getState()
+                      .currentScene?.sceneEvents?.find(
+                        (e) => e.name === event.name
+                      )?.triggerTime
+                  }
+                  s
+                </span>
+                <span>-</span>
+                <span
+                  className={`${
+                    useGameGlobalsStore.getState().sceneEvents.has(event.name)
+                      ? "text-blue-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {useGameGlobalsStore.getState().sceneEvents.has(event.name)
+                    ? "Waiting"
+                    : "Triggered"}
+                </span>
+              </li>
+            ))}
+        </ul>
+      </div>
     </div>
   );
 };

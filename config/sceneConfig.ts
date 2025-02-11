@@ -6,6 +6,7 @@ import H0 from "./scenes/HUBS/H0/H0";
 
 import H1 from "./scenes/H1/H1";
 import H1A from "./scenes/H1/H1-A";
+import H1A1 from "./scenes/H1/H1-A-1";
 import H1B from "./scenes/H1/H1-B";
 import H1C from "./scenes/H1/H1-C";
 
@@ -58,6 +59,7 @@ export const sceneObjects: SceneObject[] = [
     H0,
     H1,
     H1A,
+    H1A1,
     H1B,
     H1C,
     H2,

@@ -1,5 +1,6 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
+import determineHub from "@/utils/determineHub";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 
 const H4B: SceneObject = {
@@ -40,6 +41,8 @@ const H4B: SceneObject = {
             name: "H4-B-END",
             triggerTime: 9,
             runEvent: () => {
+                const hub = determineHub();
+                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

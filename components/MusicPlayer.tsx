@@ -19,10 +19,7 @@ const MusicPlayer = () => {
     useGameGlobalsStore();
 
   useEffect(() => {
-    console.log("isGameRunning", isGameRunning);
-    if (isGameRunning && !isPlaying && !hasLoaded) {
-      loadMusic();
-    }
+    if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
 
     return () => {
       playerRef.current?.stop();

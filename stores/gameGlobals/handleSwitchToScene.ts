@@ -65,7 +65,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await player.play();
     }
 
-    console.log("Switching to scene:", sceneId);
 
     // Activating scene
     newScene.video.sprite.visible = true;
@@ -73,8 +72,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     newScene.isActive = true;
     set({ ...get(), currentScene: newScene });
     get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));
-    const sceneEvents = get().sceneEvents;
-    console.log("Scene events set:", sceneEvents);
 
     if (!loadNextScenes) {
         const { stagedScenes } = get();

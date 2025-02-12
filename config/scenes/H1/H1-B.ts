@@ -1,5 +1,7 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
 import { SceneObject } from "@/types";
+import determineHub from "@/utils/determineHub";
 
 const H1B: SceneObject = {
     id: "H1-B",
@@ -28,6 +30,8 @@ const H1B: SceneObject = {
             name: "H1-B-END",
             triggerTime: 26,
             runEvent: () => {
+                const hub = determineHub();
+                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

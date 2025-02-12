@@ -18,10 +18,6 @@ export default function Home() {
     }, 500);
   };
 
-  useEffect(() => {
-    console.log("isGameRunning", gameGlobals.isGameRunning);
-  }, [gameGlobals.isGameRunning]);
-
   return (
     <div
       className={`w-full h-full flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}

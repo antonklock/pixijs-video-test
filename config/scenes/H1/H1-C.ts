@@ -1,6 +1,7 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
+import determineHub from "@/utils/determineHub";
 
 const H1C: SceneObject = {
     id: "H1-C",
@@ -22,6 +23,8 @@ const H1C: SceneObject = {
             name: "H1-C-END",
             triggerTime: 18,
             runEvent: () => {
+                const hub = determineHub();
+                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

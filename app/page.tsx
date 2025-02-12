@@ -1,20 +1,26 @@
 "use client";
 
-import Game from "@/components/Game";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
-import * as Tone from "tone";
+import Image from "next/image";
+
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
   const [isFading, setIsFading] = useState(false);
-  const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
 
   const handleStartGame = async () => {
     setIsFading(true);
-    setBgColor("bg-black");
-    await Tone.start();
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
+      setIsFading(false);
+    }, 500);
+  };
+
+  const handleStopGame = () => {
+    setIsFading(true);
+    setTimeout(() => {
+      gameGlobals.setIsGameRunning(false);
+      setIsFading(false);
     }, 500);
   };
 
@@ -24,23 +30,42 @@ export default function Home() {
 
   return (
     <div
-      className={`w-full h-full flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
+      className={`w-full h-screen flex items-center flex-col justify-center transition-opacity duration-500 ${
+        isFading ? "opacity-0" : "opacity-100"
+      }`}
     >
-      {gameGlobals.isGameRunning ? (
-        // <Game />
-        <>
-          <p>{"You're playing the game!"}</p>
-        </>
-      ) : (
+      <Image
+        src="/logos/ybp-Logo-white-256.png" // Adjust the path if the logo file has a different name or location
+        alt="Game Logo"
+        width={200} // Set the desired width
+        height={100} // Set the desired height
+        className="mb-4" // Add margin below the logo
+      />
+      <div className={`flex flex-col items-center justify-center`}>
+        {gameGlobals.isGameRunning ? (
+          // <Game />
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-white text-2xl mb-4">
+              {"Hey ho! Insert more coins!"}
+            </p>
+            <button
+              className="px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded"
+              onClick={handleStopGame}
+            >
+              I don't have any coins
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {!gameGlobals.isGameRunning ? (
         <button
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded transition-opacity duration-500 ${
-            isFading ? "opacity-0" : "opacity-100"
-          }`}
+          className={` px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded`}
           onClick={handleStartGame}
         >
           Start Game
         </button>
-      )}
+      ) : null}
     </div>
   );
 }

@@ -140,8 +140,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     // Add scene to session
     useGameSessionStore.getState().startScene(newScene, newDate);
 
-    const videoPlayer = newScene.video.player as HTMLVideoElement;
-    videoPlayer.muted = false;
+    if (!newScene.id.includes("H0")) {
+        const videoPlayer = newScene.video.player as HTMLVideoElement;
+        videoPlayer.muted = false;
+    }
 }
 
 export default handleSwitchToScene;

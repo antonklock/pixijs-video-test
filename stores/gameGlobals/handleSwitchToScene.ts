@@ -65,6 +65,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await player.play();
     }
 
+    console.log("Switching to scene:", sceneId);
+
     // Activating scene
     newScene.video.sprite.visible = true;
     // scene.video.player?.play();
@@ -137,6 +139,9 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // Add scene to session
     useGameSessionStore.getState().startScene(newScene, newDate);
+
+    const videoPlayer = newScene.video.player as HTMLVideoElement;
+    videoPlayer.muted = false;
 }
 
 export default handleSwitchToScene;

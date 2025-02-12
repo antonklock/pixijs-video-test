@@ -72,29 +72,20 @@ const VideoSwitcher = () => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center -z-10"
-    >
+    <>
       <div
-        className=""
-        style={{
-          aspectRatio: "16/9",
-          maxHeight: "100vh",
-          maxWidth: "100vw",
-        }}
-      />
-
-      {gameGlobals.currentScene ? false : <></>}
-
-      {errors.length > 0 && (
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">
-          {errors.map((error, index) => (
-            <div key={`${error}-${index}`}>{error}</div>
-          ))}
-        </div>
-      )}
-    </div>
+        ref={containerRef}
+        className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center -z-10"
+      >
+        <div
+          style={{
+            aspectRatio: "16/9",
+            maxHeight: "100vh",
+            maxWidth: "100vw",
+          }}
+        />
+      </div>
+    </>
   );
 };
 

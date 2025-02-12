@@ -16,19 +16,16 @@ export default function StartNewArmwrestlingGame() {
     const interval = setInterval(() => {
         const { strength, wrestlingStarted } = useWrestlingStore.getState();
 
-
         if (wrestlingStarted) {
             if (strength <= 0) {
                 console.log("Player LOSE");
                 useWrestlingStore.setState({ wrestlingStarted: false });
 
-                // TODO: Switch to Lose scene
                 useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
             } else if (strength >= 10) {
                 console.log("Player WIN");
                 useWrestlingStore.setState({ wrestlingStarted: false });
 
-                // TODO: Switch to Win scene
                 useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
             }
 
@@ -42,7 +39,6 @@ export default function StartNewArmwrestlingGame() {
             console.log("currentScene: ", currentScene);
 
             if (strength < 3) {
-                // TODO: Switch to losing scene
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "lose") {
                         lastSwitchTime = gameTime;
@@ -52,7 +48,6 @@ export default function StartNewArmwrestlingGame() {
                     }
                 }
             } else if (strength < 7) {
-                // TODO: Switch to tie scene
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "tie") {
                         lastSwitchTime = gameTime;
@@ -62,7 +57,6 @@ export default function StartNewArmwrestlingGame() {
                     }
                 }
             } else {
-                // TODO: Switch to winning scene
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "win") {
                         lastSwitchTime = gameTime;

@@ -40,7 +40,7 @@ const H4A: SceneObject = {
             name: "H4-A-COIN",
             triggerTime: 8.5,
             runEvent: () => {
-                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
             },
         },
         {

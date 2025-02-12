@@ -5,7 +5,7 @@ export default function getNextDiceScene() {
 
     if (nextScene?.includes("WIN")) {
         console.log("WINNER");
-        useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+        useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
     } else {
         console.log("LOSER");
     }

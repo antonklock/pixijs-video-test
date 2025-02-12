@@ -15,7 +15,8 @@ const MusicPlayer = () => {
   const [transportSeconds, setTransportSeconds] = useState(0);
   const loopRef = useRef<Tone.Loop | null>(null);
 
-  const { isGameRunning } = useGameGlobalsStore();
+  const { isGameRunning, gameState, setGameState, switchToScene } =
+    useGameGlobalsStore();
 
   useEffect(() => {
     console.log("isGameRunning", isGameRunning);
@@ -49,12 +50,18 @@ const MusicPlayer = () => {
       loopRef.current.dispose();
     }
 
+    // End game at 196 seconds
     const loop = new Tone.Loop((time) => {
       setTransportSeconds(Tone.getTransport().seconds);
-      console.log("Transport Seconds (Loop):", Tone.getTransport().seconds);
-
       if (Tone.getTransport().seconds > 196) {
-        useGameGlobalsStore.getState().switchToScene("L1");
+        if (gameState === "playing") {
+          setGameState("lost");
+          switchToScene("L1");
+        } else if (gameState === "won") {
+          switchToScene("A6-B");
+        } else {
+          console.log(`Can't lose game when state is ${gameState}`);
+        }
       }
     }, "4n").start();
 
@@ -75,10 +82,9 @@ const MusicPlayer = () => {
 
   return (
     <>
-      <button className="absolute top-10 right-10" onClick={togglePlayback}>
+      {/* <button className="absolute top-10 right-10" onClick={togglePlayback}>
         {isPlaying ? "Pause" : "Play"}
-      </button>
-      <p>Transport Seconds: {transportSeconds}</p>
+      </button> */}
     </>
   );
 };

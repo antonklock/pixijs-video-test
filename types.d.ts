@@ -57,6 +57,7 @@ export interface StagedSceneObject extends SceneObject {
 }
 
 export interface GameGlobals {
+    gameState: "notStarted" | "playing" | "lost" | "won";
     isGameRunning: boolean;
     app: PIXI.Application | null;
     canvas: HTMLCanvasElement | null;

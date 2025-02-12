@@ -39,7 +39,7 @@ const H5A: SceneObject = {
             name: "H5-A-COIN",
             triggerTime: 25,
             runEvent: () => {
-                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
             },
         },
         {

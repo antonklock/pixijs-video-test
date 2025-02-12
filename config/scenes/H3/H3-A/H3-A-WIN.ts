@@ -20,7 +20,7 @@ const H3AWin: SceneObject = {
             name: "H3-A-WIN-COIN",
             triggerTime: 6,
             runEvent: () => {
-                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
             },
         },
         {

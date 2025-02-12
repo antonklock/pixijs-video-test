@@ -7,6 +7,7 @@ import handleSwitchToScene from './handleSwitchToScene';
 import handleUnstageScene from './handleUnstageScene';
 
 export interface GameGlobalsStore extends GameGlobals {
+    gameState: "notStarted" | "playing" | "lost" | "won";
     coins: number;
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
@@ -19,37 +20,50 @@ export interface GameGlobalsStore extends GameGlobals {
     switchToScene: (sceneId: string, loadNextScenes?: boolean) => Promise<void>;
     unstageScene: (sceneId: string) => void;
     setCoins: (coins: number) => void;
+    addCoinsAndCheckWin: (newCoins: number) => void;
     setSceneEvents: (sceneEvents: Set<string>) => void;
+    setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => void;
     endGame: () => void;
 }
 
-const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
-    isGameRunning: false,
-    videoProvider: "mux",
-    hitboxes: [],
-    loadingScenes: new Set(),
-    stagedScenes: [],
-    currentScene: null,
-    app: null,
-    canvas: null,
-    coins: 0,
-    sceneEvents: new Set(),
-    setCoins: (coins: number) => set({ coins }),
-    setSceneEvents: (sceneEvents: Set<string>) => set({ sceneEvents }),
-    setApp: (app) => set({ app }),
-    setCanvas: (canvas) => set({ canvas }),
-    setIsGameRunning: (isRunning) => set({ isGameRunning: isRunning }),
-    setStagedScenes: (scenes) => set({ stagedScenes: scenes }),
-    setCurrentScene: (sceneId) => handleSetCurrentScene(sceneId, get, set),
-    addNewScene: async (sceneId: string): Promise<StagedSceneObject | null> => {
-        const result = await handleAddNewScene(sceneId, get, set);
-        return result as StagedSceneObject | null;
-    },
-    switchToScene: (sceneId, loadNextScenes = true) => handleSwitchToScene({ sceneId, loadNextScenes, get, set }),
-    unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
-    endGame: () => {
-        set({ isGameRunning: false })
-    },
-}));
+const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
+    {
+        gameState: "notStarted",
+        isGameRunning: false,
+        videoProvider: "mux",
+        currentScene: null,
+        stagedScenes: [],
+        loadingScenes: new Set(),
+        sceneEvents: new Set(),
+        app: null,
+        canvas: null,
+        hitboxes: [],
+        coins: 0,
+        setCoins: (coins: number) => set({ coins }),
+        addCoinsAndCheckWin: (newCoins: number) => {
+            set({ coins: get().coins + newCoins });
+            if (get().coins >= 3) {
+                console.log("GameState set to won");
+                get().setGameState("won");
+            }
+        },
+        setSceneEvents: (sceneEvents: Set<string>) => set({ sceneEvents }),
+        setApp: (app) => set({ app }),
+        setCanvas: (canvas) => set({ canvas }),
+        setIsGameRunning: (isRunning) => set({ isGameRunning: isRunning }),
+        setStagedScenes: (scenes) => set({ stagedScenes: scenes }),
+        setCurrentScene: (sceneId) => handleSetCurrentScene(sceneId, get, set),
+        addNewScene: async (sceneId: string): Promise<StagedSceneObject | null> => {
+            const result = await handleAddNewScene(sceneId, get, set);
+            return result as StagedSceneObject | null;
+        },
+        switchToScene: (sceneId, loadNextScenes = true) => handleSwitchToScene({ sceneId, loadNextScenes, get, set }),
+        unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
+        setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => set({ gameState }),
+        endGame: () => {
+            set({ isGameRunning: false })
+        },
+    }
+));
 
 export default useGameGlobalsStore;

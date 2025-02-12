@@ -21,7 +21,7 @@ const H1B: SceneObject = {
             name: "H1-B-COIN",
             triggerTime: 22,
             runEvent: () => {
-                useGameGlobalsStore.getState().setCoins(useGameGlobalsStore.getState().coins + 1);
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
             },
         },
         {

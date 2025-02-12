@@ -52,7 +52,7 @@ export default function Home() {
               className="px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded"
               onClick={handleStopGame}
             >
-              I don't have any coins
+              I don&apos;t have any coins
             </button>
           </div>
         ) : null}

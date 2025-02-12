@@ -35,10 +35,19 @@ else
     OUTPUT_BASE_DIR="$PWD"
 fi
 
+# Function to get video duration in seconds
+get_duration() {
+    ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$1" | cut -d. -f1
+}
+
 # Function to process a single video file
 process_video() {
     local INPUT_FILE="$1"
     local OUTPUT_BASE_DIR="$2"
+
+    # Get video duration
+    local DURATION=$(get_duration "$INPUT_FILE")
+    echo "Video duration: $(printf '%02d:%02d:%02d' $((DURATION/3600)) $((DURATION%3600/60)) $((DURATION%60)))"
 
     # Get the base filename without extension
     local FILENAME=$(basename "$INPUT_FILE")
@@ -73,7 +82,6 @@ process_video() {
     local RESOLUTIONS=("1280x720" "1920x1080")
     local BITRATES=("1200k" "2500k" "8000k")
     local OUTPUTS=("720p" "1080p")
-    local PLAYLISTS=()
 
     # Loop over the variants
     for i in "${!RESOLUTIONS[@]}"; do
@@ -81,7 +89,6 @@ process_video() {
         local BITRATE="${BITRATES[$i]}"
         local OUTPUT_NAME="${OUTPUTS[$i]}"
         local PLAYLIST="${OUTPUT_NAME}.m3u8"
-        PLAYLISTS+=("$PLAYLIST")
 
         # Set profile and level based on resolution
         if [ "$OUTPUT_NAME" == "1080p" ]; then
@@ -94,17 +101,23 @@ process_video() {
 
         echo "Processing $FILENAME - $OUTPUT_NAME..."
 
-        if ! ffmpeg -y -i "$INPUT_FILE" \
-        -c:v libx264 -preset veryfast -profile:v "$PROFILE" -level:v "$LEVEL" -b:v "$BITRATE" -s "$RES" \
-        -c:a aac -b:a 128k -ac 2 \
-        -g $GOP_SIZE -keyint_min $GOP_SIZE -sc_threshold 0 \
-        -force_key_frames "expr:gte(t,n_forced*4)" \
-        -hls_time 4 -hls_list_size 0 -hls_flags independent_segments \
-        -hls_segment_filename "$OUTPUT_DIR/${OUTPUT_NAME}_%03d.ts" \
-        "$OUTPUT_DIR/$PLAYLIST"; then
-            echo "Error: Failed to process $FILENAME - $OUTPUT_NAME."
+        ffmpeg -nostdin -y -i "$INPUT_FILE" \
+            -c:v libx264 -preset veryfast -profile:v "$PROFILE" -level:v "$LEVEL" \
+            -b:v "$BITRATE" -s "$RES" \
+            -c:a aac -b:a 128k -ac 2 \
+            -g $GOP_SIZE -keyint_min $GOP_SIZE -sc_threshold 0 \
+            -force_key_frames "expr:gte(t,n_forced*4)" \
+            -hls_time 4 -hls_list_size 0 -hls_flags independent_segments \
+            -hls_segment_filename "$OUTPUT_DIR/${OUTPUT_NAME}_%03d.ts" \
+            "$OUTPUT_DIR/$PLAYLIST" > "$INPUT_DIR/ffmpeg.log" 2>&1
+
+
+        if [ $? -ne 0 ]; then
+            echo "Error processing $FILENAME - $OUTPUT_NAME"
             return 1
         fi
+
+        echo "Completed $OUTPUT_NAME conversion"
     done
 
     # Generate master playlist
@@ -120,7 +133,7 @@ process_video() {
             local OUTPUT_NAME="${OUTPUTS[$i]}"
             local PLAYLIST="${OUTPUTS[$i]}.m3u8"
             local BITRATE="${BITRATES[$i]}"
-            local BANDWIDTH=$(( ${BITRATE%k} * 1000 + 128000 )) # Video bitrate + audio bitrate in bits per second
+            local BANDWIDTH=$(( ${BITRATE%k} * 1000 + 128000 ))
 
             echo ""
             echo "#EXT-X-STREAM-INF:BANDWIDTH=$BANDWIDTH,RESOLUTION=$RESOLUTION"
@@ -130,15 +143,15 @@ process_video() {
 
     echo "Processing completed successfully for $FILENAME"
     echo "Output directory: $OUTPUT_DIR"
+    return 0
 }
 
-# Find and process all video files in the input directory
-find "$INPUT_DIR" -type f \( -name "*.mp4" -o -name "*.mkv" -o -name "*.avi" -o -name "*.mov" \) | while read -r video_file; do
+echo "Starting to process video files in directory: $INPUT_DIR"
+find "$INPUT_DIR" -type f \( -name "*.mp4" -o -name "*.mkv" -o -name "*.avi" -o -name "*.mov" \) -print0 | while IFS= read -r -d '' video_file; do
     echo "Processing file: $video_file"
     if ! process_video "$video_file" "$OUTPUT_BASE_DIR"; then
         echo "Error processing $video_file"
         continue
     fi
 done
-
 echo "All video processing completed."

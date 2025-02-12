@@ -50,13 +50,18 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     const newCurrentTime = seconds;
     const player = newScene.video.player as HTMLVideoElement;
 
-    // Convert position to seconds and set player currentTime
+    // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
         player.currentTime = newCurrentTime;
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         useFxStore.getState().unfadeToBlack(250);
-    } else {
+    } else if (newScene.id === "L1") {
+        await useFxStore.getState().fadeToBlack(250);
+        await player.play();
+        useFxStore.getState().unfadeToBlack(250);
+    }
+    else {
         await player.play();
     }
 

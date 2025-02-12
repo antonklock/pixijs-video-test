@@ -12,11 +12,16 @@ const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
+  const [transportSeconds, setTransportSeconds] = useState(0);
+  const loopRef = useRef<Tone.Loop | null>(null);
+
   const { isGameRunning } = useGameGlobalsStore();
 
   useEffect(() => {
     console.log("isGameRunning", isGameRunning);
-    if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
+    if (isGameRunning && !isPlaying && !hasLoaded) {
+      loadMusic();
+    }
 
     return () => {
       playerRef.current?.stop();
@@ -38,6 +43,22 @@ const MusicPlayer = () => {
       setIsPlaying(true);
     }
     setHasLoaded(true);
+
+    if (loopRef.current) {
+      loopRef.current.stop();
+      loopRef.current.dispose();
+    }
+
+    const loop = new Tone.Loop((time) => {
+      setTransportSeconds(Tone.getTransport().seconds);
+      console.log("Transport Seconds (Loop):", Tone.getTransport().seconds);
+
+      if (Tone.getTransport().seconds > 196) {
+        useGameGlobalsStore.getState().switchToScene("L1");
+      }
+    }, "4n").start();
+
+    loopRef.current = loop;
   };
 
   const togglePlayback = () => {
@@ -57,6 +78,7 @@ const MusicPlayer = () => {
       <button className="absolute top-10 right-10" onClick={togglePlayback}>
         {isPlaying ? "Pause" : "Play"}
       </button>
+      <p>Transport Seconds: {transportSeconds}</p>
     </>
   );
 };

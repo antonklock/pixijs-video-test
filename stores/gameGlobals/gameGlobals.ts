@@ -20,6 +20,7 @@ export interface GameGlobalsStore extends GameGlobals {
     unstageScene: (sceneId: string) => void;
     setCoins: (coins: number) => void;
     setSceneEvents: (sceneEvents: Set<string>) => void;
+    endGame: () => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
@@ -46,6 +47,9 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => ({
     },
     switchToScene: (sceneId, loadNextScenes = true) => handleSwitchToScene({ sceneId, loadNextScenes, get, set }),
     unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
+    endGame: () => {
+        set({ isGameRunning: false })
+    },
 }));
 
 export default useGameGlobalsStore;

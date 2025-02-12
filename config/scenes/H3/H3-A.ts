@@ -1,3 +1,4 @@
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 import { SceneObject } from "@/types";
 
@@ -34,10 +35,25 @@ const H3A: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 3.5,
                 end: 99999
             }]
         },
+    ],
+    sceneEvents: [
+        {
+            name: "H3-WRESTLING-START",
+            triggerTime: 5,
+            runEvent: () => {
+                const gameStarted = useWrestlingStore.getState().wrestlingStarted;
+                if (!gameStarted) {
+                    useWrestlingStore.getState().resetGame();
+                    useWrestlingStore.getState().startGame();
+                }
+
+                useWrestlingStore.getState().onClick();
+            }
+        }
     ]
 }
 

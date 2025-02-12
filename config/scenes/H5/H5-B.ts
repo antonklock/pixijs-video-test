@@ -1,5 +1,4 @@
 import { SceneObject } from "@/types";
-import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 const H5B: SceneObject = {
@@ -15,25 +14,7 @@ const H5B: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: [
-        {
-            name: "HB-H0",
-            color: 0x4c1b7d,
-            x: 0.2,
-            y: 0.2,
-            width: 0.1,
-            height: 0.2,
-            onHit: () => {
-                if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0");
-            },
-            isLoaded: false,
-            isActive: false,
-            activationIntervals: [{
-                start: 2,
-                end: 99999
-            }]
-        }
-    ],
+    hitboxes: [],
     sceneEvents: [
         {
             name: "H5-B-END",

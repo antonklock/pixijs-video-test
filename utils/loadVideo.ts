@@ -39,6 +39,26 @@ const setupHls = async (source: string) => {
 
             hls.on(Hls.Events.MEDIA_ATTACHED, () => {
                 // console.log(`HLS media attached for video ${video.id}`);
+                console.log(`HLS media attached for video ${video.id}`);
+                const successDiv = document.createElement("div");
+                successDiv.style.position = "absolute";
+                successDiv.style.bottom = "20px";
+                successDiv.style.right = "20px";
+                successDiv.style.backgroundColor = "green";
+                successDiv.style.borderRadius = "8px";
+                successDiv.style.padding = "10px";
+                successDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+
+                const successMessage = document.createElement("p");
+                successMessage.textContent = `HLS media attached for video ${video.id}`;
+                successMessage.style.color = "white"; // Set text color to white for better contrast
+
+                successDiv.appendChild(successMessage);
+                document.body.appendChild(successDiv);
+
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 3000);
             });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -49,6 +69,26 @@ const setupHls = async (source: string) => {
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
                     console.error(`HLS fatal error ${video.id}: ${data.type}`);
+                    const errorDiv = document.createElement("div");
+                    errorDiv.style.position = "absolute";
+                    errorDiv.style.bottom = "20px";
+                    errorDiv.style.right = "20px";
+                    errorDiv.style.backgroundColor = "red";
+                    errorDiv.style.borderRadius = "8px";
+                    errorDiv.style.padding = "10px";
+                    errorDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+
+                    const errorMessage = document.createElement("p");
+                    errorMessage.textContent = `HLS fatal error ${video.id}: ${data.type}`;
+                    errorMessage.style.color = "white"; // Set text color to white for better contrast
+
+                    errorDiv.appendChild(errorMessage);
+                    document.body.appendChild(errorDiv);
+
+                    setTimeout(() => {
+                        document.body.removeChild(errorDiv);
+                    }, 3000);
+
                     reject(data.error);
                     // onError(`HLS fatal error ${video.id}: ${data.type}`);
                 }

@@ -7,7 +7,6 @@ import DebugMenu from "./DebugMenu";
 import DebugInfo from "./DebugInfo";
 import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
-import MusicPlayer from "./MusicPlayer";
 import DisplaySkipIntro from "./DisplaySkipIntro";
 import SceneEventManager from "./SceneEventManager";
 import useFxStore from "@/stores/FX/fxStore";

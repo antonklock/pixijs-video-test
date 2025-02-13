@@ -12,9 +12,11 @@ export interface GameGlobalsStore extends GameGlobals {
         width: number;
         height: number;
     };
+    pixiContainer: HTMLDivElement | null;
     coins: number;
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
+    gameMusic: Howl | null;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -28,12 +30,16 @@ export interface GameGlobalsStore extends GameGlobals {
     setSceneEvents: (sceneEvents: Set<string>) => void;
     setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => void;
     setStageDimensions: (dimensions: { width: number, height: number }) => void;
+    setGameMusic: (gameMusic: Howl | null) => void;
+    setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
     {
         gameState: "notStarted",
+        gameMusic: null,
+        pixiContainer: null,
         stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
         videoProvider: "mux",
@@ -67,6 +73,8 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
         setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => set({ gameState }),
         setStageDimensions: (dimensions: { width: number, height: number }) => set({ stageDimensions: dimensions }),
+        setGameMusic: (gameMusic: Howl | null) => set({ gameMusic }),
+        setPixiContainer: (pixiContainer: HTMLDivElement | null) => set({ pixiContainer }),
         endGame: () => {
             set({ isGameRunning: false })
         },

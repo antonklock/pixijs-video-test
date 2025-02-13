@@ -4,9 +4,12 @@ import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
-import * as Tone from "tone";
+
+// import * as Tone from "tone";
+
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
+import Hls from 'hls.js';
 
 interface SwitchToSceneConfig {
     sceneId: string;
@@ -46,15 +49,19 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }
     }
 
-    const seconds = Tone.getTransport().seconds;
-    const newCurrentTime = seconds;
+    // TODO: Switch to howler
+    const gameMusic = get().gameMusic;
+    const seconds = gameMusic?.seek();
+    console.log("Seconds: ", seconds);
+    // const seconds = Tone.getTransport().seconds;
+    const newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
 
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
-        player.currentTime = newCurrentTime;
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
+        player.currentTime = newCurrentTime;
         useFxStore.getState().unfadeToBlack(250);
     } else if (newScene.id === "L1") {
         await useFxStore.getState().fadeToBlack(250);
@@ -64,7 +71,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     else {
         await player.play();
     }
-
 
     // Activating scene
     newScene.video.sprite.visible = true;

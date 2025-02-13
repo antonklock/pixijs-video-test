@@ -27,6 +27,8 @@ export const createVideoSprite = async (
             height: app?.stage.height
         }
 
+        sprite.label = "videoSprite";
+
         if (!dimensions.width || !dimensions.height) throw new Error("Can't create sprite! App not initialized.");
 
         sprite.anchor.set(0.5);

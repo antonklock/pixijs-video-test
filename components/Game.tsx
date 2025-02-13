@@ -12,6 +12,7 @@ import SceneEventManager from "./SceneEventManager";
 import useFxStore from "@/stores/FX/fxStore";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
 import CoinCounter from "./CoinCounter";
+import MusicPlayer from "./MusicPlayer";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
@@ -36,6 +37,8 @@ export default function Game() {
       setInitialSceneLoaded(true);
       useFxStore.getState().initiateFadePlate();
       useGameSessionStore.getState().clearSession();
+
+      gameGlobals.setGameState("playing");
     }
 
     // TODO: Can we find a more elegant solution? I don't like the timer.
@@ -63,6 +66,7 @@ export default function Game() {
       <HitboxManager />
       <DisplaySkipIntro />
       {showLoadingIndicators && <SceneLoadingIndicators />}
+      <MusicPlayer />
       <SceneEventManager />
       {showCoins && <CoinCounter />}
     </div>

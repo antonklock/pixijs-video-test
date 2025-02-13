@@ -38,7 +38,6 @@ const setupHls = async (source: string) => {
             });
 
             hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                // console.log(`HLS media attached for video ${video.id}`);
                 console.log(`HLS media attached for video ${video.id}`);
                 const successDiv = document.createElement("div");
                 successDiv.style.position = "absolute";
@@ -62,7 +61,6 @@ const setupHls = async (source: string) => {
             });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                // console.log(`HLS manifest parsed for video ${video.id}`);
                 const infoDiv = document.createElement("div");
                 infoDiv.style.position = "absolute";
                 infoDiv.style.bottom = "20px";
@@ -109,7 +107,6 @@ const setupHls = async (source: string) => {
                     }, 3000);
 
                     reject(data.error);
-                    // onError(`HLS fatal error ${video.id}: ${data.type}`);
                 }
             });
 

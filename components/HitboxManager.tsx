@@ -11,6 +11,7 @@ const HitboxManager = () => {
   const videoPlayerRef = gameGlobals.currentScene?.video.player;
   const [currentVideoTime, setCurrentVideoTime] = useState(0);
   const { showCurrentVideoTime } = debugStore();
+
   useEffect(() => {
     const currentVideoPlayer = gameGlobals.currentScene?.video.player;
     if (!currentVideoPlayer) return;

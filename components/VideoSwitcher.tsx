@@ -46,29 +46,6 @@ const VideoSwitcher = () => {
     };
   };
 
-  // useEffect(() => {
-  //   if (appRef.current) {
-  //     console.log("appRef.current.stage.width:", appRef.current.stage.width);
-  //     console.log("appRef.current.stage.height:", appRef.current.stage.height);
-
-  //     console.log(
-  //       "Stage Scale:",
-  //       appRef.current.stage.scale.x,
-  //       appRef.current.stage.scale.y
-  //     );
-
-  //     console.log("resizing renderer");
-
-  //     appRef.current.renderer.resize(
-  //       gameGlobals.stageDimensions.width,
-  //       gameGlobals.stageDimensions.height
-  //     );
-
-  //     console.log("appRef.current.stage.width:", appRef.current.stage.width);
-  //     console.log("appRef.current.stage.height:", appRef.current.stage.height);
-  //   }
-  // }, [appRef.current?.stage.width, appRef.current?.stage.height]);
-
   // Initialize Pixi
   useEffect(() => {
     if (initializationRef.current || appRef.current) return;
@@ -90,7 +67,9 @@ const VideoSwitcher = () => {
     const createPixiApp = async () => {
       const { app, canvas } = await initializePixi(calculatedDimensions);
       if (!canvas || !containerRef.current || !app) return;
+
       const container = gameGlobals.pixiContainer;
+
       if (!container)
         return console.error("No pixi container found in gameGlobals");
       container.appendChild(canvas);
@@ -144,11 +123,7 @@ const VideoSwitcher = () => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed overflow-hidden bg-black -z-10"
-      // style={{ width: dimensions.width, height: dimensions.height }}
-    />
+    <div ref={containerRef} className="fixed overflow-hidden bg-black -z-10" />
   );
 };
 

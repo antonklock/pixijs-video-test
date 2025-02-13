@@ -9,7 +9,6 @@ import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
 
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
-import Hls from 'hls.js';
 
 interface SwitchToSceneConfig {
     sceneId: string;

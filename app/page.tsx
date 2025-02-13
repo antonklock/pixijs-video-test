@@ -3,36 +3,25 @@
 import Game from "@/components/Game";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useRef, useState } from "react";
-import { Howl } from "howler";
+import * as Tone from "tone";
 
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
   const [isFading, setIsFading] = useState(false);
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
-  const [gameMusic, setGameMusic] = useState<Howl | null>(null);
   const pixiContainerRef = useRef<HTMLDivElement>(null);
-
-  let audioContext: AudioContext | null = null;
-  let audioSource: MediaElementAudioSourceNode | null = null;
-  const audioElement = useRef<HTMLAudioElement>(null);
-
-  const initAudioContext = (audioUrl: string) => {
-    if (!audioContext) {
-      audioContext = new AudioContext();
-      if (!audioElement.current) return;
-      audioSource = audioContext.createMediaElementSource(audioElement.current);
-      audioSource.connect(audioContext.destination);
-    }
-    return audioElement;
-  };
-
-  const musicUrl = useRef(
-    "https://klockworks.xyz/music/ybp-raiseyourglass.mp3"
-  );
 
   useEffect(() => {
     gameGlobals.setPixiContainer(pixiContainerRef.current);
   }, []);
+
+  useEffect(() => {
+    if (gameGlobals.isGameRunning) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [gameGlobals.isGameRunning]);
 
   const handleStartGame = async () => {
     handleStartMusic();
@@ -45,50 +34,13 @@ export default function Home() {
   };
 
   async function handleStartMusic() {
-    await loadMusic();
-    gameMusic?.play();
+    await Tone.start();
+    Tone.getTransport().start();
   }
-
-  const loadMusic = async () => {
-    // initAudioContext(musicUrl.current);
-
-    const newHowl = new Howl({
-      src: musicUrl.current,
-      loop: true,
-      format: ["mp3"],
-      html5: true,
-    });
-
-    setGameMusic(newHowl);
-
-    newHowl.play();
-    gameGlobals.setGameMusic(newHowl);
-    return newHowl;
-  };
-
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "e" || event.key === "E") {
-        console.log("pressed");
-
-        const gameGlobals = useGameGlobalsStore.getState();
-
-        const player = gameGlobals.currentScene?.video
-          .player as HTMLVideoElement;
-        if (player) player.currentTime = player.currentTime + 10;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
 
   return (
     <>
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <div
           ref={pixiContainerRef}
           className="pixi-container w-full h-full flex items-center justify-center"
@@ -109,7 +61,6 @@ export default function Home() {
             Start Game
           </button>
         )}
-        <audio ref={audioElement} src={musicUrl.current} />
       </div>
     </>
   );

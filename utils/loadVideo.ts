@@ -1,6 +1,7 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import determineHub from "./determineHub";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -11,7 +12,14 @@ const loadVideo = async (id: string) => {
     const gameGlobals = useGameGlobalsStore.getState();
     const sceneObject = sceneObjects.find((obj) => obj.id === id);
 
-    const source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
+    let source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
+
+    const hub = determineHub();
+
+    if (id.includes("H0")) {
+        console.log(`Loading video for ${hub}`);
+        source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
+    }
 
     try {
         if (!sceneObject) throw new Error(`Scene object not found for ${id}`);

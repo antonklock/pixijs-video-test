@@ -2,7 +2,6 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
 import determineHub from "@/utils/determineHub";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
 
 const H1A: SceneObject = {
     id: "H1-A",

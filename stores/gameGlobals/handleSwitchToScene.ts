@@ -9,6 +9,7 @@ import * as Tone from "tone";
 
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
+import determineHub from '@/utils/determineHub';
 
 interface SwitchToSceneConfig {
     sceneId: string;
@@ -58,6 +59,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
+
+        // const nextHub = determineHub();
+        // console.log("Next hub: ", nextHub);
+
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         seconds = Tone.getTransport().seconds;

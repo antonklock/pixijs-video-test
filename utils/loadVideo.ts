@@ -2,6 +2,7 @@ import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import determineHub from "./determineHub";
+import useDebugStore from "@/stores/debug/debugStore";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -14,8 +15,8 @@ const loadVideo = async (id: string) => {
 
     let source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
 
+    // TODO: This is a hack to load the correct video for the hub
     const hub = determineHub();
-
     if (id.includes("H0")) {
         console.log(`Loading video for ${hub}`);
         source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
@@ -46,74 +47,79 @@ const setupHls = async (source: string) => {
             });
 
             hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                console.log(`HLS media attached for video ${video.id}`);
-                const successDiv = document.createElement("div");
-                successDiv.style.position = "absolute";
-                successDiv.style.bottom = "20px";
-                successDiv.style.right = "20px";
-                successDiv.style.backgroundColor = "green";
-                successDiv.style.borderRadius = "8px";
-                successDiv.style.padding = "10px";
-                successDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+                if (useDebugStore.getState().showHlsMessages) {
+                    console.log(`HLS media attached for video ${video.id}`);
+                    const successDiv = document.createElement("div");
+                    successDiv.style.position = "absolute";
+                    successDiv.style.bottom = "20px";
+                    successDiv.style.right = "20px";
+                    successDiv.style.backgroundColor = "green";
+                    successDiv.style.borderRadius = "8px";
+                    successDiv.style.padding = "10px";
+                    successDiv.style.zIndex = "1000"; // Ensure it appears above other elements
 
-                const successMessage = document.createElement("p");
-                successMessage.textContent = `HLS media attached for video ${video.id}`;
-                successMessage.style.color = "white"; // Set text color to white for better contrast
+                    const successMessage = document.createElement("p");
+                    successMessage.textContent = `HLS media attached for video ${video.id}`;
+                    successMessage.style.color = "white"; // Set text color to white for better contrast
 
-                successDiv.appendChild(successMessage);
-                document.body.appendChild(successDiv);
+                    successDiv.appendChild(successMessage);
+                    document.body.appendChild(successDiv);
 
-                setTimeout(() => {
-                    document.body.removeChild(successDiv);
-                }, 3000);
+                    setTimeout(() => {
+                        document.body.removeChild(successDiv);
+                    }, 3000);
+                }
             });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                const infoDiv = document.createElement("div");
-                infoDiv.style.position = "absolute";
-                infoDiv.style.bottom = "20px";
-                infoDiv.style.right = "20px";
-                infoDiv.style.backgroundColor = "blue";
-                infoDiv.style.borderRadius = "8px";
-                infoDiv.style.padding = "10px";
-                infoDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+                if (useDebugStore.getState().showHlsMessages) {
+                    const infoDiv = document.createElement("div");
+                    infoDiv.style.position = "absolute";
+                    infoDiv.style.bottom = "20px";
+                    infoDiv.style.right = "20px";
+                    infoDiv.style.backgroundColor = "blue";
+                    infoDiv.style.borderRadius = "8px";
+                    infoDiv.style.padding = "10px";
+                    infoDiv.style.zIndex = "1000"; // Ensure it appears above other elements
 
-                const infoMessage = document.createElement("p");
-                infoMessage.textContent = `HLS manifest parsed for video ${video.id}`;
-                infoMessage.style.color = "white"; // Set text color to white for better contrast
+                    const infoMessage = document.createElement("p");
+                    infoMessage.textContent = `HLS manifest parsed for video ${video.id}`;
+                    infoMessage.style.color = "white"; // Set text color to white for better contrast
 
-                infoDiv.appendChild(infoMessage);
-                document.body.appendChild(infoDiv);
+                    infoDiv.appendChild(infoMessage);
+                    document.body.appendChild(infoDiv);
 
-                setTimeout(() => {
-                    document.body.removeChild(infoDiv);
-                }, 3000);
+                    setTimeout(() => {
+                        document.body.removeChild(infoDiv);
+                    }, 3000);
+                }
                 resolve({ element: video, hls });
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
                     console.error(`HLS fatal error ${video.id}: ${data.type}`);
-                    const errorDiv = document.createElement("div");
-                    errorDiv.style.position = "absolute";
-                    errorDiv.style.bottom = "20px";
-                    errorDiv.style.right = "20px";
-                    errorDiv.style.backgroundColor = "red";
-                    errorDiv.style.borderRadius = "8px";
-                    errorDiv.style.padding = "10px";
-                    errorDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+                    if (useDebugStore.getState().showHlsMessages) {
+                        const errorDiv = document.createElement("div");
+                        errorDiv.style.position = "absolute";
+                        errorDiv.style.bottom = "20px";
+                        errorDiv.style.right = "20px";
+                        errorDiv.style.backgroundColor = "red";
+                        errorDiv.style.borderRadius = "8px";
+                        errorDiv.style.padding = "10px";
+                        errorDiv.style.zIndex = "1000"; // Ensure it appears above other elements
 
-                    const errorMessage = document.createElement("p");
-                    errorMessage.textContent = `HLS fatal error ${video.id}: ${data.type}`;
-                    errorMessage.style.color = "white"; // Set text color to white for better contrast
+                        const errorMessage = document.createElement("p");
+                        errorMessage.textContent = `HLS fatal error ${video.id}: ${data.type}`;
+                        errorMessage.style.color = "white"; // Set text color to white for better contrast
 
-                    errorDiv.appendChild(errorMessage);
-                    document.body.appendChild(errorDiv);
+                        errorDiv.appendChild(errorMessage);
+                        document.body.appendChild(errorDiv);
 
-                    setTimeout(() => {
-                        document.body.removeChild(errorDiv);
-                    }, 3000);
-
+                        setTimeout(() => {
+                            document.body.removeChild(errorDiv);
+                        }, 3000);
+                    }
                     reject(data.error);
                 }
             });

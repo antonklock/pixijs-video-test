@@ -68,6 +68,10 @@ const DebugMenu = () => {
     debugStore.setShowCoins(!debugStore.showCoins);
   };
 
+  const toggleHlsMessages = () => {
+    debugStore.setShowHlsMessages(!debugStore.showHlsMessages);
+  };
+
   useEffect(() => {
     setFadeIn(true);
   }, []);
@@ -109,11 +113,11 @@ const DebugMenu = () => {
         />
       </button>
       {isOpen && (
-        <div className="bg-black border border-gray-300 rounded shadow-lg p-4 mt-2">
+        <div className="bg-black border border-gray-300 rounded flex flex-col shadow-lg p-4 mt-2 gap-2">
           <div className="flex flex-row justify-between items-center gap-2">
             <button
               onClick={toggleHitboxes}
-              className="flex-grow mb-2 text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-2"
             >
               Toggle Hitboxes
             </button>
@@ -187,6 +191,21 @@ const DebugMenu = () => {
               }`}
             >
               {debugStore.showCoins ? "ON" : "OFF"}
+            </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              onClick={toggleHlsMessages}
+              className="flex-grow text-white border border-white rounded-full p-2"
+            >
+              Toggle HLS Messages
+            </button>
+            <span
+              className={`text-white ${
+                debugStore.showHlsMessages ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {debugStore.showHlsMessages ? "ON" : "OFF"}
             </span>
           </div>
         </div>

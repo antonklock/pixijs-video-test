@@ -62,7 +62,6 @@ export default function Game() {
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
-      {/* {gameGlobals.isGameRunning && <MusicPlayer />} */}
       <DisplaySkipIntro />
       {showLoadingIndicators && <SceneLoadingIndicators />}
       <SceneEventManager />

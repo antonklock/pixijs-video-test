@@ -63,6 +63,25 @@ const setupHls = async (source: string) => {
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 // console.log(`HLS manifest parsed for video ${video.id}`);
+                const infoDiv = document.createElement("div");
+                infoDiv.style.position = "absolute";
+                infoDiv.style.bottom = "20px";
+                infoDiv.style.right = "20px";
+                infoDiv.style.backgroundColor = "blue";
+                infoDiv.style.borderRadius = "8px";
+                infoDiv.style.padding = "10px";
+                infoDiv.style.zIndex = "1000"; // Ensure it appears above other elements
+
+                const infoMessage = document.createElement("p");
+                infoMessage.textContent = `HLS manifest parsed for video ${video.id}`;
+                infoMessage.style.color = "white"; // Set text color to white for better contrast
+
+                infoDiv.appendChild(infoMessage);
+                document.body.appendChild(infoDiv);
+
+                setTimeout(() => {
+                    document.body.removeChild(infoDiv);
+                }, 3000);
                 resolve({ element: video, hls });
             });
 

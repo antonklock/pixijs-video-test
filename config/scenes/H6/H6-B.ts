@@ -7,7 +7,7 @@ const H6B: SceneObject = {
         mux: 'https://stream.mux.com/xaQS6GS1EOw0201ppZsSSjzK4H73l7jWiEgl6Arm700QUQ.m3u8'
     },
     name: 'Får passera',
-    nextScenes: ["V1"],
+    nextScenes: [],
     video: {
         player: null,
         hls: null,

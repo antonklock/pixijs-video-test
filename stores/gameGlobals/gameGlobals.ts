@@ -8,6 +8,10 @@ import handleUnstageScene from './handleUnstageScene';
 
 export interface GameGlobalsStore extends GameGlobals {
     gameState: "notStarted" | "playing" | "lost" | "won";
+    stageDimensions: {
+        width: number;
+        height: number;
+    };
     coins: number;
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
@@ -23,12 +27,14 @@ export interface GameGlobalsStore extends GameGlobals {
     addCoinsAndCheckWin: (newCoins: number) => void;
     setSceneEvents: (sceneEvents: Set<string>) => void;
     setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => void;
+    setStageDimensions: (dimensions: { width: number, height: number }) => void;
     endGame: () => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
     {
         gameState: "notStarted",
+        stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
         videoProvider: "mux",
         currentScene: null,
@@ -60,6 +66,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         switchToScene: (sceneId, loadNextScenes = true) => handleSwitchToScene({ sceneId, loadNextScenes, get, set }),
         unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
         setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => set({ gameState }),
+        setStageDimensions: (dimensions: { width: number, height: number }) => set({ stageDimensions: dimensions }),
         endGame: () => {
             set({ isGameRunning: false })
         },

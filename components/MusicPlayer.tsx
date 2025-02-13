@@ -77,13 +77,7 @@ const MusicPlayer = () => {
     }
   };
 
-  return (
-    <>
-      {/* <button className="absolute top-10 right-10" onClick={togglePlayback}>
-        {isPlaying ? "Pause" : "Play"}
-      </button> */}
-    </>
-  );
+  return null;
 };
 
 export default MusicPlayer;

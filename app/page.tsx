@@ -2,7 +2,7 @@
 
 import Game from "@/components/Game";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Tone from "tone";
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
@@ -20,7 +20,8 @@ export default function Home() {
 
   return (
     <div
-      className={`w-full h-full flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
+      className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
+      // className={``}
     >
       {gameGlobals.isGameRunning ? (
         <Game />

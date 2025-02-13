@@ -39,6 +39,7 @@ const MusicPlayer = () => {
     Tone.getTransport().start();
     if (playerRef.current?.state !== "started") {
       playerRef.current?.start();
+      playerRef.current?.sync();
       setIsPlaying(true);
       console.log("Playing music...");
     }

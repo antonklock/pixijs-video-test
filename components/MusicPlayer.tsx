@@ -54,9 +54,9 @@ const MusicPlayer = () => {
 
     // End game at 196 seconds
     const loop = new Tone.Loop((time) => {
-      setTransportSeconds(Tone.getTransport().seconds);
+      setTransportSeconds(time);
       const gameState = useGameGlobalsStore.getState().gameState;
-      if (Tone.getTransport().seconds > loseTime) {
+      if (time > loseTime) {
         if (gameState === "playing") {
           setGameState("lost");
           switchToScene("L1");

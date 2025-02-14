@@ -55,8 +55,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
-
-
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         seconds = Tone.getTransport().seconds;
@@ -72,12 +70,13 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         useFxStore.getState().unfadeToBlack(250);
     }
     else {
+        await useFxStore.getState().fadeToBlack(250);
         await player.play();
+        useFxStore.getState().unfadeToBlack(250);
     }
 
     // Activating scene
     newScene.video.sprite.visible = true;
-    // scene.video.player?.play();
     newScene.isActive = true;
     set({ ...get(), currentScene: newScene });
     get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));

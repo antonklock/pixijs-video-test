@@ -12,8 +12,8 @@ export const initializePixi = async (dimensions: { width: number; height: number
         // height: 300,
         antialias: true,
         // resolution: window.devicePixelRatio || 1,
-        resolution: 1,
-        autoDensity: false,
+        resolution: 0.75,
+        autoDensity: true,
     });
 
     const canvas = app.canvas;

@@ -46,7 +46,7 @@ export default function Game() {
       setTimeout(() => {
         gameGlobals.switchToScene("G0");
         setInitialScenePlaying(true);
-      }, 1000);
+      }, 2000);
     }
   }, [
     gameGlobals.app,

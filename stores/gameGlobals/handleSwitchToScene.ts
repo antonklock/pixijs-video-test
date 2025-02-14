@@ -49,10 +49,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }
     }
 
-    // TODO: Switch to howler
-    // const gameMusic = get().gameMusic;
-    // const seconds = gameMusic?.seek();
-    // console.log("Seconds: ", seconds);
     let seconds = Tone.getTransport().seconds;
     let newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
@@ -60,16 +56,16 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
 
-        // const nextHub = determineHub();
-        // console.log("Next hub: ", nextHub);
 
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         seconds = Tone.getTransport().seconds;
         newCurrentTime = seconds ?? 0;
-        player.currentTime = newCurrentTime - 1;
+        player.currentTime = newCurrentTime - 1.5;
         console.log("New current time: ", newCurrentTime);
-        useFxStore.getState().unfadeToBlack(250);
+        setTimeout(() => {
+            useFxStore.getState().unfadeToBlack(250);
+        }, 250);
     } else if (newScene.id === "L1") {
         await useFxStore.getState().fadeToBlack(250);
         await player.play();

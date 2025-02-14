@@ -21,22 +21,25 @@ const MusicPlayer = () => {
     if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
 
     return () => {
-      playerRef.current?.stop();
-      playerRef.current?.dispose();
-      playerRef.current = null;
+      // playerRef.current?.stop();
+      // playerRef.current?.dispose();
+      // playerRef.current = null;
       setIsPlaying(false);
       setHasLoaded(false);
     };
   }, [isGameRunning]);
 
   const loadMusic = async () => {
+    if (playerRef.current) return;
     console.log("Loading music...");
 
     playerRef.current = new Tone.Player(musicUrl.current).toDestination();
+    if (!playerRef.current) return console.error("Failed to create player");
     await playerRef.current.load(musicUrl.current);
+    console.log("Music loaded");
 
-    playerRef.current?.sync();
     Tone.getTransport().start();
+    playerRef.current?.sync();
     if (playerRef.current?.state !== "started") {
       playerRef.current?.start();
       playerRef.current?.sync();
@@ -45,10 +48,10 @@ const MusicPlayer = () => {
     }
     setHasLoaded(true);
 
-    if (loopRef.current) {
-      loopRef.current.stop();
-      loopRef.current.dispose();
-    }
+    // if (loopRef.current) {
+    //   loopRef.current.stop();
+    //   loopRef.current.dispose();
+    // }
 
     const loseTime = 196;
 

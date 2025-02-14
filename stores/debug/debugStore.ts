@@ -45,9 +45,17 @@ const useDebugStore = create<DebugStore>((set) => ({
     setShowDebugInfo: (value: boolean) => set({ showDebugInfo: value }),
     setShowCurrentVideoTime: (value: boolean) => {
         set((state) => ({ ...state, showCurrentVideoTime: value }));
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('showCurrentVideoTime', JSON.stringify(value));
+        }
     },
     setShowCoins: (value: boolean) => set({ showCoins: value }),
-    setShowHlsMessages: (value: boolean) => set({ showHlsMessages: value }),
+    setShowHlsMessages: (value: boolean) => {
+        set({ showHlsMessages: value });
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('showHlsMessages', JSON.stringify(value));
+        }
+    },
 }));
 
 export default useDebugStore;

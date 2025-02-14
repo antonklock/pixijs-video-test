@@ -3,6 +3,7 @@ import Hls from "hls.js";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import determineHub from "./determineHub";
 import useDebugStore from "@/stores/debug/debugStore";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -16,10 +17,13 @@ const loadVideo = async (id: string) => {
     let source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
 
     // TODO: This is a hack to load the correct video for the hub
-    const hub = determineHub();
     if (id.includes("H0")) {
-        console.log(`Loading video for ${hub}`);
+        console.log("Started scenes: ", useGameSessionStore.getState().startedScenes);
+
+        const hub = determineHub();
+        console.log(`%cLoading video for %c${hub}`, 'color: #bbffbb; font-weight: regular;', 'color: orange; font-weight: bold;');
         source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
+
     }
 
     try {
@@ -46,8 +50,25 @@ const setupHls = async (source: string) => {
                 lowLatencyMode: true,
             });
 
+            if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
+                const infoDiv = document.createElement("div");
+                infoDiv.style.position = "absolute";
+                infoDiv.style.bottom = "20px";
+                infoDiv.style.right = "20px";
+                infoDiv.style.backgroundColor = "blue";
+                infoDiv.style.borderRadius = "8px";
+                infoDiv.style.padding = "10px";
+
+                const infoMessage = document.createElement("p");
+                infoMessage.textContent = `HLS initialized for video ${video.id}`;
+                infoMessage.style.color = "white"; // Set text color to white for better contrast
+
+                infoDiv.appendChild(infoMessage);
+                document.body.appendChild(infoDiv);
+            }
+
             hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                if (useDebugStore.getState().showHlsMessages) {
+                if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
                     console.log(`HLS media attached for video ${video.id}`);
                     const successDiv = document.createElement("div");
                     successDiv.style.position = "absolute";
@@ -72,7 +93,7 @@ const setupHls = async (source: string) => {
             });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                if (useDebugStore.getState().showHlsMessages) {
+                if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
                     const infoDiv = document.createElement("div");
                     infoDiv.style.position = "absolute";
                     infoDiv.style.bottom = "20px";

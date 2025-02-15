@@ -39,34 +39,45 @@ export default function Home() {
     Tone.getTransport().start();
   }
 
+  useEffect(() => {
+    console.log(gameGlobals.isGameRunning);
+  }, [gameGlobals.isGameRunning]);
+
   return (
     <>
+      {!gameGlobals.isGameRunning && (
+        <>
+          <div className="w-full h-auto flex items-center justify-center mt-4 gap-4">
+            <p
+              className="text-white hover:underline cursor-pointer"
+              onClick={() =>
+                window.open("https://www.yebanishedprivateers.com/")
+              }
+            >
+              Ye Banished Privateers
+            </p>
+            <p
+              className="text-white hover:underline cursor-pointer"
+              onClick={() =>
+                window.open(
+                  "https://ye-banished-privateers-treasure-chest.myshopify.com/",
+                  "_blank"
+                )
+              }
+            >
+              Store
+            </p>
+            <p
+              className="text-white hover:underline cursor-pointer"
+              onClick={() => window.open("/credits")}
+            >
+              Credits
+            </p>
+          </div>
+        </>
+      )}
       <Alerts />
-      <div className="w-full h-auto flex items-center justify-center mt-4 gap-4">
-        <p
-          className="text-white hover:underline cursor-pointer"
-          onClick={() => window.open("https://www.yebanishedprivateers.com/")}
-        >
-          Ye Banished Privateers
-        </p>
-        <p
-          className="text-white hover:underline cursor-pointer"
-          onClick={() =>
-            window.open(
-              "https://ye-banished-privateers-treasure-chest.myshopify.com/",
-              "_blank"
-            )
-          }
-        >
-          Store
-        </p>
-        <p
-          className="text-white hover:underline cursor-pointer"
-          onClick={() => window.open("/credits")}
-        >
-          Credits
-        </p>
-      </div>
+
       <div className="w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <div
           ref={pixiContainerRef}

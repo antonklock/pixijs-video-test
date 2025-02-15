@@ -11,8 +11,8 @@ export const initializePixi = async (dimensions: { width: number; height: number
         // width: 600,
         // height: 300,
         antialias: true,
-        // resolution: window.devicePixelRatio || 1,
-        resolution: 0.75,
+        resolution: window.devicePixelRatio || 1,
+        // resolution: 0.5,
         autoDensity: true,
     });
 

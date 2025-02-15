@@ -77,6 +77,18 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         setPixiContainer: (pixiContainer: HTMLDivElement | null) => set({ pixiContainer }),
         endGame: () => {
             set({ isGameRunning: false })
+            set({ gameState: "lost" })
+            set({ currentScene: null })
+            set({ stagedScenes: [] })
+            set({ loadingScenes: new Set() })
+            set({ sceneEvents: new Set() })
+            set({ gameMusic: null })
+            set({ pixiContainer: null })
+            set({ stageDimensions: { width: 0, height: 0 } })
+            set({ app: null })
+            set({ canvas: null })
+            set({ hitboxes: [] })
+            set({ coins: 0 })
         },
     }
 ));

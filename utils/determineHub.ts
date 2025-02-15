@@ -46,15 +46,15 @@ function determineHub() {
     if (startedScenes.has("H2") && !startedScenes.has("H3") && startedScenes.has("H1") && startedScenes.has("H4")) return "H0-5";
     if (startedScenes.has("H2") && !startedScenes.has("H3") && startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-6";
     if (startedScenes.has("H2") && !startedScenes.has("H3") && !startedScenes.has("H1") && startedScenes.has("H4")) return "H0-7";
-    if (startedScenes.has("H2") && !startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-8";
-    if (startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-9";
-    if (startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && startedScenes.has("H4")) return "H0-10";
-    if (startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-11";
-    if (!startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && startedScenes.has("H4")) return "H0-12";
-    if (!startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-13";
-    if (!startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && startedScenes.has("H4")) return "H0-14";
-    if (!startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-15";
-    if (startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && startedScenes.has("H4")) return "H0-16";
+    if (startedScenes.has("H2") && !startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-16";
+    if (startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-8";
+    if (startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && startedScenes.has("H4")) return "H0-9";
+    if (startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-10";
+    if (!startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && startedScenes.has("H4")) return "H0-11";
+    if (!startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-12";
+    if (!startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && startedScenes.has("H4")) return "H0-13";
+    if (!startedScenes.has("H2") && startedScenes.has("H3") && !startedScenes.has("H1") && !startedScenes.has("H4")) return "H0-14";
+    if (startedScenes.has("H2") && startedScenes.has("H3") && startedScenes.has("H1") && startedScenes.has("H4")) return "H0-15";
 
     return "H0-1";
 }

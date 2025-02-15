@@ -1,7 +1,6 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
 import determineHub from "@/utils/determineHub";
-import hitboxIsActive from "@/utils/hitboxActiveCheck";
 
 const H4A: SceneObject = {
     id: "H4-A",

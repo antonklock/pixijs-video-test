@@ -9,7 +9,8 @@ const H2: SceneObject = {
     id: "H2",
     source: {
         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/1e1c05dbe7ceedbf4f7d4f5931f76145/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/Xvkq6d7Rm3gsyYwq3X2o38V027VDwbHxydleUXgcZi2k.m3u8'
+        // mux: 'https://stream.mux.com/Xvkq6d7Rm3gsyYwq3X2o38V027VDwbHxydleUXgcZi2k.m3u8' // Mux
+        mux: 'https://klockworks.xyz/H2/playlist.m3u8' // R2
     },
     name: 'Spela tärning',
     nextScenes: ["H2-A", "H2-B"].concat(getRandomOpponentDiceScene()),

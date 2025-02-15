@@ -7,7 +7,8 @@ const H2AO1: SceneObject = {
     id: "H2-A-O1",
     source: {
         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/W9T8siBEaYxiQciD49S5vGytTrSIwSmThkCzdqmjD00o.m3u8'
+        // mux: 'https://stream.mux.com/W9T8siBEaYxiQciD49S5vGytTrSIwSmThkCzdqmjD00o.m3u8' // Mux
+        mux: 'https://klockworks.xyz/H2-A-O1/playlist.m3u8' // R2
     },
     name: 'Motståndare rullar tärning - 3',
     nextScenes: [],

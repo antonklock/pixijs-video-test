@@ -6,7 +6,8 @@ const H3: SceneObject = {
     id: "H3",
     source: {
         cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/626070ae0b2893d10b59d4f0741c07eb/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/uGRxDsvdKgd5D5voRRoAq2uudvdcvuG6s02NmjkOGxgM.m3u8'
+        // mux: 'https://stream.mux.com/uGRxDsvdKgd5D5voRRoAq2uudvdcvuG6s02NmjkOGxgM.m3u8' // Mux
+        mux: 'https://klockworks.xyz/H3/playlist.m3u8' // R2
     },
     name: 'Armbrytning',
     nextScenes: ["H3-A", "H3-B"],

@@ -9,7 +9,7 @@ const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const musicUrl = useRef(
-    "https://klockworks.xyz/music/ybp-raiseyourglass.mp3"
+    "https://klockworks.xyz/Music/ybp-raiseyourglass.mp3"
   );
 
   const [transportSeconds, setTransportSeconds] = useState(0);

@@ -5,14 +5,15 @@ export const initializePixi = async (dimensions: { width: number; height: number
 
     const app = new PIXI.Application();
     await app.init({
-        background: new PIXI.Color({ r: 0, g: 0, b: 0, a: 1 }).toArray(),
+        background: new PIXI.Color({ r: 0, g: 0, b: 0, a: 0 }).toArray(),
+        backgroundAlpha: 0,
         width: dimensions.width,
         height: dimensions.height,
         // width: 600,
         // height: 300,
         antialias: true,
-        resolution: window.devicePixelRatio || 1,
-        // resolution: 0.5,
+        // resolution: window.devicePixelRatio || 1,
+        resolution: 1,
         autoDensity: true,
     });
 

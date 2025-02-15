@@ -118,8 +118,11 @@ const initVideo = (video: HTMLVideoElement) => {
     video.crossOrigin = "anonymous";
     video.preload = "auto";
     video.style.position = "absolute";
-    video.style.height = "108px";
-    video.style.width = "192px";
+    video.style.top = "50%";
+    video.style.left = "50%";
+    video.style.transform = "translate(-50%, -50%)";
+    video.style.height = "auto";
+    video.style.width = "100%";
     video.style.opacity = "0";
     video.style.pointerEvents = "none";
     video.style.zIndex = "-1000";

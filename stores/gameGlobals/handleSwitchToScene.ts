@@ -4,7 +4,7 @@ import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
 import { StagedSceneObject } from '@/types';
 import { sceneObjects } from '@/config/sceneConfig';
 import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
-
+import * as PIXI from 'pixi.js';
 import * as Tone from "tone";
 
 import useFxStore from '../FX/fxStore';
@@ -53,6 +53,18 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     let newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
 
+    const videoPlayers = document.querySelectorAll('video');
+    videoPlayers.forEach((videoPlayer) => {
+        console.log('Video Player:', videoPlayer);
+    });
+
+    videoPlayers.forEach((videoPlayer) => {
+        if (videoPlayer.id === player.id) return;
+        videoPlayer.style.opacity = "0";
+        videoPlayer.pause();
+        videoPlayer.style.zIndex = "-1000";
+    });
+
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
         await useFxStore.getState().fadeToBlack(250);
@@ -75,8 +87,17 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         useFxStore.getState().unfadeToBlack(250);
     }
 
+    player.style.opacity = "1";
+    player.style.zIndex = "10";
+
+    useGameGlobalsStore.getState().app.stage.children.forEach((child: PIXI.Container | PIXI.Graphics) => {
+        if (child.label === "videoSprite") {
+            child.visible = false;
+        }
+    });
+
     // Activating scene
-    newScene.video.sprite.visible = true;
+    // newScene.video.sprite.visible = true;
     newScene.isActive = true;
     set({ ...get(), currentScene: newScene });
     get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));

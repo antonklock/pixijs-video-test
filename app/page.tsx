@@ -81,7 +81,7 @@ export default function Home() {
       <div className="w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <div
           ref={pixiContainerRef}
-          className="pixi-container w-full h-full flex items-center justify-center"
+          className="pixi-container w-full h-full flex items-center justify-center z-40"
         />
       </div>
       <div
@@ -91,7 +91,7 @@ export default function Home() {
           <Game />
         ) : (
           <button
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded transition-opacity duration-500 ${
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded transition-opacity duration-500 z-50 ${
               isFading ? "opacity-0" : "opacity-100"
             }`}
             onClick={handleStartGame}

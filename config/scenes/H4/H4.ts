@@ -72,7 +72,7 @@ const H4: SceneObject = {
     sceneEvents: [
         {
             name: "H4-END",
-            triggerTime: 6,
+            triggerTime: 53,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

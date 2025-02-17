@@ -9,7 +9,6 @@ import * as Tone from "tone";
 
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
-import determineHub from '@/utils/determineHub';
 
 interface SwitchToSceneConfig {
     sceneId: string;
@@ -52,23 +51,13 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     let seconds = Tone.getTransport().seconds;
     let newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
-
     const videoPlayers = document.querySelectorAll('video');
-    videoPlayers.forEach((videoPlayer) => {
-        console.log('Video Player:', videoPlayer);
-    });
-
-    videoPlayers.forEach((videoPlayer) => {
-        if (videoPlayer.id === player.id) return;
-        videoPlayer.style.opacity = "0";
-        videoPlayer.pause();
-        videoPlayer.style.zIndex = "-1000";
-    });
 
     // TODO: Can we make this more elegant?
     if (newScene.id === "H0") {
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
+        changeVideoPlayer(0);
         seconds = Tone.getTransport().seconds;
         newCurrentTime = seconds ?? 0;
         player.currentTime = newCurrentTime - 1.5;
@@ -79,16 +68,38 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     } else if (newScene.id === "L1") {
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
+        changeVideoPlayer(0);
         useFxStore.getState().unfadeToBlack(250);
-    }
-    else {
+    } else if (newScene.id === "H6-B") {
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
-        useFxStore.getState().unfadeToBlack(250);
+        changeVideoPlayer(0);
+        seconds = 6.4;
+        newCurrentTime = seconds ?? 0;
+        player.currentTime = newCurrentTime - 1.5;
+        console.log("New current time: ", newCurrentTime);
+        setTimeout(() => {
+            useFxStore.getState().unfadeToBlack(250);
+        }, 250);
+    }
+    else {
+        await player.play();
+        changeVideoPlayer(150);
     }
 
-    player.style.opacity = "1";
-    player.style.zIndex = "10";
+    function changeVideoPlayer(delay: number = 0) {
+        setTimeout(() => {
+            videoPlayers.forEach((videoPlayer) => {
+                if (videoPlayer.id === player.id) return;
+                videoPlayer.style.opacity = "0";
+                videoPlayer.pause();
+                videoPlayer.style.zIndex = "-1000";
+            });
+
+            player.style.opacity = "1";
+            player.style.zIndex = "10";
+        }, delay)
+    }
 
     useGameGlobalsStore.getState().app.stage.children.forEach((child: PIXI.Container | PIXI.Graphics) => {
         if (child.label === "videoSprite") {
@@ -97,7 +108,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     });
 
     // Activating scene
-    // newScene.video.sprite.visible = true;
     newScene.isActive = true;
     set({ ...get(), currentScene: newScene });
     get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));

@@ -39,9 +39,18 @@ export default function Home() {
     Tone.getTransport().start();
   }
 
-  useEffect(() => {
-    console.log(gameGlobals.isGameRunning);
-  }, [gameGlobals.isGameRunning]);
+  // useEffect(() => {
+  //   const handleKeyPress = (event: KeyboardEvent) => {
+  //     if (event.key === "e" || event.key === "E") {
+  //       gameGlobals.addCoinsAndCheckWin(3);
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", handleKeyPress);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyPress);
+  //   };
+  // }, [gameGlobals]);
 
   return (
     <>

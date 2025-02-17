@@ -32,7 +32,7 @@ const H1: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 7,
+                start: 3,
                 end: 9999999
             }]
         },
@@ -49,7 +49,7 @@ const H1: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 7,
+                start: 3,
                 end: 9999999
             }]
         },
@@ -66,7 +66,7 @@ const H1: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 7,
+                start: 3,
                 end: 9999999
             }]
         }

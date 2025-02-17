@@ -113,7 +113,10 @@ const HitboxManager = () => {
   return (
     <>
       {showCurrentVideoTime && (
-        <div>
+        <div
+          className="fixed bottom-0 left-0 p-4 bg-black text-white"
+          style={{ zIndex: 1000 }}
+        >
           <p>Current video time: {currentVideoTime}</p>
         </div>
       )}

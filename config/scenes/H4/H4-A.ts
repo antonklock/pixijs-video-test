@@ -27,10 +27,8 @@ const H4A: SceneObject = {
         },
         {
             name: "H4-A-END",
-            triggerTime: 10,
+            triggerTime: 8.6,
             runEvent: () => {
-                const hub = determineHub();
-                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

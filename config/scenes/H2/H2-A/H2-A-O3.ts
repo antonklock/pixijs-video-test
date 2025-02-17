@@ -22,9 +22,9 @@ const H2AO3: SceneObject = {
             name: "HB-H2-A-O3",
             color: 0x00ffff,
             x: 0.5,
-            y: 0.5,
+            y: 0.6,
             width: 0.2,
-            height: 0.2,
+            height: 0.5,
             onHit: () => {
                 const nextScene = getNextDiceScene();
 

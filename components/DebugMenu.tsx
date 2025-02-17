@@ -95,6 +95,7 @@ const DebugMenu = () => {
         cursor: "move",
         opacity: fadeIn ? 1 : 0,
         transition: "opacity 0.5s ease",
+        zIndex: 999999999,
       }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}

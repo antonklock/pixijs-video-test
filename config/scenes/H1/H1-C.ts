@@ -1,7 +1,6 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useFxStore from "@/stores/FX/fxStore";
 import { SceneObject } from "@/types";
-import determineHub from "@/utils/determineHub";
 
 const H1C: SceneObject = {
     id: "H1-C",
@@ -19,13 +18,20 @@ const H1C: SceneObject = {
     },
     hitboxes: [],
     sceneEvents: [
-        {
-            name: "H1-C-BUCKET",
-            triggerTime: 3,
-            runEvent: () => {
-                useFxStore.getState().applyLowpassFilter(10, 1000);
-            },
-        },
+        // {
+        //     name: "H1-C-BUCKET",
+        //     triggerTime: 9,
+        //     runEvent: () => {
+        //         useFxStore.getState().applyLowpassFilter(200);
+        //     },
+        // },
+        // {
+        //     name: "H1-C-BUCKET-2",
+        //     triggerTime: 11,
+        //     runEvent: () => {
+        //         useFxStore.getState().removeLowpassFilter();
+        //     },
+        // },
         {
             name: "H1-C-END",
             triggerTime: 18,

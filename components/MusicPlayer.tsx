@@ -72,8 +72,8 @@ const MusicPlayer = () => {
     }
     setHasLoaded(true);
 
-    // const loseTime = 196;
-    const loseTime = 15;
+    const loseTime = 196;
+    // const loseTime = 15;
 
     // End game at 196 seconds
     const loop = new Tone.Loop((time) => {

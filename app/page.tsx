@@ -12,10 +12,17 @@ export default function Home() {
   const [isFading, setIsFading] = useState(false);
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
   const pixiContainerRef = useRef<HTMLDivElement>(null);
+  const [gameReady, setGameReady] = useState(false);
 
   useEffect(() => {
     gameGlobals.setPixiContainer(pixiContainerRef.current);
   }, []);
+
+  useEffect(() => {
+    if (pixiContainerRef.current && !gameReady) {
+      setGameReady(true);
+    }
+  }, [pixiContainerRef.current]);
 
   useEffect(() => {
     if (gameGlobals.isGameRunning) {
@@ -61,8 +68,11 @@ export default function Home() {
   return (
     <>
       {!gameGlobals.isGameRunning && (
-        <>
-          <div className="w-full h-auto flex items-center justify-center mt-4 gap-4">
+        <div
+          className="absolute top-0 left-0 flex w-full items-center justify-center flex-row z-40"
+          style={{ zIndex: 101 }}
+        >
+          <div className="flex flex-row items-center justify-center mt-4 gap-4">
             <p
               className="text-white hover:underline cursor-pointer"
               onClick={() =>
@@ -89,30 +99,33 @@ export default function Home() {
               Credits
             </p>
           </div>
-        </>
+        </div>
       )}
-      <Alerts />
 
-      <div className="w-full h-[100vh] flex items-center justify-center overflow-hidden">
+      <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
+        <div
+          className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
+        >
+          {!gameGlobals.isGameRunning && (
+            <PlayThumbButton
+              src="/images/play-thumb.jpg"
+              onClick={handleStartGame}
+              className={`transition-opacity duration-500 ${
+                isFading ? "opacity-0" : "opacity-100"
+              }`}
+            />
+          )}
+        </div>
         <div
           ref={pixiContainerRef}
-          className="pixi-container w-full h-full flex items-center justify-center z-40"
+          className={`${
+            gameGlobals.isGameRunning
+              ? "absolute top-0 left-0 w-full h-full flex items-center justify-center z-40"
+              : "hidden"
+          }`}
+          id="pixi-container"
         />
-      </div>
-      <div
-        className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
-      >
-        {gameGlobals.isGameRunning ? (
-          <Game />
-        ) : (
-          <PlayThumbButton
-            src="/images/play-thumb.jpg"
-            onClick={handleStartGame}
-            className={`transition-opacity duration-500 ${
-              isFading ? "opacity-0" : "opacity-100"
-            }`}
-          />
-        )}
+        {gameGlobals.isGameRunning && <Game />}
       </div>
     </>
   );

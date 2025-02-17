@@ -61,33 +61,37 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
 
   return (
     <>
-      <button
-        onClick={handleClick}
+      <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 play-thumb-button w-full h-full ${className}`}
-        style={{ zIndex: 999999 }}
       >
-        <Image
+        <button
+          onClick={handleClick}
           className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] ${
             isMounted ? "opacity-100" : "opacity-0"
           }`}
-          src={"/images/play-game.png"}
-          alt="Play Thumbnail"
-          width={150}
-          height={150}
-          style={{
-            objectFit: "cover",
-            width: "auto",
-            height: "auto",
-            zIndex: 999999,
-          }}
-          priority
-        />
+          style={{ zIndex: 512 }}
+        >
+          <Image
+            src={"/images/play-game.png"}
+            alt="Play Thumbnail"
+            width={150}
+            height={150}
+            style={{
+              objectFit: "cover",
+              width: "auto",
+              height: "auto",
+              zIndex: 11,
+            }}
+            priority
+          />
+        </button>
         <video
-          className={`transition-opacity duration-[3000ms] ${
+          className={`absolute top-0 left-0 w-full h-full transition-opacity duration-[3000ms] pointer-events-none ${
             isHlsReady ? "opacity-100" : "opacity-0"
           }`}
           style={{
             zIndex: 10,
+            objectFit: "cover",
           }}
           controls={false}
           ref={videoRef}
@@ -99,7 +103,7 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
         >
           Your browser does not support the video tag.
         </video>
-      </button>
+      </div>
     </>
   );
 };

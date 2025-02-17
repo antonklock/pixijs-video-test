@@ -9,17 +9,14 @@ export const initializePixi = async (dimensions: { width: number; height: number
         backgroundAlpha: 0,
         width: dimensions.width,
         height: dimensions.height,
-        // width: 600,
-        // height: 300,
         antialias: true,
-        // resolution: window.devicePixelRatio || 1,
         resolution: 1,
         autoDensity: true,
     });
 
     const canvas = app.canvas;
 
-    // Load textures
+    // Load cursor textures
     await PIXI.Assets.load(['/cursors/wood/32x32/cursor-arrow-32.png', '/cursors/wood/32x32/cursor-pointer-32.png']).then(() => {
         app.renderer.events.cursorStyles.default = 'url("/cursors/wood/32x32/cursor-arrow-32.png"), auto';
         app.renderer.events.cursorStyles.hover = 'url("/cursors/wood/32x32/cursor-pointer-32.png"), auto';
@@ -27,8 +24,8 @@ export const initializePixi = async (dimensions: { width: number; height: number
 
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0xff0000 })
-        .rect(0, 0, app.stage.width - 2, app.stage.height - 2)
+        .setStrokeStyle({ width: 2, color: 0x000000 })
+        .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     debugRect.zIndex = 999999999;
     app.stage.addChild(debugRect);

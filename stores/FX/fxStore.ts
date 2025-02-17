@@ -6,10 +6,10 @@ import * as Tone from "tone";
 interface FxStore {
     initiateFadePlate: () => void;
     isFaded: boolean;
-    // setFadeToBlack: (value: boolean) => void;
     fadeToBlack: (duration: number) => Promise<void>;
     unfadeToBlack: (duration: number) => Promise<void>;
     fadeMusicVolume: (targetVolume: number, duration: number) => Promise<void>;
+    applyLowpassFilter: (frequency: number, duration: number) => Promise<void>;
 }
 
 const useFxStore = create<FxStore>((set) => ({
@@ -44,6 +44,43 @@ const useFxStore = create<FxStore>((set) => ({
         const gameMusic = gameGlobalsStore.getState().musicPlayer;
         if (gameMusic) {
             return await fadeVolume(gameMusic, targetVolume, duration);
+        }
+    },
+    applyLowpassFilter: async (frequency: number, duration: number): Promise<void> => {
+        const gameMusic = gameGlobalsStore.getState().musicPlayer;
+        if (gameMusic) {
+            const filter = new Tone.Filter(frequency, "lowpass").toDestination();
+            gameMusic.connect(filter);
+
+            return new Promise((resolve) => {
+                // const startFrequency = filter.frequency.value.valueOf();
+                // const startFrequency = 7000;
+                // const startTime = performance.now();
+
+                filter.frequency.value = 1000;
+                resolve();
+
+                // if (typeof startFrequency !== "number") {
+                //     console.error("Start frequency is not a number");
+                //     return;
+                // }
+
+                // const lerp = (t: number) => startFrequency + (frequency - startFrequency) * t;
+
+                // const animate = (currentTime: number) => {
+                //     const elapsed = currentTime - startTime;
+                //     const t = Math.min(elapsed / duration, 1);
+                //     filter.frequency.value = lerp(t);
+
+                //     if (t < 1) {
+                //         requestAnimationFrame(animate);
+                //     } else {
+                //         resolve();
+                //     }
+                // };
+
+                // requestAnimationFrame(animate);
+            });
         }
     },
 }));

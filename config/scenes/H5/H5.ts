@@ -30,7 +30,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         },
@@ -47,7 +47,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         },
@@ -64,7 +64,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         }

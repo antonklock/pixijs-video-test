@@ -72,8 +72,8 @@ const MusicPlayer = () => {
     }
     setHasLoaded(true);
 
-    const loseTime = 196;
-    // const loseTime = 10;
+    // const loseTime = 196;
+    const loseTime = 15;
 
     // End game at 196 seconds
     const loop = new Tone.Loop((time) => {
@@ -93,14 +93,15 @@ const MusicPlayer = () => {
 
       // Fading out music when game is done
       if (time > loseTime) {
-        console.log("Volume: ", playerRef.current?.volume?.value);
-        if (
-          playerRef.current?.volume?.value ||
-          playerRef.current?.volume.value === 0
-        ) {
-          if (playerRef.current.volume.value > -50) {
-            playerRef.current.volume.value -= 5;
-            console.log("Fading out music...");
+        if (gameState === "playing" || gameState === "lost") {
+          if (
+            playerRef.current?.volume?.value ||
+            playerRef.current?.volume.value === 0
+          ) {
+            if (playerRef.current.volume.value > -50) {
+              playerRef.current.volume.value -= 5;
+              console.log("Fading out music...");
+            }
           }
         }
       }
@@ -111,7 +112,7 @@ const MusicPlayer = () => {
           setGameState("lost");
           switchToScene("L1");
         } else if (gameState === "won") {
-          switchToScene("A6-B");
+          switchToScene("H6-B");
         } else {
           console.log(`Can't lose game when state is ${gameState}`);
         }

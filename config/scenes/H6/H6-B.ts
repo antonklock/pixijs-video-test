@@ -1,3 +1,5 @@
+import fxStore from "@/stores/FX/fxStore";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
 
 const H6B: SceneObject = {
@@ -14,7 +16,17 @@ const H6B: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: []
+    hitboxes: [],
+    sceneEvents: [
+        {
+            name: "H6-B-END",
+            triggerTime: 75,
+            runEvent: () => {
+                fxStore.getState().fadeToBlack(1500);
+                useGameGlobalsStore.getState().endGame();
+            }
+        }
+    ]
 }
 
 export default H6B;

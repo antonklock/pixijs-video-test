@@ -19,6 +19,12 @@ export const initializePixi = async (dimensions: { width: number; height: number
 
     const canvas = app.canvas;
 
+    // Load textures
+    await PIXI.Assets.load(['/cursors/wood/32x32/cursor-arrow-32.png', '/cursors/wood/32x32/cursor-pointer-32.png']).then(() => {
+        app.renderer.events.cursorStyles.default = 'url("/cursors/wood/32x32/cursor-arrow-32.png"), auto';
+        app.renderer.events.cursorStyles.hover = 'url("/cursors/wood/32x32/cursor-pointer-32.png"), auto';
+    });
+
     // Stage outline
     const debugRect = new PIXI.Graphics()
         .setStrokeStyle({ width: 2, color: 0xff0000 })

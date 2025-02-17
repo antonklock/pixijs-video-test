@@ -76,8 +76,7 @@ const VideoSwitcher = () => {
 
       const container = gameGlobals.pixiContainer;
 
-      if (!container)
-        return console.error("No pixi container found in gameGlobals");
+      if (!container) return location.reload();
       container.appendChild(canvas);
       appRef.current = app;
 

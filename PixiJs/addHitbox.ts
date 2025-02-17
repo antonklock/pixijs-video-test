@@ -42,6 +42,8 @@ function addHitbox(config: HitboxConfig) {
 
         hitbox.interactive = true;
         hitbox.alpha = showHitboxes ? 1 : 0;
+
+        hitbox.eventMode = 'static';
         hitbox.on('pointerup', onClick);
 
         hitbox.label = name;

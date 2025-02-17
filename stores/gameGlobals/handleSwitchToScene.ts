@@ -96,8 +96,14 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 250);
-    }
-    else {
+    } else if (newScene.id === "H1") {
+        // await useFxStore.getState().fadeToBlack(250);
+        await player.play();
+        changeVideoPlayer(0);
+        seconds = 2.9;
+        newCurrentTime = seconds ?? 0;
+        player.currentTime = newCurrentTime - 1.5;
+    } else {
         await player.play();
         changeVideoPlayer(150);
     }

@@ -60,27 +60,27 @@ const HitboxManager = () => {
   };
 
   function handleActivateHitbox(hitboxName: string) {
-    logStageContainers();
-
     const hitbox = findHitboxByName(hitboxName);
     if (hitbox) {
       hitbox.isActive = true;
       updateHitboxGraphics(hitboxName, 0x00ff00);
+      updateHitboxCursor(hitboxName, "hover");
     }
   }
 
   function handleDeactivateHitbox(hitboxName: string) {
-    logStageContainers();
-
     const hitbox = findHitboxByName(hitboxName);
     if (hitbox) {
       hitbox.isActive = false;
       updateHitboxGraphics(hitboxName, 0xee0000);
+      updateHitboxCursor(hitboxName, "default");
     }
   }
 
   function logStageContainers() {
-    gameGlobals.app.stage.children.forEach((child: PIXI.Container) => {});
+    gameGlobals.app.stage.children.forEach((child: PIXI.Container) => {
+      console.log("Stage container:", child.label);
+    });
   }
 
   function findHitboxByName(hitboxName: string) {
@@ -101,6 +101,27 @@ const HitboxManager = () => {
         );
         if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
           hitboxGraphic.tint = color;
+        } else {
+          console.log("Hitbox graphic not found:", hitboxName);
+        }
+      });
+    } else {
+      console.log("Hitbox container not found:", hitboxName + "-container");
+    }
+  }
+
+  function updateHitboxCursor(hitboxName: string, state: "hover" | "default") {
+    const hitboxContainers = gameGlobals.app.stage.children.filter(
+      (child: PIXI.Graphics) => child.label === hitboxName + "-container"
+    );
+
+    if (hitboxContainers.length > 0) {
+      hitboxContainers.forEach((hitboxContainer: PIXI.Container) => {
+        const hitboxGraphic = hitboxContainer.children.find(
+          (child: PIXI.Graphics | PIXI.Container) => child.label === hitboxName
+        );
+        if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
+          hitboxGraphic.cursor = state;
         } else {
           console.log("Hitbox graphic not found:", hitboxName);
         }

@@ -19,7 +19,7 @@ const H6A: SceneObject = {
     sceneEvents: [
         {
             name: "H6-A-END",
-            triggerTime: 4,
+            triggerTime: 8,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

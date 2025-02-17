@@ -1,9 +1,9 @@
-import addHitbox from '@/PixiJs/addHitbox';
-import { GameGlobalsStore } from './gameGlobals';
 import useGameGlobalsStore from '@/stores/gameGlobals/gameGlobals';
-import { StagedSceneObject } from '@/types';
-import { sceneObjects } from '@/config/sceneConfig';
 import removeAllHitboxes from '@/PixiJs/removeAllHitboxes';
+import { sceneObjects } from '@/config/sceneConfig';
+import { GameGlobalsStore } from './gameGlobals';
+import { StagedSceneObject } from '@/types';
+import addHitbox from '@/PixiJs/addHitbox';
 import * as PIXI from 'pixi.js';
 import * as Tone from "tone";
 

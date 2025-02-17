@@ -46,7 +46,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
         musicPlayer: null,
-        videoProvider: "mux",
+        videoProvider: "R2",
         currentScene: null,
         stagedScenes: [],
         loadingScenes: new Set(),

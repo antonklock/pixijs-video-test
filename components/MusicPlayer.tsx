@@ -92,7 +92,7 @@ const MusicPlayer = () => {
       const gameState = useGameGlobalsStore.getState().gameState;
 
       // Fading out music when game is done
-      if (time > loseTime) {
+      if (time > loseTime + 5) {
         if (gameState === "playing" || gameState === "lost") {
           if (
             playerRef.current?.volume?.value ||
@@ -100,7 +100,6 @@ const MusicPlayer = () => {
           ) {
             if (playerRef.current.volume.value > -50) {
               playerRef.current.volume.value -= 5;
-              console.log("Fading out music...");
             }
           }
         }

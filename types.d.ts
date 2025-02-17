@@ -34,6 +34,7 @@ export interface SceneObject {
     source: {
         mux: string;
         cloudflare: string;
+        R2: string;
     }
     video: {
         player: MediaPlayerElement | null;
@@ -63,7 +64,7 @@ export interface GameGlobals {
     canvas: HTMLCanvasElement | null;
     currentScene: StagedSceneObject | null;
     stagedScenes: StagedSceneObject[];
-    videoProvider: "mux" | "cloudflare";
+    videoProvider: "mux" | "cloudflare" | "R2";
     hitboxes: PIXI.Container[];
     coins: number;
     sceneEvents: Set<string>;

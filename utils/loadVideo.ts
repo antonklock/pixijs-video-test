@@ -15,7 +15,8 @@ const loadVideo = async (id: string) => {
     const gameGlobals = useGameGlobalsStore.getState();
     const sceneObject = sceneObjects.find((obj) => obj.id === id);
 
-    let source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
+    // let source = gameGlobals.videoProvider === "R2" ? sceneObject?.source.R2 : sceneObject?.source.cloudflare;
+    let source = sceneObject?.source.R2;
 
     // TODO: This is a hack to load the correct video for the hub
     if (id.includes("H0")) {

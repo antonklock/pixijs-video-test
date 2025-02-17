@@ -31,6 +31,16 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         return;
     }
 
+    if (get().gameState === "lost") {
+        console.log("Game is lost. Skipping...");
+        return;
+    }
+
+    if (get().gameState === "won") {
+        console.log("Game is won. Skipping...");
+        return;
+    }
+
     let newScene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
     // If scene not found, try to add it and retry

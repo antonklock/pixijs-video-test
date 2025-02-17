@@ -2,7 +2,6 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import * as PIXI from "pixi.js";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
 import determineHub from "@/utils/determineHub";
 
 const G0: SceneObject = {
@@ -26,7 +25,7 @@ const G0: SceneObject = {
         x: 0.8,
         y: 0.75,
         width: 0.15,
-        height: 0.075,
+        height: 0.1,
         onHit: () => {
             const skipIntro = useGameGlobalsStore.getState().app.stage.children.find((child: PIXI.Sprite) => child.label === "skip-intro");
             if (skipIntro) skipIntro.destroy();

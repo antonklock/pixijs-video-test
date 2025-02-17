@@ -2,6 +2,7 @@
 
 import Alerts from "@/components/Alerts";
 import Game from "@/components/Game";
+import PlayThumbButton from "@/components/PlayThumbImg";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
@@ -39,18 +40,9 @@ export default function Home() {
     Tone.getTransport().start();
   }
 
-  // useEffect(() => {
-  //   const handleKeyPress = (event: KeyboardEvent) => {
-  //     if (event.key === "e" || event.key === "E") {
-  //       gameGlobals.addCoinsAndCheckWin(3);
-  //     }
-  //   };
-
-  //   window.addEventListener("keydown", handleKeyPress);
-  //   return () => {
-  //     window.removeEventListener("keydown", handleKeyPress);
-  //   };
-  // }, [gameGlobals]);
+  useEffect(() => {
+    console.log("isGameRunning: ", gameGlobals.isGameRunning);
+  }, [gameGlobals.isGameRunning]);
 
   return (
     <>
@@ -99,14 +91,13 @@ export default function Home() {
         {gameGlobals.isGameRunning ? (
           <Game />
         ) : (
-          <button
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 bg-black border border-[#555555] text-[#DDDDDD] hover:border-[#AAAAAA] hover:text-[#EEEEEE] rounded transition-opacity duration-500 z-50 ${
+          <PlayThumbButton
+            src="/images/play-thumb.jpg"
+            onClick={handleStartGame}
+            className={`transition-opacity duration-500 ${
               isFading ? "opacity-0" : "opacity-100"
             }`}
-            onClick={handleStartGame}
-          >
-            Start Game
-          </button>
+          />
         )}
       </div>
     </>

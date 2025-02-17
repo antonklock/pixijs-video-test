@@ -19,7 +19,7 @@ const L1: SceneObject = {
     sceneEvents: [
         {
             name: "L1-END",
-            triggerTime: 11,
+            triggerTime: 5,
             runEvent: () => {
                 console.log("L1-END");
                 useGameGlobalsStore.getState().endGame();

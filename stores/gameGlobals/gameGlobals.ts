@@ -5,6 +5,7 @@ import handleAddNewScene from './handleAddNewScene';
 import handleSetCurrentScene from './handleSetCurrentScene';
 import handleSwitchToScene from './handleSwitchToScene';
 import handleUnstageScene from './handleUnstageScene';
+import * as Tone from 'tone';
 
 export interface GameGlobalsStore extends GameGlobals {
     gameState: "notStarted" | "playing" | "lost" | "won";
@@ -17,6 +18,7 @@ export interface GameGlobalsStore extends GameGlobals {
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
     gameMusic: Howl | null;
+    musicPlayer: Tone.Player | null;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -33,6 +35,7 @@ export interface GameGlobalsStore extends GameGlobals {
     setGameMusic: (gameMusic: Howl | null) => void;
     setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
+    setMusicPlayer: (musicPlayer: Tone.Player | null) => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
@@ -42,6 +45,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         pixiContainer: null,
         stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
+        musicPlayer: null,
         videoProvider: "mux",
         currentScene: null,
         stagedScenes: [],
@@ -77,19 +81,23 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         setPixiContainer: (pixiContainer: HTMLDivElement | null) => set({ pixiContainer }),
         endGame: () => {
             set({ isGameRunning: false })
-            set({ gameState: "lost" })
-            set({ currentScene: null })
-            set({ stagedScenes: [] })
-            set({ loadingScenes: new Set() })
-            set({ sceneEvents: new Set() })
-            set({ gameMusic: null })
-            set({ pixiContainer: null })
-            set({ stageDimensions: { width: 0, height: 0 } })
-            set({ app: null })
-            set({ canvas: null })
-            set({ hitboxes: [] })
-            set({ coins: 0 })
+
+            const videoPlayers = document.querySelectorAll("video");
+            videoPlayers.forEach(video => {
+                video.remove();
+            });
+
+            const canvas = document.querySelector("canvas");
+            if (canvas) {
+                canvas.remove();
+            }
+
+            // Reload the page
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
         },
+        setMusicPlayer: (musicPlayer: Tone.Player | null) => set({ musicPlayer }),
     }
 ));
 

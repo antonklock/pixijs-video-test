@@ -8,7 +8,7 @@ interface DisplaySkipIntroProps {
   startDelay?: number;
 }
 
-function DisplaySkipIntro({ startDelay = 3000 }: DisplaySkipIntroProps) {
+function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
   const { app } = useGameGlobalsStore();
 
   useEffect(() => {

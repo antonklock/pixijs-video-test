@@ -3,9 +3,9 @@ import { SceneObject } from "@/types";
 const H3B: SceneObject = {
     id: "H3-B",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/db8497398d929262ea657cc711030905/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/k6DFX022X00f7NebiYX6x3i1x4ZoGtpga4Euz01Cv6b93k.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H3-B/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H3-B/playlist.m3u8' // R2
     },
     name: 'Spelaren förlorar',
     nextScenes: ["G0"],

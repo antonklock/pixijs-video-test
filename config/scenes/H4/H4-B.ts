@@ -6,9 +6,9 @@ import hitboxIsActive from "@/utils/hitboxActiveCheck";
 const H4B: SceneObject = {
     id: "H4-B",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/2da5985a1e344594507370843dce6977/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/ZjJV01cmAgT2bvju7CI6KbJwM4C01QDuobygkP1SGo8BE.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H4-B/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H4-B/playlist.m3u8' // R2
     },
     name: 'Ta pengar - Misslyckas',
     nextScenes: ["H0"],

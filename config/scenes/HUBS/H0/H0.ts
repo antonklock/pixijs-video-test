@@ -6,9 +6,9 @@ import { isSceneStarted } from "@/utils/sceneStartedCheck";
 const H0: SceneObject = {
     id: "H0",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/abf023c6468cc5cedaaf896dd6cade2f/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/AZZOFn02NIEGLvAygrAlwBelpLk9mQWvzVm02pROtyFr4.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H0-1/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H0-1/playlist.m3u8' // R2
     },
     name: 'Hub',
     nextScenes: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6-A', 'H6-B'],

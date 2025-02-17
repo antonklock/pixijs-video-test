@@ -5,9 +5,9 @@ import determineHub from "@/utils/determineHub";
 const H4A: SceneObject = {
     id: "H4-A",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/e6013c545482ee6322457767a0ee39ae/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/OgjZWdscuZk7SihdY02HvssVLBjvJlaa3BegMkgvzBmQ.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H4-A/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H4-A/playlist.m3u8' // R2
     },
     name: 'Ta pengar - Lyckas',
     nextScenes: ["H0"],

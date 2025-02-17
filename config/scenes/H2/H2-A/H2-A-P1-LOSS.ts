@@ -5,9 +5,9 @@ import determineHub from "@/utils/determineHub";
 const H2AP1Loss: SceneObject = {
     id: "H2-A-P1-LOSS",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/J7v02Z3X4iy44RhJU0101AP41qLqF0161zPy6Q3xSigDCBs.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H2-A-P1-LOSS/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-A-P1-LOSS/playlist.m3u8' // R2
     },
     name: 'Spelare rullar tärning - 2',
     nextScenes: ["H0"],

@@ -6,9 +6,9 @@ import { SceneObject } from "@/types";
 const H2B: SceneObject = {
     id: "H2-B",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/71d83ef9c9cee94946ff3ca862559e8e/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/1o8rB9j4WtHuzLM01luUnb00vyCbwiBZ7jtP0037FKvPA8.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H2-B/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-B/playlist.m3u8' // R2
     },
     name: 'Välter ljus',
     nextScenes: ["H2-B-1", "H2-B-2", "H2-B-3"],

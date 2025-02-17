@@ -6,9 +6,9 @@ import getNextDiceScene from "@/utils/getNextDiceScene";
 const H2AO4: SceneObject = {
     id: "H2-A-O4",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/92uVPa9H9m7o11cMso7029dj3gjkto6BY00myx9lXVKcY.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H2-A-O4/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-A-O4/playlist.m3u8' // R2
     },
     name: 'Motståndare rullar tärning - 8',
     nextScenes: [],

@@ -4,9 +4,9 @@ import { SceneObject } from "@/types";
 const H2AP4Win: SceneObject = {
     id: "H2-A-P4-WIN",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/zBsVwp9In6cGI01OJB9i01qNANJUHwzF7CInZVUfrb4ws.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H2-A-P4-WIN/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-A-P4-WIN/playlist.m3u8' // R2
     },
     name: 'Spelare rullar tärning - 8',
     nextScenes: ["H0"],

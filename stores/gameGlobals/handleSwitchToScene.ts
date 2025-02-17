@@ -58,6 +58,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }
     }
 
+    console.log("New scene: ", newScene);
+
     let seconds = Tone.getTransport().seconds;
     let newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
@@ -101,9 +103,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     }
 
     function changeVideoPlayer(delay: number = 0) {
+        console.log("Video players: ", videoPlayers);
         setTimeout(() => {
             videoPlayers.forEach((videoPlayer) => {
-                if (videoPlayer.id === player.id) return;
+                if (videoPlayer === player) return;
                 videoPlayer.style.opacity = "0";
                 videoPlayer.pause();
                 videoPlayer.style.zIndex = "-1000";
@@ -125,11 +128,23 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     set({ ...get(), currentScene: newScene });
     get().setSceneEvents(new Set(newScene.sceneEvents?.map(event => event.name) ?? []));
 
+    // End previous scene
+    const newDate = new Date();
+
+    if (currentScene) {
+        useGameSessionStore.getState().endScene(currentScene, newDate);
+    } else {
+        console.warn("Can't end previous scene in session. No previous scene found");
+    }
+
+    // Add scene to session
+    useGameSessionStore.getState().startScene(newScene, newDate);
+
     if (!loadNextScenes) {
         const { stagedScenes } = get();
         stagedScenes.forEach(scene => {
-            if (scene.id === sceneId) return;
-            if (scene.nextScenes.includes(scene.id)) return;
+            if (scene.id === newScene?.id) return console.log("Skipping loading next scenes. Scene already loaded.");
+            if (scene.nextScenes.includes(newScene?.id ?? "")) return console.log("Skipping loading next scenes. Scene already loaded.");
 
             scene.isActive = false;
             scene.video.sprite.visible = false;
@@ -176,18 +191,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     newScene.nextScenes.forEach(nextSceneId => {
         get().addNewScene(nextSceneId);
     });
-
-    // End previous scene
-    const newDate = new Date();
-
-    if (currentScene) {
-        useGameSessionStore.getState().endScene(currentScene, newDate);
-    } else {
-        console.warn("Can't end previous scene in session. No previous scene found");
-    }
-
-    // Add scene to session
-    useGameSessionStore.getState().startScene(newScene, newDate);
 
     if (!newScene.id.includes("H0")) {
         const videoPlayer = newScene.video.player as HTMLVideoElement;

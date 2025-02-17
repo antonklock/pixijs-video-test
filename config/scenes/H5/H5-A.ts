@@ -4,9 +4,9 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 const H5A: SceneObject = {
     id: "H5-A",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/adde7459836d6af2a084852391c8be13/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/HCpSHliCBiRlWNqdHaXByNaGi34zvWewAEmZs1Uhm4c.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H5-A/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H5-A/playlist.m3u8' // R2
     },
     name: 'Ta lutan',
     nextScenes: ["H0"],

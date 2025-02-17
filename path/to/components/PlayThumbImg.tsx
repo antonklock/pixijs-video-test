@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Hls from "hls.js";
@@ -16,14 +14,13 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
   className,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isHlsReady, setIsHlsReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     const video = videoRef.current;
     const videoSrc = "https://klockworks.xyz/ryg-title/playlist.m3u8";
-
-    setIsMounted(true);
 
     if (video) {
       if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -31,7 +28,6 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
         video.src = videoSrc;
         video.addEventListener("loadedmetadata", () => {
           video.play();
-          setIsHlsReady(true);
         });
       } else if (Hls.isSupported()) {
         // HLS.js fallback
@@ -40,9 +36,6 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           video.play();
-          setTimeout(() => {
-            setIsHlsReady(true);
-          }, 250);
         });
 
         // Cleanup on component unmount
@@ -63,32 +56,23 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
     <>
       <button
         onClick={handleClick}
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 play-thumb-button w-full h-full ${className}`}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 play-thumb-button ${className} transition-opacity duration-1000 ${
+          isMounted ? "opacity-100" : "opacity-0"
+        }`}
         style={{ zIndex: 999999 }}
       >
         <Image
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] ${
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000 ${
             isMounted ? "opacity-100" : "opacity-0"
           }`}
           src={"/images/play-game.png"}
           alt="Play Thumbnail"
-          width={150}
-          height={150}
-          style={{
-            objectFit: "cover",
-            width: "auto",
-            height: "auto",
-            zIndex: 999999,
-          }}
+          width={200}
+          height={200}
+          style={{ objectFit: "cover", width: "full", height: "auto" }}
           priority
         />
         <video
-          className={`transition-opacity duration-[3000ms] ${
-            isHlsReady ? "opacity-100" : "opacity-0"
-          }`}
-          style={{
-            zIndex: 10,
-          }}
           controls={false}
           ref={videoRef}
           autoPlay
@@ -96,6 +80,9 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
           loop
           playsInline
           preload="auto"
+          className={`transition-opacity duration-1000 ${
+            isMounted ? "opacity-100" : "opacity-0"
+          }`}
         >
           Your browser does not support the video tag.
         </video>

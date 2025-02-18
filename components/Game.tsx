@@ -47,12 +47,12 @@ export default function Game() {
     }
 
     // TODO: Can we find a more elegant solution? I don't like the timer.
-    if (!initialScenePlaying) {
-      setTimeout(() => {
-        gameGlobals.switchToScene("G0");
-        setInitialScenePlaying(true);
-      }, 2000);
-    }
+    // if (!initialScenePlaying) {
+    //   setTimeout(() => {
+    //     gameGlobals.switchToScene("G0");
+    //     setInitialScenePlaying(true);
+    //   }, 4000);
+    // }
   }, [
     gameGlobals.app,
     initialSceneLoaded,
@@ -99,6 +99,17 @@ export default function Game() {
 
   return (
     <div className="relative top-0 left-0 w-full h-full overflow-hidden">
+      {!initialScenePlaying && (
+        <button
+          onClick={() => {
+            gameGlobals.switchToScene("G0");
+            setInitialScenePlaying(true);
+          }}
+          className="absolute top-1/2 left-0 z-50 bg-white text-black p-2 rounded-md"
+        >
+          START GAME
+        </button>
+      )}
       <VideoSwitcher />
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}

@@ -45,6 +45,18 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         return;
     }
 
+    const app = get().app;
+
+    if (app) {
+        app.stage.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+            if (child.label === "skip-intro") {
+                if (newScene?.id !== "G0") {
+                    child.destroy();
+                }
+            }
+        });
+    }
+
 
     // If scene not found, try to add it and retry
     if (!newScene) {

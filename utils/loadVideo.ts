@@ -1,6 +1,5 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
-import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import determineHub from "./determineHub";
 import useDebugStore from "@/stores/debug/debugStore";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
@@ -12,7 +11,6 @@ interface HLSVideo {
 }
 
 const loadVideo = async (id: string) => {
-    const gameGlobals = useGameGlobalsStore.getState();
     const sceneObject = sceneObjects.find((obj) => obj.id === id);
 
     // let source = gameGlobals.videoProvider === "R2" ? sceneObject?.source.R2 : sceneObject?.source.cloudflare;
@@ -45,7 +43,12 @@ const setupHls = async (source: string) => {
         const newVideoElement = document.createElement("video");
         const video = initVideo(newVideoElement);
 
-        if (Hls.isSupported()) {
+        // Check if the browser is Safari or if HLS is supported
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        console.log("isSafari", isSafari);
+
+        if (Hls.isSupported() || isSafari) {
             const hls = new Hls({
                 debug: false,
                 enableWorker: true,

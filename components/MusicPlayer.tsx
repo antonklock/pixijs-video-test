@@ -93,7 +93,7 @@ const MusicPlayer = () => {
         console.log("Current video not set");
       }
 
-      const gameState = useGameGlobalsStore.getState().gameState;
+      const { gameState, currentScene } = useGameGlobalsStore.getState();
 
       // Fading out music when game is done
       if (time > loseTime + 5) {
@@ -114,7 +114,7 @@ const MusicPlayer = () => {
         if (gameState === "playing") {
           setGameState("lost");
           switchToScene("L1");
-        } else if (gameState === "won") {
+        } else if (gameState === "won" || currentScene?.id !== "H6-B") {
           switchToScene("H6-B");
         } else {
           console.log(`Can't lose game when state is ${gameState}`);

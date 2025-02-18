@@ -55,7 +55,7 @@ import H6A from "./scenes/H6/H6-A";
 import H6B from "./scenes/H6/H6-B";
 
 import L1 from "./scenes/L1/L1";
-
+import L2 from "./scenes/L2/L2";
 export const sceneObjects: SceneObject[] = [
     G0,
     H0,
@@ -104,4 +104,5 @@ export const sceneObjects: SceneObject[] = [
     H6A,
     H6B,
     L1,
+    L2,
 ];

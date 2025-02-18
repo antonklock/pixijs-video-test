@@ -38,6 +38,9 @@ export interface GameGlobalsStore extends GameGlobals {
     setMusicPlayer: (musicPlayer: Tone.Player | null) => void;
     cleanup: () => void;
     setCleanup: (cleanup: () => void) => void;
+    setGameTime: (gameTime: number) => void;
+    gameTime: number;
+    loseTime: number;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
@@ -101,7 +104,10 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         },
         setMusicPlayer: (musicPlayer: Tone.Player | null) => set({ musicPlayer }),
         cleanup: () => null,
-        setCleanup: (cleanup: () => void) => set({ cleanup })
+        setCleanup: (cleanup: () => void) => set({ cleanup }),
+        setGameTime: (gameTime: number) => set({ gameTime }),
+        gameTime: 0,
+        loseTime: 196,
     }
 ));
 

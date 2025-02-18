@@ -9,7 +9,7 @@ const H5C: SceneObject = {
         R2: 'https://klockworks.xyz/H5-C/playlist.m3u8' // R2
     },
     name: 'Ta bandkassan',
-    nextScenes: ["G0"],
+    nextScenes: ["L2"],
     video: {
         player: null,
         hls: null,
@@ -21,7 +21,7 @@ const H5C: SceneObject = {
             name: "H5-C-END",
             triggerTime: 22,
             runEvent: () => {
-                useGameGlobalsStore.getState().switchToScene("G0");
+                useGameGlobalsStore.getState().switchToScene("L2");
             },
         }
     ]

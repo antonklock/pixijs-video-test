@@ -20,6 +20,8 @@ interface SwitchToSceneConfig {
 async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }: SwitchToSceneConfig) {
     const currentScene = get().currentScene;
     const currentSceneId = currentScene?.id;
+    const gameTime = get().gameTime;
+    const loseTime = get().loseTime;
 
     if (sceneId === currentSceneId) {
         console.log("Scene already loaded. Skipping...");
@@ -31,17 +33,18 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         return;
     }
 
-    if (get().gameState === "lost") {
+    let newScene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
+
+    if (get().gameState === "lost" && newScene?.id !== "L1" && gameTime > loseTime) {
         console.log("Game is lost. Skipping...");
         return;
     }
 
-    if (get().gameState === "won") {
-        console.log("Game is won. Skipping...");
+    if (get().gameState === "won" && newScene?.id !== "H6-B" && gameTime > loseTime) {
+        console.log("Game is over. Player won! Skipping scene switch.");
         return;
     }
 
-    let newScene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
     // If scene not found, try to add it and retry
     if (!newScene) {
@@ -112,7 +115,16 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         seconds = 2.9;
         newCurrentTime = seconds ?? 0;
         player.currentTime = newCurrentTime - 1.5;
-    } else {
+    } else if (newScene.id === "L2") {
+        await useFxStore.getState().fadeToBlack(250);
+        await player.play();
+        changeVideoPlayer(0);
+        seconds = 17.25;
+        newCurrentTime = seconds ?? 0;
+        player.currentTime = newCurrentTime - 1.5;
+        useFxStore.getState().unfadeToBlack(5);
+    }
+    else {
         await player.play();
         changeVideoPlayer(150);
     }

@@ -4,11 +4,11 @@ const H3B: SceneObject = {
     id: "H3-B",
     source: {
         cloudflare: '',
-        mux: '', // Mux
-        R2: 'https://klockworks.xyz/H3-B/playlist.m3u8' // R2
+        mux: '',
+        R2: 'https://klockworks.xyz/H3-B/playlist.m3u8'
     },
     name: 'Spelaren förlorar',
-    nextScenes: ["G0"],
+    nextScenes: ["L2"],
     video: {
         player: null,
         hls: null,
@@ -20,7 +20,7 @@ const H3B: SceneObject = {
             name: "H3-B-END",
             triggerTime: 6,
             runEvent: () => {
-                useGameGlobalsStore.getState().switchToScene("G0");
+                useGameGlobalsStore.getState().switchToScene("L2");
             },
         }
     ]

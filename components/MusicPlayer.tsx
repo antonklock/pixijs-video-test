@@ -60,7 +60,11 @@ const MusicPlayer = () => {
     await playerRef.current.load(musicUrl.current);
     console.log("Music loaded");
 
-    useGameGlobalsStore.getState().setMusicPlayer(playerRef.current);
+    const gameGlobals = useGameGlobalsStore.getState();
+    const setMusicPlayer = gameGlobals.setMusicPlayer;
+    const loseTime = gameGlobals.loseTime;
+
+    setMusicPlayer(playerRef.current);
 
     Tone.getTransport().start();
     playerRef.current?.sync();
@@ -72,7 +76,7 @@ const MusicPlayer = () => {
     }
     setHasLoaded(true);
 
-    const loseTime = 196;
+    // const loseTime = 196;
     // const loseTime = 15;
 
     // End game at 196 seconds
@@ -116,7 +120,9 @@ const MusicPlayer = () => {
           console.log(`Can't lose game when state is ${gameState}`);
         }
       }
-    }, "8n").start();
+
+      useGameGlobalsStore.getState().setGameTime(time);
+    }, "16n").start();
 
     loopRef.current = loop;
   };

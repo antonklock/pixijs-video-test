@@ -1,12 +1,10 @@
 "use client";
 
-import Alerts from "@/components/Alerts";
-import Game from "@/components/Game";
-import Nav from "@/components/Nav";
-import PlayGame from "@/components/PlayThumbImg";
-import TitleScreen from "@/components/TitleScreen";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useRef, useState } from "react";
+import TitleScreen from "@/components/TitleScreen";
+import Game from "@/components/Game";
+import Nav from "@/components/Nav";
 import * as Tone from "tone";
 
 export default function Home() {
@@ -19,12 +17,6 @@ export default function Home() {
   useEffect(() => {
     gameGlobals.setPixiContainer(pixiContainerRef.current);
   }, []);
-
-  // useEffect(() => {
-  //   if (pixiContainerRef.current && !gameReady) {
-  //     setGameReady(true);
-  //   }
-  // }, [pixiContainerRef.current]);
 
   useEffect(() => {
     if (gameGlobals.isGameRunning) {

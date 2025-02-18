@@ -21,14 +21,14 @@ const H1A1: SceneObject = {
     sceneEvents: [
         {
             name: "H1-A-1-COIN",
-            triggerTime: 6,
+            triggerTime: 5,
             runEvent: () => {
                 useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
             },
         },
         {
             name: "H1-A-1-END",
-            triggerTime: 8,
+            triggerTime: 6,
             runEvent: () => {
                 const hub = determineHub();
                 console.log("Hub: ", hub);

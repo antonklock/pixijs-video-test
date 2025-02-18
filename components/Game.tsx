@@ -59,7 +59,7 @@ export default function Game() {
   const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 
   return (
-    <div className="w-full h-full overflow-hidden">
+    <div className="relative top-0 left-0 w-full h-full overflow-hidden">
       <VideoSwitcher />
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}

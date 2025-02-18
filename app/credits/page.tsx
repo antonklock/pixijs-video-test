@@ -25,13 +25,23 @@ const CreditsPage = () => {
               <a
                 href="https://www.yebanishedprivateers.com/"
                 className="text-blue-400 hover:text-blue-300"
+                target="_blank"
               >
                 Ye Banished Privateers
               </a>
-              , Kenneth Ly and{" "}
+              <span>, </span>
+              <a
+                href="https://www.youtube.com/@KennethLyVideography/featured"
+                className="text-blue-400 hover:text-blue-300"
+                target="_blank"
+              >
+                Kenneth Ly
+              </a>{" "}
+              and{" "}
               <a
                 href="https://www.klockworks.se"
                 className="text-blue-400 hover:text-blue-300"
+                target="_blank"
               >
                 Anton Klock
               </a>
@@ -44,7 +54,6 @@ const CreditsPage = () => {
             <ul className="list-disc list-inside space-y-2">
               <li>Next.js</li>
               <li>PixiJS</li>
-              <li>Mux</li>
               <li>Cloudflare</li>
             </ul>
           </section>

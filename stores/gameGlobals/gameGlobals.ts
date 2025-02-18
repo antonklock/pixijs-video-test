@@ -36,6 +36,8 @@ export interface GameGlobalsStore extends GameGlobals {
     setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
     setMusicPlayer: (musicPlayer: Tone.Player | null) => void;
+    cleanup: () => void;
+    setCleanup: (cleanup: () => void) => void;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
@@ -98,6 +100,8 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
             }, 1000);
         },
         setMusicPlayer: (musicPlayer: Tone.Player | null) => set({ musicPlayer }),
+        cleanup: () => null,
+        setCleanup: (cleanup: () => void) => set({ cleanup })
     }
 ));
 

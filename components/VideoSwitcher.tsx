@@ -5,6 +5,8 @@ import { initializePixi } from "@/PixiJs/InitializePixi";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { Dimensions } from "../types";
 import * as Tone from "tone";
+import calculateStageDimensions from "@/utils/calculateStageDimensions";
+
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
 
@@ -24,28 +26,6 @@ const VideoSwitcher = () => {
     scale: 1,
   });
 
-  const calculateDimensions = () => {
-    console.log("Calculating dimensions");
-
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const targetRatio = 16 / 9;
-
-    let width = viewportWidth;
-    let height = width / targetRatio;
-
-    if (width > viewportWidth) {
-      width = viewportWidth;
-      height = width / targetRatio;
-    }
-
-    return {
-      width: Math.floor(width),
-      height: Math.floor(height),
-      scale: Math.min(viewportWidth / width, viewportHeight / height),
-    };
-  };
-
   useEffect(() => {
     if (Tone.getTransport().state !== "started") {
       Tone.start();
@@ -57,22 +37,19 @@ const VideoSwitcher = () => {
     if (initializationRef.current || appRef.current) return;
     initializationRef.current = true;
 
-    const calculatedDimensions = calculateDimensions();
-    setDimensions(calculatedDimensions);
-
-    if (
-      !gameGlobals.stageDimensions.width ||
-      !gameGlobals.stageDimensions.height
-    ) {
-      gameGlobals.setStageDimensions({
-        width: calculatedDimensions.width,
-        height: calculatedDimensions.height,
-      });
-    }
-
     const createPixiApp = async () => {
-      const { app, canvas } = await initializePixi(calculatedDimensions);
+      const { app, canvas, dimensions } = await initializePixi();
       if (!canvas || !containerRef.current || !app) return;
+
+      if (
+        !gameGlobals.stageDimensions.width ||
+        !gameGlobals.stageDimensions.height
+      ) {
+        gameGlobals.setStageDimensions({
+          width: dimensions.width,
+          height: dimensions.height,
+        });
+      }
 
       const container = gameGlobals.pixiContainer;
 
@@ -81,10 +58,7 @@ const VideoSwitcher = () => {
       appRef.current = app;
 
       // // Disable auto-resizing
-      app.renderer.resize(
-        calculatedDimensions.width,
-        calculatedDimensions.height
-      );
+      app.renderer.resize(dimensions.width, dimensions.height);
 
       gameGlobals.setApp(app);
       gameGlobals.setCanvas(canvas);

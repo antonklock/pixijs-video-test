@@ -1,7 +1,11 @@
 import * as PIXI from "pixi.js";
+import calculateStageDimensions from "@/utils/calculateStageDimensions";
+import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 
-export const initializePixi = async (dimensions: { width: number; height: number }) => {
+export const initializePixi = async () => {
     console.log("Initializing Pixi");
+
+    const dimensions = calculateStageDimensions();
 
     const app = new PIXI.Application();
     await app.init({
@@ -22,16 +26,39 @@ export const initializePixi = async (dimensions: { width: number; height: number
         app.renderer.events.cursorStyles.hover = 'url("/cursors/wood/32x32/cursor-pointer-32.png"), auto';
     });
 
+    const resizeStage = () => {
+        const dimensions = calculateStageDimensions();
+
+        // Update the canvas size
+        app.renderer.resize(dimensions.width, dimensions.height);
+
+        // Update the stage size
+        app.stage.width = dimensions.width;
+        app.stage.height = dimensions.height;
+    };
+
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0x000000 })
+        .setStrokeStyle({ width: 2, color: 0xff0000 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     debugRect.zIndex = 999999999;
     app.stage.addChild(debugRect);
 
+    window.addEventListener('resize', resizeStage);
+
+    // Clean up function
+    const cleanup = () => {
+        window.removeEventListener('resize', resizeStage);
+        app.destroy(true);
+    };
+
+    gameGlobals.getState().setCleanup(cleanup);
+
     return {
         app,
-        canvas
+        canvas,
+        dimensions,
+        cleanup
     }
 };

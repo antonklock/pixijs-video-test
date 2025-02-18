@@ -5,16 +5,11 @@ import Image from "next/image";
 import Hls from "hls.js";
 
 interface PlayThumbButtonProps {
-  src: string;
   onClick: () => void;
   className?: string;
 }
 
-const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
-  src,
-  onClick,
-  className,
-}) => {
+const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHlsReady, setIsHlsReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -108,4 +103,4 @@ const PlayThumbButton: React.FC<PlayThumbButtonProps> = ({
   );
 };
 
-export default PlayThumbButton;
+export default PlayGame;

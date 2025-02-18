@@ -74,6 +74,7 @@ const initVideo = (video: HTMLVideoElement) => {
     video.setAttribute("webkit-playsinline", "true");
     video.muted = true;
     video.loop = true;
+    video.autoplay = false;
     video.crossOrigin = "anonymous";
     video.preload = "auto";
     video.style.position = "absolute";

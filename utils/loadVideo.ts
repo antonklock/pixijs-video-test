@@ -23,7 +23,6 @@ const loadVideo = async (id: string) => {
         const hub = determineHub();
         console.log(`%cLoading video for %c${hub}`, 'color: #bbffbb; font-weight: regular;', 'color: orange; font-weight: bold;');
         source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
-
     }
 
     try {
@@ -43,71 +42,27 @@ const setupHls = async (source: string) => {
         const newVideoElement = document.createElement("video");
         const video = initVideo(newVideoElement);
 
-        // Check if the browser is Safari or if HLS is supported
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-        console.log("isSafari", isSafari);
-
-        if (Hls.isSupported() || isSafari) {
+        // Skip native HLS check and directly use hls.js
+        if (Hls.isSupported()) {
             const hls = new Hls({
                 debug: false,
                 enableWorker: true,
                 lowLatencyMode: true,
             });
 
-            if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
-                useAlertStore.getState().addAlert({
-                    title: `HLS initialized for video ${video.id}`,
-                    message: `HLS initialized for video ${video.id}`,
-                    color: "blue"
-                });
-            }
-
-            hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
-                    useAlertStore.getState().addAlert({
-                        title: `HLS media attached for video ${video.id}`,
-                        message: `HLS media attached for video ${video.id}`,
-                        color: "green"
-                    });
-                }
-            });
-
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                if (useDebugStore.getState().showHlsMessages || localStorage.getItem("showHlsMessages") === "true") {
-                    useAlertStore.getState().addAlert({
-                        title: `HLS manifest parsed for video ${video.id}`,
-                        message: `HLS manifest parsed for video ${video.id}`,
-                        color: "blue"
-                    });
-                }
                 resolve({ element: video, hls });
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
                     console.error(`HLS fatal error ${video.id}: ${data.type}`);
-                    if (useDebugStore.getState().showHlsMessages) {
-                        useAlertStore.getState().addAlert({
-                            title: `HLS fatal error ${video.id}: ${data.type}`,
-                            message: `HLS fatal error ${video.id}: ${data.type}`,
-                            color: "red"
-                        });
-                    }
                     reject(data.error);
                 }
             });
 
             hls.attachMedia(video);
             hls.loadSource(source);
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = source;
-            video.addEventListener("loadedmetadata", () => {
-                resolve({ element: video, hls: null });
-            });
-            video.addEventListener("error", (error) => {
-                reject(error.error as Error);
-            });
         } else {
             reject(new Error("HLS not supported"));
         }
@@ -115,7 +70,7 @@ const setupHls = async (source: string) => {
 };
 
 const initVideo = (video: HTMLVideoElement) => {
-    video.setAttribute("playsinline", "true");
+    video.playsInline = true;
     video.setAttribute("webkit-playsinline", "true");
     video.muted = true;
     video.loop = true;

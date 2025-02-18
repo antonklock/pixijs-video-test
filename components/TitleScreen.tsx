@@ -1,19 +1,20 @@
-import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import PlayGame from "./PlayThumbImg";
 
 const TitleScreen = (props: {
   handleStartGame: () => void;
   isFading: boolean;
   bgColor: string;
+  isGameRunning: boolean;
 }) => {
-  const gameGlobals = useGameGlobalsStore();
-  const { handleStartGame, isFading, bgColor } = props;
+  const { handleStartGame, isFading, bgColor, isGameRunning } = props;
 
   return (
     <div
-      className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500`}
+      className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500 ${
+        isGameRunning ? "-z-50" : "z-50"
+      }`}
     >
-      {!gameGlobals.isGameRunning && (
+      {!isGameRunning && (
         <PlayGame
           onClick={handleStartGame}
           className={`transition-opacity duration-500 ${

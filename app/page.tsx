@@ -56,27 +56,27 @@ export default function Home() {
 
   return (
     <>
-      {!gameGlobals.isGameRunning && <Nav />}
-      <div id="game-container">
-        <div
-          ref={pixiContainerRef}
-          className={`${
-            gameGlobals.isGameRunning
-              ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 flex items-center justify-center"
-              : "hidden"
-          }`}
-          id="pixi-container"
-        />
-      </div>
+      <Nav isGameRunning={gameGlobals.isGameRunning} isFading={isFading} />
+      <div
+        ref={pixiContainerRef}
+        className={`${
+          gameGlobals.isGameRunning
+            ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 flex items-center justify-center"
+            : "hidden"
+        }`}
+        id="pixi-container"
+      />
 
       <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <TitleScreen
           handleStartGame={handleStartGame}
           isFading={isFading}
           bgColor={bgColor}
+          isGameRunning={gameGlobals.isGameRunning}
         />
+
+        {gameGlobals.isGameRunning && <Game />}
       </div>
-      {gameGlobals.isGameRunning && <Game />}
     </>
   );
 }

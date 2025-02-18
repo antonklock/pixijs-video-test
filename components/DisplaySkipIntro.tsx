@@ -52,7 +52,7 @@ function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
     }
   }, [app]);
 
-  return <></>;
+  return null;
 }
 
 export default DisplaySkipIntro;

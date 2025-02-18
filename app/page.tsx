@@ -54,36 +54,20 @@ export default function Home() {
     Tone.getTransport().start();
   }
 
-  useEffect(() => {
-    console.log("isGameRunning: ", gameGlobals.isGameRunning);
-  }, [gameGlobals.isGameRunning]);
-
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "e") {
-        gameGlobals.addCoinsAndCheckWin(3);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [gameGlobals]);
-
   return (
     <>
       {!gameGlobals.isGameRunning && <Nav />}
-      <div
-        ref={pixiContainerRef}
-        className={`${
-          gameGlobals.isGameRunning
-            ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 flex items-center justify-center"
-            : "hidden"
-        }`}
-        id="pixi-container"
-      />
+      <div id="game-container">
+        <div
+          ref={pixiContainerRef}
+          className={`${
+            gameGlobals.isGameRunning
+              ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 flex items-center justify-center"
+              : "hidden"
+          }`}
+          id="pixi-container"
+        />
+      </div>
 
       <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <TitleScreen
@@ -91,9 +75,8 @@ export default function Home() {
           isFading={isFading}
           bgColor={bgColor}
         />
-
-        {gameGlobals.isGameRunning && <Game />}
       </div>
+      {gameGlobals.isGameRunning && <Game />}
     </>
   );
 }

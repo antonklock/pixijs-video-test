@@ -56,6 +56,17 @@ import H6B from "./scenes/H6/H6-B";
 
 import L1 from "./scenes/L1/L1";
 import L2 from "./scenes/L2/L2";
+
+import M1 from "./scenes/MYNT/M1";
+import M2 from "./scenes/MYNT/M2";
+import M3 from "./scenes/MYNT/M3";
+import M4 from "./scenes/MYNT/M4";
+import M5 from "./scenes/MYNT/M5";
+import M6 from "./scenes/MYNT/M6";
+import M7 from "./scenes/MYNT/M7";
+import M8 from "./scenes/MYNT/M8";
+import M9 from "./scenes/MYNT/M9";
+
 export const sceneObjects: SceneObject[] = [
     G0,
     H0,
@@ -105,4 +116,13 @@ export const sceneObjects: SceneObject[] = [
     H6B,
     L1,
     L2,
+    M1,
+    M2,
+    M3,
+    M4,
+    M5,
+    M6,
+    M7,
+    M8,
+    M9,
 ];

@@ -86,7 +86,7 @@ const MusicPlayer = () => {
         setCurrentVideoTime(currentVideoRef.current.currentTime);
         if (playerRef.current) {
           if (currentSceneRef.current?.id === "H0") {
-            syncVideoTime(currentVideoRef.current, playerRef.current, 1.75);
+            // syncVideoTime(currentVideoRef.current, playerRef.current, 1.75);
           }
         }
       } else {

@@ -214,8 +214,15 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }, 1000);
     });
 
+    const nextScenes = newScene.nextScenes;
+
+    const coins = useGameGlobalsStore.getState().coins;
+    if (coins > 0) {
+        nextScenes.push("M" + coins);
+    }
+
     // Add next scenes
-    newScene.nextScenes.forEach(nextSceneId => {
+    nextScenes.forEach(nextSceneId => {
         get().addNewScene(nextSceneId);
     });
 

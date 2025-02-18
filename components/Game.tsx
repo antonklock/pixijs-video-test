@@ -13,7 +13,7 @@ import useFxStore from "@/stores/FX/fxStore";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
 import CoinCounter from "./CoinCounter";
 import MusicPlayer from "./MusicPlayer";
-
+import * as PIXI from "pixi.js";
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
@@ -39,6 +39,11 @@ export default function Game() {
       useGameSessionStore.getState().clearSession();
 
       gameGlobals.setGameState("playing");
+
+      // const gameContainer = document.getElementById("game-container");
+      // if (gameContainer) {
+      //   gameContainer.requestFullscreen();
+      // }
     }
 
     // TODO: Can we find a more elegant solution? I don't like the timer.
@@ -55,6 +60,40 @@ export default function Game() {
     gameGlobals.currentScene?.isReady,
     gameGlobals,
   ]);
+
+  useEffect(() => {
+    if (!gameGlobals.app) return;
+    const coins = gameGlobals.coins;
+    if (gameGlobals.currentScene?.id === "H0" && coins > 0) {
+      const coinContainer = gameGlobals.app.stage.children.find(
+        (child: PIXI.Container) => child.label === "coinContainer"
+      );
+      if (coinContainer) {
+        coinContainer.alpha = 0;
+        const fadeIn = () => {
+          if (coinContainer.alpha < 1) {
+            coinContainer.alpha += 0.1;
+            requestAnimationFrame(fadeIn);
+          }
+        };
+        fadeIn();
+      }
+    } else {
+      const coinContainer = gameGlobals.app.stage.children.find(
+        (child: PIXI.Container) => child.label === "coinContainer"
+      );
+      if (coinContainer && coinContainer.alpha > 0) {
+        coinContainer.alpha = 1;
+        const fadeOut = () => {
+          if (coinContainer.alpha > 0) {
+            coinContainer.alpha -= 0.1;
+            requestAnimationFrame(fadeOut);
+          }
+        };
+        fadeOut();
+      }
+    }
+  }, [gameGlobals.currentScene]);
 
   const { showLoadingIndicators, showDebugInfo } = useDebugStore();
 

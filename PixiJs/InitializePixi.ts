@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import calculateStageDimensions from "@/utils/calculateStageDimensions";
 import gameGlobals from "@/stores/gameGlobals/gameGlobals";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 export const initializePixi = async () => {
     console.log("Initializing Pixi");
@@ -54,6 +55,50 @@ export const initializePixi = async () => {
     };
 
     gameGlobals.getState().setCleanup(cleanup);
+
+
+    const coinContainer = new PIXI.Container();
+    coinContainer.label = 'coinContainer';
+    app.stage.addChild(coinContainer);
+
+    const coinPouchTexture = await PIXI.Assets.load('/images/coin-pouch-128x128.png');
+    const coinPouchSprite = new PIXI.Sprite(coinPouchTexture);
+
+    const blackCircle = new PIXI.Graphics()
+        .circle(dimensions.width * 0.9, dimensions.height * 0.77, 36)
+        .fill({ color: 0x855b1f, alpha: 0.65 })
+
+    // Create a filter for blurring
+    const blurFilter = new PIXI.BlurFilter();
+    blurFilter.strength = 10;
+    blackCircle.filters = [blurFilter];
+
+
+    coinPouchSprite.x = dimensions.width * 0.9;
+    coinPouchSprite.y = dimensions.height * 0.75;
+    coinPouchSprite.anchor.set(0.5);
+    coinPouchSprite.scale.set(0.75);
+
+    coinPouchSprite.interactive = true;
+    coinPouchSprite.cursor = 'hover';
+
+    coinPouchSprite.on('pointerdown', () => {
+        console.log("Coin pouch clicked!");
+        let coins = gameGlobals.getState().coins;
+        if (coins > 9) coins = 9;
+        const coinScene = "M" + coins;
+        if (coins > 0) {
+            console.log("Switching to scene:", coinScene);
+            useGameGlobalsStore.getState().switchToScene(coinScene);
+        } else {
+            console.log("No coins to switch to scene");
+        }
+    });
+
+    coinContainer.addChild(blackCircle);
+    coinContainer.addChild(coinPouchSprite);
+
+    coinContainer.alpha = 0;
 
     return {
         app,

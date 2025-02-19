@@ -19,11 +19,13 @@ const useFxStore = create<FxStore>((set) => ({
         if (gameGlobalsStore.getState().app) {
             const fadePlate = new Graphics();
             fadePlate.label = "fadePlate";
-            fadePlate.rect(0, 0, gameGlobalsStore.getState().app.screen.width, gameGlobalsStore.getState().app.screen.height);
+            fadePlate.rect(0, 0, gameGlobalsStore.getState().app.stage.width, gameGlobalsStore.getState().app.stage.height);
             fadePlate.fill({ color: 0x000000 });
             fadePlate.alpha = 0;
             fadePlate.zIndex = 9999999999;
             gameGlobalsStore.getState().app.stage.addChild(fadePlate);
+        } else {
+            console.warn("App not found - Can't initiate fade plate");
         }
     },
     isFaded: false,
@@ -32,6 +34,10 @@ const useFxStore = create<FxStore>((set) => ({
         const fadePlate = gameGlobalsStore.getState().app.stage.children.find((child: Graphics) => child.label === "fadePlate");
         if (fadePlate) {
             return await fade(fadePlate, 1, duration);
+        } else {
+            console.warn("Fade plate not found - Initializing fade plate first");
+            useFxStore.getState().initiateFadePlate();
+            return await useFxStore.getState().fadeToBlack(duration);
         }
     },
     unfadeToBlack: async (duration: number): Promise<void> => {

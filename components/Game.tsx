@@ -1,7 +1,6 @@
 import VideoSwitcher from "./VideoSwitcher";
-import SceneLoadingIndicators from "./SceneLoadingIndicators";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import DebugMenu from "./DebugMenu";
 import DebugInfo from "./DebugInfo";
@@ -10,13 +9,16 @@ import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 import DisplaySkipIntro from "./DisplaySkipIntro";
 import SceneEventManager from "./SceneEventManager";
 import useFxStore from "@/stores/FX/fxStore";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
-import CoinCounter from "./CoinCounter";
 import MusicPlayer from "./MusicPlayer";
 import * as PIXI from "pixi.js";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
+
+  useEffect(() => {
+    useFxStore.getState().initiateFadePlate();
+    console.log("Fade plate initiated");
+  }, []);
 
   // Cleanup hitboxes when the app is destroyed
   useEffect(() => {
@@ -42,6 +44,11 @@ export default function Game() {
           if (coinContainer.alpha < 1) {
             coinContainer.alpha += 0.1;
             requestAnimationFrame(fadeIn);
+          } else {
+            coinContainer.interactive = true;
+            coinContainer.cursor = "hover";
+
+            console.log("Coin container faded in");
           }
         };
         fadeIn();
@@ -56,6 +63,11 @@ export default function Game() {
           if (coinContainer.alpha > 0) {
             coinContainer.alpha -= 0.1;
             requestAnimationFrame(fadeOut);
+          } else {
+            coinContainer.interactive = false;
+            coinContainer.cursor = "default";
+
+            console.log("Coin container faded out");
           }
         };
         fadeOut();

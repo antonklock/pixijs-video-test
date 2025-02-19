@@ -73,16 +73,18 @@ export const initializePixi = async () => {
     blurFilter.strength = 10;
     blackCircle.filters = [blurFilter];
 
+    blackCircle.interactive = false;
+    blackCircle.cursor = 'default';
+
+    coinPouchSprite.interactive = false;
+    coinPouchSprite.cursor = 'default';
 
     coinPouchSprite.x = dimensions.width * 0.1;
     coinPouchSprite.y = dimensions.height * 0.75;
     coinPouchSprite.anchor.set(0.5);
     coinPouchSprite.scale.set(0.75);
 
-    coinPouchSprite.interactive = true;
-    coinPouchSprite.cursor = 'hover';
-
-    coinPouchSprite.on('pointerdown', () => {
+    coinContainer.on('pointerdown', () => {
         console.log("Coin pouch clicked!");
         let coins = gameGlobals.getState().coins;
         if (coins > 9) coins = 9;
@@ -99,6 +101,8 @@ export const initializePixi = async () => {
     coinContainer.addChild(coinPouchSprite);
 
     coinContainer.alpha = 0;
+    coinContainer.interactive = true;
+    coinContainer.cursor = 'hover';
 
     return {
         app,

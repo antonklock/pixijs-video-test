@@ -248,6 +248,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (!newScene.id.includes("H0")) {
         const videoPlayer = newScene.video.player as HTMLVideoElement;
         videoPlayer.muted = false;
+    } else {
+        const videoPlayer = newScene.video.player as HTMLVideoElement;
+        videoPlayer.muted = false;
+        videoPlayer.volume = 0;
     }
 }
 

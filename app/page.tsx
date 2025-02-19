@@ -13,7 +13,6 @@ export default function Home() {
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
   const pixiContainerRef = useRef<HTMLDivElement>(null);
   const [gameReady, setGameReady] = useState(false);
-  const [initialScenePlaying, setInitialScenePlaying] = useState(false);
 
   useEffect(() => {
     gameGlobals.setPixiContainer(pixiContainerRef.current);
@@ -34,7 +33,6 @@ export default function Home() {
     setBgColor("bg-black");
     await gameGlobals.addNewScene("G0");
     gameGlobals.switchToScene("G0");
-    setInitialScenePlaying(true);
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
     }, 500);

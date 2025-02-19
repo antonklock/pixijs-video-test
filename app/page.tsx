@@ -79,10 +79,7 @@ export default function Home() {
           isGameRunning={gameGlobals.isGameRunning}
         />
 
-        <Game
-          initialScenePlaying={initialScenePlaying}
-          onStartGame={handleStartGame}
-        />
+        <Game />
       </div>
     </>
   );

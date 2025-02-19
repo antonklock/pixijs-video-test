@@ -4,7 +4,12 @@ import { createVideoSprite } from '@/utils/createVideoSprite';
 import { GameGlobalsStore } from '@/stores/gameGlobals/gameGlobals';
 
 const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) => {
-    if (!get().app) return console.warn("Can't add new scene! App not initialized.");
+    if (!get().app) {
+        console.warn("Can't add new scene! App not initialized.");
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    }
     if (get().stagedScenes.some(scene => scene.id === sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already staged.`);
     if (get().loadingScenes.has(sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already loading.`);
     try {

@@ -119,8 +119,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         newCurrentTime = seconds ?? 0;
         player.currentTime = newCurrentTime - 1.5;
         await useFxStore.getState().unfadeToBlack(250);
-    }
-    else if (newScene.id === "H1") {
+    } else if (newScene.id === "H1") {
         // await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
@@ -135,8 +134,13 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         newCurrentTime = seconds ?? 0;
         player.currentTime = newCurrentTime - 1.5;
         useFxStore.getState().unfadeToBlack(5);
-    }
-    else {
+    } else if (newScene.id.includes("M")) {
+        await useFxStore.getState().fadeToBlack(250);
+        await player.play();
+        changeVideoPlayer(0);
+        newCurrentTime = 0;
+        player.currentTime = newCurrentTime - 1.5;
+    } else {
         await player.play();
         changeVideoPlayer(150);
     }
@@ -231,7 +235,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     const nextScenes = newScene.nextScenes;
 
     const coins = useGameGlobalsStore.getState().coins;
-    if (coins > 0) {
+    if (coins >= 0 && coins <= 9) {
         nextScenes.push("M" + coins);
     }
 

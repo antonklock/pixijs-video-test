@@ -66,6 +66,7 @@ import M6 from "./scenes/MYNT/M6";
 import M7 from "./scenes/MYNT/M7";
 import M8 from "./scenes/MYNT/M8";
 import M9 from "./scenes/MYNT/M9";
+import M0 from "./scenes/MYNT/M0";
 
 export const sceneObjects: SceneObject[] = [
     G0,
@@ -125,4 +126,5 @@ export const sceneObjects: SceneObject[] = [
     M7,
     M8,
     M9,
+    M0,
 ];

@@ -21,9 +21,9 @@ const H0: SceneObject = {
         name: "HB-H1",
         color: 0x5e4613,
         x: 0.11,
-        y: 0.5,
+        y: 0.4,
         width: 0.15,
-        height: 0.50,
+        height: 0.45,
         onHit: () => {
             if (hitboxIsActive("HB-H1") && !isSceneStarted("H1")) useGameGlobalsStore.getState().switchToScene("H1");
         },

@@ -15,17 +15,8 @@ import CoinCounter from "./CoinCounter";
 import MusicPlayer from "./MusicPlayer";
 import * as PIXI from "pixi.js";
 
-export default function Game({
-  initialScenePlaying,
-  onStartGame,
-}: {
-  initialScenePlaying: boolean;
-  onStartGame: () => void;
-}) {
+export default function Game() {
   const gameGlobals = useGameGlobalsStore();
-  const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
-
-  const { showCoins } = useDebugStore();
 
   // Cleanup hitboxes when the app is destroyed
   useEffect(() => {
@@ -36,44 +27,12 @@ export default function Game({
     };
   }, [gameGlobals.app]);
 
-  // useEffect(() => {
-  //   if (!gameGlobals.app) return;
-  //   if (!initialSceneLoaded) {
-  //     console.log("Adding new scene G0");
-  //     gameGlobals.addNewScene("G0");
-  //     setInitialSceneLoaded(true);
-  //     useFxStore.getState().initiateFadePlate();
-  //     useGameSessionStore.getState().clearSession();
-
-  //     gameGlobals.setGameState("playing");
-
-  //     // const gameContainer = document.getElementById("game-container");
-  //     // if (gameContainer) {
-  //     //   gameContainer.requestFullscreen();
-  //     // }
-  //   }
-
-  //   // TODO: Can we find a more elegant solution? I don't like the timer.
-  //   // if (!initialScenePlaying) {
-  //   //   setTimeout(() => {
-  //   //     gameGlobals.switchToScene("G0");
-  //   //     setInitialScenePlaying(true);
-  //   //   }, 4000);
-  //   // }
-  // }, [
-  //   gameGlobals.app,
-  //   initialSceneLoaded,
-  //   initialScenePlaying,
-  //   gameGlobals.currentScene?.isReady,
-  //   gameGlobals,
-  // ]);
-
   useEffect(() => {
     if (!gameGlobals.app) return;
 
     const coins = gameGlobals.coins;
 
-    if (gameGlobals.currentScene?.id === "H0" && coins > 0) {
+    if (gameGlobals.currentScene?.id === "H0" && coins >= 0) {
       const coinContainer = gameGlobals.app.stage.children.find(
         (child: PIXI.Container) => child.label === "coinContainer"
       );

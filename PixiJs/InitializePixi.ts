@@ -65,7 +65,7 @@ export const initializePixi = async () => {
     const coinPouchSprite = new PIXI.Sprite(coinPouchTexture);
 
     const blackCircle = new PIXI.Graphics()
-        .circle(dimensions.width * 0.9, dimensions.height * 0.77, 36)
+        .circle(dimensions.width * 0.1, dimensions.height * 0.77, 36)
         .fill({ color: 0x855b1f, alpha: 0.65 })
 
     // Create a filter for blurring
@@ -74,7 +74,7 @@ export const initializePixi = async () => {
     blackCircle.filters = [blurFilter];
 
 
-    coinPouchSprite.x = dimensions.width * 0.9;
+    coinPouchSprite.x = dimensions.width * 0.1;
     coinPouchSprite.y = dimensions.height * 0.75;
     coinPouchSprite.anchor.set(0.5);
     coinPouchSprite.scale.set(0.75);
@@ -87,9 +87,9 @@ export const initializePixi = async () => {
         let coins = gameGlobals.getState().coins;
         if (coins > 9) coins = 9;
         const coinScene = "M" + coins;
-        if (coins > 0) {
+        if (coins >= 0) {
             console.log("Switching to scene:", coinScene);
-            useGameGlobalsStore.getState().switchToScene(coinScene);
+            useGameGlobalsStore.getState().switchToScene(coinScene, false);
         } else {
             console.log("No coins to switch to scene");
         }

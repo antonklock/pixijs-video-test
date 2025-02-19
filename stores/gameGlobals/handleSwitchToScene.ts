@@ -202,6 +202,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // Adding new hitboxes
     newScene.hitboxes.forEach(hitboxConfig => {
+        const displaySkipIntro = window.localStorage.getItem("shouldDisplaySkip") === "true";
+        if (!displaySkipIntro && hitboxConfig.name === "HB-H0") return console.log("Skipping hitbox HB-H0 first time!");
         const { onHit, ...config } = hitboxConfig;
         addHitbox({
             ...config, onClick: () => {

@@ -29,9 +29,6 @@ const G0: SceneObject = {
             const skipIntro = useGameGlobalsStore.getState().app.stage.children.find((child: PIXI.Sprite) => child.label === "skip-intro");
             if (skipIntro) skipIntro.destroy();
 
-            const hub = determineHub();
-            console.log("Hub: ", hub);
-
             if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0")
         },
         isLoaded: false,
@@ -42,6 +39,13 @@ const G0: SceneObject = {
         }]
     }],
     sceneEvents: [
+        {
+            name: "set-skip-intro",
+            triggerTime: 20,
+            runEvent: () => {
+                localStorage.setItem("shouldDisplaySkip", "true");
+            }
+        },
         {
             name: "intro-end",
             triggerTime: 70.5,

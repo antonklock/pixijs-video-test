@@ -14,10 +14,16 @@ import useGameSessionStore from "@/stores/gameSession/gameSession";
 import CoinCounter from "./CoinCounter";
 import MusicPlayer from "./MusicPlayer";
 import * as PIXI from "pixi.js";
-export default function Game() {
+
+export default function Game({
+  initialScenePlaying,
+  onStartGame,
+}: {
+  initialScenePlaying: boolean;
+  onStartGame: () => void;
+}) {
   const gameGlobals = useGameGlobalsStore();
   const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
-  const [initialScenePlaying, setInitialScenePlaying] = useState(false);
 
   const { showCoins } = useDebugStore();
 
@@ -30,40 +36,43 @@ export default function Game() {
     };
   }, [gameGlobals.app]);
 
+  // useEffect(() => {
+  //   if (!gameGlobals.app) return;
+  //   if (!initialSceneLoaded) {
+  //     console.log("Adding new scene G0");
+  //     gameGlobals.addNewScene("G0");
+  //     setInitialSceneLoaded(true);
+  //     useFxStore.getState().initiateFadePlate();
+  //     useGameSessionStore.getState().clearSession();
+
+  //     gameGlobals.setGameState("playing");
+
+  //     // const gameContainer = document.getElementById("game-container");
+  //     // if (gameContainer) {
+  //     //   gameContainer.requestFullscreen();
+  //     // }
+  //   }
+
+  //   // TODO: Can we find a more elegant solution? I don't like the timer.
+  //   // if (!initialScenePlaying) {
+  //   //   setTimeout(() => {
+  //   //     gameGlobals.switchToScene("G0");
+  //   //     setInitialScenePlaying(true);
+  //   //   }, 4000);
+  //   // }
+  // }, [
+  //   gameGlobals.app,
+  //   initialSceneLoaded,
+  //   initialScenePlaying,
+  //   gameGlobals.currentScene?.isReady,
+  //   gameGlobals,
+  // ]);
+
   useEffect(() => {
     if (!gameGlobals.app) return;
-    if (!initialSceneLoaded) {
-      gameGlobals.addNewScene("G0");
-      setInitialSceneLoaded(true);
-      useFxStore.getState().initiateFadePlate();
-      useGameSessionStore.getState().clearSession();
 
-      gameGlobals.setGameState("playing");
-
-      // const gameContainer = document.getElementById("game-container");
-      // if (gameContainer) {
-      //   gameContainer.requestFullscreen();
-      // }
-    }
-
-    // TODO: Can we find a more elegant solution? I don't like the timer.
-    // if (!initialScenePlaying) {
-    //   setTimeout(() => {
-    //     gameGlobals.switchToScene("G0");
-    //     setInitialScenePlaying(true);
-    //   }, 4000);
-    // }
-  }, [
-    gameGlobals.app,
-    initialSceneLoaded,
-    initialScenePlaying,
-    gameGlobals.currentScene?.isReady,
-    gameGlobals,
-  ]);
-
-  useEffect(() => {
-    if (!gameGlobals.app) return;
     const coins = gameGlobals.coins;
+
     if (gameGlobals.currentScene?.id === "H0" && coins > 0) {
       const coinContainer = gameGlobals.app.stage.children.find(
         (child: PIXI.Container) => child.label === "coinContainer"
@@ -95,30 +104,17 @@ export default function Game() {
     }
   }, [gameGlobals.currentScene]);
 
-  const { showLoadingIndicators, showDebugInfo } = useDebugStore();
+  const { showDebugInfo } = useDebugStore();
 
   return (
     <div className="relative top-0 left-0 w-full h-full overflow-hidden">
-      {!initialScenePlaying && (
-        <button
-          onClick={() => {
-            gameGlobals.switchToScene("G0");
-            setInitialScenePlaying(true);
-          }}
-          className="absolute top-1/2 left-0 z-50 bg-white text-black p-2 rounded-md"
-        >
-          START GAME
-        </button>
-      )}
       <VideoSwitcher />
       <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
       <DisplaySkipIntro />
-      {showLoadingIndicators && <SceneLoadingIndicators />}
       <MusicPlayer />
       <SceneEventManager />
-      {showCoins && <CoinCounter />}
     </div>
   );
 }

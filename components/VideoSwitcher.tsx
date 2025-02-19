@@ -34,12 +34,13 @@ const VideoSwitcher = () => {
 
   // Initialize Pixi
   useEffect(() => {
-    if (initializationRef.current || appRef.current) return;
+    if (initializationRef.current === true || appRef.current) return;
     initializationRef.current = true;
 
     const createPixiApp = async () => {
       const { app, canvas, dimensions } = await initializePixi();
-      if (!canvas || !containerRef.current || !app) return;
+      if (!canvas || !containerRef.current || !app)
+        return console.warn("Pixi app failed to initialize");
 
       if (
         !gameGlobals.stageDimensions.width ||
@@ -51,9 +52,12 @@ const VideoSwitcher = () => {
         });
       }
 
-      const container = gameGlobals.pixiContainer;
+      let container = gameGlobals.pixiContainer;
 
-      if (!container) return location.reload();
+      // if (!container) return location.reload();
+      // if (!container) return console.warn("Container not found");
+      container = document.getElementById("pixi-container") as HTMLDivElement;
+      if (!container) return console.warn("Container not found");
       container.appendChild(canvas);
       appRef.current = app;
 
@@ -62,6 +66,8 @@ const VideoSwitcher = () => {
 
       gameGlobals.setApp(app);
       gameGlobals.setCanvas(canvas);
+
+      console.log("App initialized");
     };
 
     createPixiApp();
@@ -71,7 +77,7 @@ const VideoSwitcher = () => {
     );
 
     return cleanup;
-  }, []);
+  }, [gameGlobals.pixiContainer]);
 
   const cleanup = () => {
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());

@@ -28,7 +28,7 @@ const H3: SceneObject = {
                 if (hitboxIsActive("HB-H3-A")) useGameGlobalsStore.getState().switchToScene("H3-A");
             },
             activationIntervals: [{
-                start: 2,
+                start: 9,
                 end: 99999
             }],
         },
@@ -45,7 +45,7 @@ const H3: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 4,
                 end: 99999
             }]
         }

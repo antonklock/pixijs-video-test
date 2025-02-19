@@ -12,43 +12,50 @@ function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
   const { app } = useGameGlobalsStore();
 
   useEffect(() => {
-    async function createSpriteAnimation() {
-      const textures = await Promise.all([
-        Assets.load("/buttons/skip-intro/skip-intro-01.png"),
-        Assets.load("/buttons/skip-intro/skip-intro-02.png"),
-        Assets.load("/buttons/skip-intro/skip-intro-03.png"),
-        Assets.load("/buttons/skip-intro/skip-intro-04.png"),
-      ]);
+    const display = window.localStorage.getItem("shouldDisplaySkip") === "true";
+    console.log("Display skip intro:", display);
 
-      const hitboxX = app.stage.width * 0.8;
-      const hitboxY = app.stage.height * 0.75;
+    if (display) {
+      async function createSpriteAnimation() {
+        const textures = await Promise.all([
+          Assets.load("/buttons/skip-intro/skip-intro-01.png"),
+          Assets.load("/buttons/skip-intro/skip-intro-02.png"),
+          Assets.load("/buttons/skip-intro/skip-intro-03.png"),
+          Assets.load("/buttons/skip-intro/skip-intro-04.png"),
+        ]);
 
-      const sprite = Sprite.from(textures[0]);
-      app.stage.addChild(sprite);
-      sprite.pivot.set(sprite.width / 2, sprite.height / 2);
-      sprite.position.set(hitboxX, hitboxY);
-      sprite.scale.set(0.18);
+        const hitboxX = app.stage.width * 0.8;
+        const hitboxY = app.stage.height * 0.75;
 
-      sprite.label = "skip-intro";
+        const sprite = Sprite.from(textures[0]);
+        app.stage.addChild(sprite);
+        sprite.pivot.set(sprite.width / 2, sprite.height / 2);
+        sprite.position.set(hitboxX, hitboxY);
+        sprite.scale.set(0.18);
 
-      let currentFrame = 0;
-      const frameInterval = 100;
+        sprite.label = "skip-intro";
 
-      function animate() {
-        if (currentFrame < textures.length - 1) {
-          currentFrame++;
-          sprite.texture = textures[currentFrame];
-          setTimeout(animate, frameInterval);
+        let currentFrame = 0;
+        const frameInterval = 100;
+
+        function animate() {
+          if (currentFrame < textures.length - 1) {
+            currentFrame++;
+            sprite.texture = textures[currentFrame];
+            setTimeout(animate, frameInterval);
+          }
         }
+
+        animate();
       }
 
-      animate();
-    }
-
-    if (app) {
-      setTimeout(() => {
-        createSpriteAnimation();
-      }, startDelay);
+      if (app) {
+        setTimeout(() => {
+          createSpriteAnimation();
+        }, startDelay);
+      }
+    } else {
+      console.log("Skip intro should not be displayed");
     }
   }, [app]);
 

@@ -43,10 +43,10 @@ const H2B: SceneObject = {
             width: 0.05,
             height: 0.2,
             onHit: () => {
-
-                // TODO: Add WIN scenario
-
-                if (hitboxIsActive("HB-H2-B-2")) useGameGlobalsStore.getState().switchToScene("H2-B-2");
+                if (hitboxIsActive("HB-H2-B-2")) {
+                    useGameGlobalsStore.getState().switchToScene("H2-B-2");
+                    useGameGlobalsStore.getState().setGameState("won");
+                }
             },
             isLoaded: false,
             isActive: false,
@@ -83,7 +83,7 @@ const H2B: SceneObject = {
         },
         {
             name: "H2-B-3-END",
-            triggerTime: 29,
+            triggerTime: 16,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

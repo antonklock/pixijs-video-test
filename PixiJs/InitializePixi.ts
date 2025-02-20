@@ -50,11 +50,11 @@ export const initializePixi = async (props: InitializePixiProps) => {
     app.stage.addChild(debugRect);
 
     // Resize the stage when the window is resized
-    window.addEventListener('resize', () => resizeStage(app));
+    window.addEventListener('resize', () => resizeStage());
 
     // Clean up function
     const cleanup = () => {
-        window.removeEventListener('resize', () => resizeStage(app));
+        window.removeEventListener('resize', () => resizeStage());
         app.destroy(true);
     };
 
@@ -122,9 +122,7 @@ export const shouldStageResize = (app: PIXI.Application) => {
     return shouldResize;
 }
 
-export const resizeStage = (app: PIXI.Application) => {
-    if (gameGlobals.getState().isGameRunning) {
-        console.warn("Resizing not implemented. Reloading page.");
-        location.reload();
-    }
+export const resizeStage = () => {
+    console.warn("Resizing not implemented. Reloading page.");
+    location.reload();
 };

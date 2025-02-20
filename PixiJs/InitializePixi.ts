@@ -28,23 +28,22 @@ export const initializePixi = async (props: InitializePixiProps) => {
         app.renderer.events.cursorStyles.hover = 'url("/cursors/wood/32x32/cursor-pointer-32.png"), auto';
     });
 
-    const dimensionsText = new PIXI.Text({
-        text: `stage.width: ${dimensions.width} x stage.height: ${dimensions.height}`,
-        style: {
-            fontFamily: "Arial",
-            fontSize: 12,
-            fill: 0xeeeeee,
-            align: "center",
-        }
-    });
-    dimensionsText.label = "dimensionsText";
-    dimensionsText.position.set(0 + dimensionsText.width / 2, 0 + dimensionsText.height / 2);
-
-    app.stage.addChild(dimensionsText);
+    // const dimensionsText = new PIXI.Text({
+    //     text: `stage.width: ${dimensions.width} x stage.height: ${dimensions.height}`,
+    //     style: {
+    //         fontFamily: "Arial",
+    //         fontSize: 12,
+    //         fill: 0xeeeeee,
+    //         align: "center",
+    //     }
+    // });
+    // dimensionsText.label = "dimensionsText";
+    // dimensionsText.position.set(0 + dimensionsText.width / 2, 0 + dimensionsText.height / 2);
+    // app.stage.addChild(dimensionsText);
 
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0xff0000, alpha: 1 })
+        .setStrokeStyle({ width: 2, color: 0xff0000, alpha: 0.1 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     debugRect.zIndex = 999999999;
@@ -124,20 +123,8 @@ export const shouldStageResize = (app: PIXI.Application) => {
 }
 
 export const resizeStage = (app: PIXI.Application) => {
-    app.resize();
-    console.log("Resizing stage");
-    console.log("app.stage.width: ", app.stage.width, " x app.stage.height: ", app.stage.height);
-
-    const parentElement = app.resizeTo;
-
-    console.log("app.resizeTo: ", parentElement);
-
-    // const calculatedDimensions = calculateStageDimensions();
-
-    // // Update the canvas size
-    // app.renderer.resize(calculatedDimensions.width, calculatedDimensions.height);
-    // app.stage.width = calculatedDimensions.width;
-    // app.stage.height = calculatedDimensions.height;
-
-    // console.log("Resized stage to: ", calculatedDimensions.width, calculatedDimensions.height);
+    if (gameGlobals.getState().isGameRunning) {
+        console.warn("Resizing not implemented. Reloading page.");
+        location.reload();
+    }
 };

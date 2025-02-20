@@ -38,10 +38,6 @@ const VideoSwitcher = () => {
     initializationRef.current = true;
 
     const createPixiApp = async () => {
-      if (!containerRef.current) return console.warn("Container not found");
-
-      console.log("containerRef.current: ", containerRef.current);
-
       const container = document.getElementById(
         "pixi-container"
       ) as HTMLDivElement;

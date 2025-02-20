@@ -47,15 +47,31 @@ const HitboxManager = () => {
           newTime >= hitbox.activationIntervals[0].start &&
           newTime <= hitbox.activationIntervals[0].end
         ) {
-          if (!hitbox.isActive) {
+          if (
+            !hitbox.isActive ||
+            getHitboxColor(hitbox.name) !== 0x00ff00 ||
+            getHitboxCursor(hitbox.name) !== "hover"
+          ) {
+            console.log("Activating hitbox:", hitbox.name);
             handleActivateHitbox(hitbox.name);
+          } else {
+            console.log("Hitbox active:", hitbox.isActive);
           }
         } else {
-          if (hitbox.isActive) {
+          if (
+            hitbox.isActive &&
+            getHitboxColor(hitbox.name) === 0x00ff00 &&
+            getHitboxCursor(hitbox.name) === "hover"
+          ) {
+            console.log("Deactivating hitbox:", hitbox.name);
             handleDeactivateHitbox(hitbox.name);
+          } else {
+            console.log("Hitbox inactive:", hitbox.isActive);
           }
         }
       });
+    } else {
+      console.log("No video player found!");
     }
   };
 
@@ -75,12 +91,6 @@ const HitboxManager = () => {
       updateHitboxGraphics(hitboxName, 0xee0000);
       updateHitboxCursor(hitboxName, "default");
     }
-  }
-
-  function logStageContainers() {
-    gameGlobals.app.stage.children.forEach((child: PIXI.Container) => {
-      console.log("Stage container:", child.label);
-    });
   }
 
   function findHitboxByName(hitboxName: string) {
@@ -129,6 +139,22 @@ const HitboxManager = () => {
     } else {
       console.log("Hitbox container not found:", hitboxName + "-container");
     }
+  }
+
+  function getHitboxColor(hitboxName: string) {
+    const hitbox = findHitboxByName(hitboxName);
+    if (hitbox) {
+      return hitbox.color;
+    }
+    return null;
+  }
+
+  function getHitboxCursor(hitboxName: string) {
+    const hitbox = findHitboxByName(hitboxName);
+    if (hitbox) {
+      return hitbox.cursor;
+    }
+    return null;
   }
 
   return (

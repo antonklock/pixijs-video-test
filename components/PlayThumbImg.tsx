@@ -59,38 +59,37 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 play-thumb-button w-full h-full ${className}`}
       >
-        <Image
-          className={`absolute top-1/3 pt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] ${
+        <div
+          className={`absolute top-1/2 pb-10 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] flex flex-col items-center justify-center  ${
             isMounted ? "opacity-100" : "opacity-0"
           }`}
-          src={"/logos/ybp-Logo-white-256.png"}
-          alt="Play Thumbnail"
-          width={150}
-          height={150}
           style={{ zIndex: 513 }}
-        />
-
-        <button
-          onClick={handleClick}
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] ${
-            isMounted ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ zIndex: 512 }}
         >
           <Image
-            src={"/images/play-game.png"}
+            className={``}
+            src={"/logos/ybp-Logo-white-256.png"}
             alt="Play Thumbnail"
             width={150}
             height={150}
-            style={{
-              objectFit: "cover",
-              width: "auto",
-              height: "auto",
-              zIndex: 11,
-            }}
-            priority
+            style={{ zIndex: 513 }}
           />
-        </button>
+
+          <button onClick={handleClick} className={``} style={{ zIndex: 512 }}>
+            <Image
+              src={"/images/play-game.png"}
+              alt="Play Thumbnail"
+              width={150}
+              height={150}
+              style={{
+                objectFit: "cover",
+                width: "auto",
+                height: "auto",
+                zIndex: 11,
+              }}
+              priority
+            />
+          </button>
+        </div>
         <video
           className={`absolute top-0 left-0 w-full h-full transition-opacity duration-[3000ms] pointer-events-none ${
             isHlsReady ? "opacity-100" : "opacity-0"

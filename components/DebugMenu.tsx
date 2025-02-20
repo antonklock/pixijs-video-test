@@ -2,13 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
 import cogIcon from "@/public/icons/cog.svg";
 import Image from "next/image";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 const DebugMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const debugStore = useDebugStore();
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const [position, setPosition] = useState({ x: 4, y: 4 });
   const [fadeIn, setFadeIn] = useState(false);
+  const [shouldDisplaySkip, setShouldDisplaySkip] = useState(false);
+
+  useEffect(() => {
+    setShouldDisplaySkip(localStorage.getItem("shouldDisplaySkip") === "true");
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -36,6 +41,16 @@ const DebugMenu = () => {
 
   const toggleHlsMessages = () => {
     debugStore.setShowHlsMessages(!debugStore.showHlsMessages);
+  };
+
+  const toggleShouldDisplaySkip = () => {
+    const newValue = !shouldDisplaySkip;
+    setShouldDisplaySkip(newValue);
+    localStorage.setItem("shouldDisplaySkip", newValue.toString());
+  };
+
+  const addCoin = () => {
+    useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
   };
 
   useEffect(() => {
@@ -161,6 +176,32 @@ const DebugMenu = () => {
             >
               {debugStore.showHlsMessages ? "ON" : "OFF"}
             </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <label className="flex-grow text-white border border-white rounded-full p-2">
+              <input
+                type="checkbox"
+                checked={shouldDisplaySkip}
+                onChange={toggleShouldDisplaySkip}
+                className="mr-2"
+              />
+              Should Display Skip
+            </label>
+            <span
+              className={`text-white ${
+                shouldDisplaySkip ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {shouldDisplaySkip ? "ON" : "OFF"}
+            </span>
+          </div>
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              onClick={addCoin}
+              className="flex-grow text-white border border-white rounded-full p-2"
+            >
+              Add Coin
+            </button>
           </div>
         </div>
       )}

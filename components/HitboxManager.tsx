@@ -54,15 +54,10 @@ const HitboxManager = () => {
               .getState()
               .startedScenes.has(hitboxSceneId);
             const allowedDoubleScenes = ["H2-A", "H3-A"];
-            console.log(
-              "allowedDoubleScenes.includes(hitboxSceneId):",
-              allowedDoubleScenes.includes(hitboxSceneId)
-            );
             if (
               !sceneAlreadyPlayed ||
               allowedDoubleScenes.includes(hitboxSceneId)
             ) {
-              console.log("Activating hitbox:", hitbox.name);
               handleActivateHitbox(hitbox.name);
             }
           }
@@ -162,7 +157,6 @@ const HitboxManager = () => {
           (child: PIXI.Graphics | PIXI.Container) => child.label === hitboxName
         );
         if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
-          // console.log("Hitbox graphic cursor:", hitboxGraphic.cursor);
           return hitboxGraphic.cursor;
         }
       }

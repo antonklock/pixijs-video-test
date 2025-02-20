@@ -13,7 +13,6 @@ function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
 
   useEffect(() => {
     const display = window.localStorage.getItem("shouldDisplaySkip") === "true";
-    console.log("Display skip intro:", display);
 
     if (display) {
       async function createSpriteAnimation() {

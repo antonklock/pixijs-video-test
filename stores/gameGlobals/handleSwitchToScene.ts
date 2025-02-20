@@ -73,7 +73,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         }
     }
 
-    console.log("New scene: ", newScene);
+    // console.log("New scene: ", newScene);
 
     let seconds = Tone.getTransport().seconds;
     let newCurrentTime = seconds ?? 0;
@@ -147,7 +147,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     }
 
     function changeVideoPlayer(delay: number = 0) {
-        console.log("Video players: ", videoPlayers);
+        // console.log("Video players: ", videoPlayers);
         setTimeout(() => {
             videoPlayers.forEach((videoPlayer) => {
                 if (videoPlayer === player) return;
@@ -205,8 +205,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     // Remove old hitboxes
     get().hitboxes.forEach(removeAllHitboxes);
     get().app?.stage.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
-        console.log("Child label:", child.label);
-        if (child.label.includes("-container")) {
+        if (child.label && child.label.includes("-container")) {
             child.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
                 child.destroy();
             })
@@ -247,6 +246,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     const coins = useGameGlobalsStore.getState().coins;
     if (coins >= 0 && coins <= 9) {
         nextScenes.push("M" + coins);
+        // console.log("Adding next scene: ", "M" + coins);
     }
 
     // Add next scenes

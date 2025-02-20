@@ -16,7 +16,8 @@ export default function Game() {
 
   useEffect(() => {
     useFxStore.getState().initiateFadePlate();
-    console.log("Fade plate initiated");
+    gameGlobals.setGameState("playing");
+    // console.log("Fade plate initiated");
   }, []);
 
   // Cleanup hitboxes when the app is destroyed

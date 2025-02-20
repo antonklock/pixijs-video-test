@@ -18,10 +18,10 @@ const loadVideo = async (id: string) => {
 
     // TODO: This is a hack to load the correct video for the hub
     if (id.includes("H0")) {
-        console.log("Started scenes: ", useGameSessionStore.getState().startedScenes);
+        // console.log("Started scenes: ", useGameSessionStore.getState().startedScenes);
 
         const hub = determineHub();
-        console.log(`%cLoading video for %c${hub}`, 'color: #bbffbb; font-weight: regular;', 'color: orange; font-weight: bold;');
+        // console.log(`%cLoading video for %c${hub}`, 'color: #bbffbb; font-weight: regular;', 'color: orange; font-weight: bold;');
         source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
     }
 

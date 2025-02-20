@@ -30,10 +30,14 @@ function addHitbox(config: HitboxConfig) {
 
         const hitboxContainer = new PIXI.Container();
         hitboxContainer.label = name + "-container";
+        hitboxContainer.x = hitboxX;
+        hitboxContainer.y = hitboxY;
+        hitboxContainer.width = hitboxWidth;
+        hitboxContainer.height = hitboxHeight;
 
         hitbox = new PIXI.Graphics();
         const showHitboxes = useDebugStore.getState().showHitboxes;
-        hitbox.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+        hitbox.rect(0, 0, hitboxWidth, hitboxHeight)
             .fill({ color: 0xffffff, alpha: 0.1 })
 
         hitbox.tint = 0xFF0000;
@@ -50,7 +54,7 @@ function addHitbox(config: HitboxConfig) {
 
         const hitboxStroke = new PIXI.Graphics();
         hitboxStroke
-            .rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+            .rect(0, 0, hitboxWidth, hitboxHeight)
             .stroke({ width: 2, color: 0xFF0000 });
         hitboxStroke.pivot.set(hitboxStroke.width / 2, hitboxStroke.height / 2);
         hitboxStroke.label = name + "-stroke";
@@ -67,7 +71,7 @@ function addHitbox(config: HitboxConfig) {
         });
         labelText.anchor.set(0.5);
         labelText.alpha = showHitboxes ? 1 : 0;
-        labelText.position.set(hitboxX, hitboxY - 10);
+        labelText.position.set(0, 0 - 10);
         labelText.label = name + "-label";
 
         const positionText = new PIXI.Text({
@@ -82,7 +86,7 @@ function addHitbox(config: HitboxConfig) {
         positionText.anchor.set(0.5);
         positionText.alpha = showHitboxes ? 1 : 0;
         positionText.label = name + "-position";
-        positionText.position.set(hitboxX, hitboxY + 10);
+        positionText.position.set(0, 0 + 10);
 
         hitboxContainer.addChild(positionText, labelText, hitbox, hitboxStroke);
         app.stage.addChild(hitboxContainer);

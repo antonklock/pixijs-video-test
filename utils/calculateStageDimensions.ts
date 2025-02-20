@@ -1,8 +1,7 @@
 const calculateStageDimensions = () => {
-    console.log("Calculating dimensions");
+    // console.log("Calculating dimensions");
 
     const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
     const targetRatio = 16 / 9;
 
     let width = viewportWidth;
@@ -15,8 +14,7 @@ const calculateStageDimensions = () => {
 
     return {
         width: Math.floor(width),
-        height: Math.floor(height),
-        scale: Math.min(viewportWidth / width, viewportHeight / height),
+        height: Math.floor(height)
     };
 };
 

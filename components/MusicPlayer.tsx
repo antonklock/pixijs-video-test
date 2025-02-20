@@ -53,17 +53,17 @@ const MusicPlayer = () => {
 
   const loadMusic = async () => {
     if (playerRef.current) return;
-    console.log("Loading music...");
+    // console.log("Loading music...");
 
     playerRef.current = new Tone.Player(musicUrl.current).toDestination();
     if (!playerRef.current) return console.error("Failed to create player");
     await playerRef.current.load(musicUrl.current);
-    console.log("Music loaded");
+    // console.log("Music loaded");
 
     const gameGlobals = useGameGlobalsStore.getState();
     const setMusicPlayer = gameGlobals.setMusicPlayer;
     const loseTime = gameGlobals.loseTime;
-
+    const app = gameGlobals.app;
     setMusicPlayer(playerRef.current);
 
     Tone.getTransport().start();
@@ -72,7 +72,7 @@ const MusicPlayer = () => {
       playerRef.current?.start();
       playerRef.current?.sync();
       setIsPlaying(true);
-      console.log("Playing music...");
+      // console.log("Playing music...");
     }
     setHasLoaded(true);
 
@@ -95,6 +95,11 @@ const MusicPlayer = () => {
 
       const { gameState, currentScene } = useGameGlobalsStore.getState();
 
+      // if (shouldStageResize(app)) {
+      //   console.log("%cRESIZED STAGE", "color: orange;");
+      //   resizeStage(app);
+      // }
+
       // Fading out music when game is done
       if (time > loseTime + 5) {
         if (gameState === "playing" || gameState === "lost") {
@@ -112,11 +117,14 @@ const MusicPlayer = () => {
       // End game when time is up
       if (time > loseTime) {
         if (gameState === "playing") {
+          // console.log("gameState: ", gameState + " - losing game");
           setGameState("lost");
           switchToScene("L1");
         } else if (gameState === "won" || currentScene?.id !== "H6-B") {
+          // console.log("gameState: ", gameState + " - winning game");
           switchToScene("H6-B");
         } else {
+          // console.log("gameState: ", gameState + " - can't lose game");
           console.log(`Can't lose game when state is ${gameState}`);
         }
       }

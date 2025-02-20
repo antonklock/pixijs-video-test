@@ -38,7 +38,18 @@ const VideoSwitcher = () => {
     initializationRef.current = true;
 
     const createPixiApp = async () => {
-      const { app, canvas, dimensions } = await initializePixi();
+      if (!containerRef.current) return console.warn("Container not found");
+
+      console.log("containerRef.current: ", containerRef.current);
+
+      const container = document.getElementById(
+        "pixi-container"
+      ) as HTMLDivElement;
+      if (!container) return console.warn("Container not found");
+
+      const { app, canvas, dimensions } = await initializePixi({
+        parentElement: container,
+      });
       if (!canvas || !containerRef.current || !app)
         return console.warn("Pixi app failed to initialize");
 
@@ -52,12 +63,6 @@ const VideoSwitcher = () => {
         });
       }
 
-      let container = gameGlobals.pixiContainer;
-
-      // if (!container) return location.reload();
-      // if (!container) return console.warn("Container not found");
-      container = document.getElementById("pixi-container") as HTMLDivElement;
-      if (!container) return console.warn("Container not found");
       container.appendChild(canvas);
       appRef.current = app;
 
@@ -67,7 +72,7 @@ const VideoSwitcher = () => {
       gameGlobals.setApp(app);
       gameGlobals.setCanvas(canvas);
 
-      console.log("App initialized");
+      // console.log("App initialized");
     };
 
     createPixiApp();
@@ -104,7 +109,7 @@ const VideoSwitcher = () => {
 
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
 
-    console.log("Cleanup");
+    // console.log("Cleanup");
   };
 
   return (

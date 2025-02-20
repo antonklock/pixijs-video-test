@@ -3,20 +3,21 @@ import calculateStageDimensions from "@/utils/calculateStageDimensions";
 import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
-export const initializePixi = async () => {
-    console.log("Initializing Pixi");
+interface InitializePixiProps {
+    parentElement: HTMLElement;
+}
+
+export const initializePixi = async (props: InitializePixiProps) => {
+    // console.log("Initializing Pixi");
 
     const dimensions = calculateStageDimensions();
+    const parentElement = props.parentElement;
 
     const app = new PIXI.Application();
     await app.init({
         background: new PIXI.Color({ r: 0, g: 0, b: 0, a: 0 }).toArray(),
         backgroundAlpha: 0,
-        width: dimensions.width,
-        height: dimensions.height,
-        antialias: true,
-        resolution: 1,
-        autoDensity: true,
+        resizeTo: parentElement,
     });
 
     const canvas = app.canvas;
@@ -27,35 +28,38 @@ export const initializePixi = async () => {
         app.renderer.events.cursorStyles.hover = 'url("/cursors/wood/32x32/cursor-pointer-32.png"), auto';
     });
 
-    const resizeStage = () => {
-        const dimensions = calculateStageDimensions();
+    const dimensionsText = new PIXI.Text({
+        text: `stage.width: ${dimensions.width} x stage.height: ${dimensions.height}`,
+        style: {
+            fontFamily: "Arial",
+            fontSize: 12,
+            fill: 0xeeeeee,
+            align: "center",
+        }
+    });
+    dimensionsText.label = "dimensionsText";
+    dimensionsText.position.set(0 + dimensionsText.width / 2, 0 + dimensionsText.height / 2);
 
-        // Update the canvas size
-        app.renderer.resize(dimensions.width, dimensions.height);
-
-        // Update the stage size
-        app.stage.width = dimensions.width;
-        app.stage.height = dimensions.height;
-    };
+    app.stage.addChild(dimensionsText);
 
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0x000000 })
+        .setStrokeStyle({ width: 2, color: 0xff0000, alpha: 1 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     debugRect.zIndex = 999999999;
     app.stage.addChild(debugRect);
 
-    window.addEventListener('resize', resizeStage);
+    // Resize the stage when the window is resized
+    window.addEventListener('resize', () => resizeStage(app));
 
     // Clean up function
     const cleanup = () => {
-        window.removeEventListener('resize', resizeStage);
+        window.removeEventListener('resize', () => resizeStage(app));
         app.destroy(true);
     };
 
     gameGlobals.getState().setCleanup(cleanup);
-
 
     const coinContainer = new PIXI.Container();
     coinContainer.label = 'coinContainer';
@@ -85,15 +89,13 @@ export const initializePixi = async () => {
     coinPouchSprite.scale.set(0.75);
 
     coinContainer.on('pointerdown', () => {
-        console.log("Coin pouch clicked!");
+        // console.log("Coin pouch clicked!");
         let coins = gameGlobals.getState().coins;
         if (coins > 9) coins = 9;
         const coinScene = "M" + coins;
         if (coins >= 0) {
-            console.log("Switching to scene:", coinScene);
+            // console.log("Switching to scene:", coinScene);
             useGameGlobalsStore.getState().switchToScene(coinScene, false);
-        } else {
-            console.log("No coins to switch to scene");
         }
     });
 
@@ -104,10 +106,38 @@ export const initializePixi = async () => {
     coinContainer.interactive = true;
     coinContainer.cursor = 'hover';
 
+
     return {
         app,
         canvas,
         dimensions,
         cleanup
     }
+};
+
+export const shouldStageResize = (app: PIXI.Application) => {
+    const videoElement = useGameGlobalsStore.getState().currentScene?.video.player;
+    if (!videoElement) return false;
+    const shouldResize = videoElement.clientWidth !== app.renderer.width || videoElement.clientHeight !== app.renderer.height;
+    console.log("Should resize: ", shouldResize);
+    return shouldResize;
+}
+
+export const resizeStage = (app: PIXI.Application) => {
+    app.resize();
+    console.log("Resizing stage");
+    console.log("app.stage.width: ", app.stage.width, " x app.stage.height: ", app.stage.height);
+
+    const parentElement = app.resizeTo;
+
+    console.log("app.resizeTo: ", parentElement);
+
+    // const calculatedDimensions = calculateStageDimensions();
+
+    // // Update the canvas size
+    // app.renderer.resize(calculatedDimensions.width, calculatedDimensions.height);
+    // app.stage.width = calculatedDimensions.width;
+    // app.stage.height = calculatedDimensions.height;
+
+    // console.log("Resized stage to: ", calculatedDimensions.width, calculatedDimensions.height);
 };

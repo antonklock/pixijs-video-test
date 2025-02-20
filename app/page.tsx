@@ -64,11 +64,16 @@ export default function Home() {
         ref={pixiContainerRef}
         className={`${
           gameGlobals.isGameRunning
-            ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 flex items-center justify-center"
+            ? "fixed w-full h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             : "hidden"
         }`}
         id="pixi-container"
+        style={{
+          zIndex: 1001,
+        }}
       />
+
+      {/* <div id="pixi-hej" style={{ width: "100px", height: "100px" }}></div> */}
 
       <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <TitleScreen

@@ -25,7 +25,7 @@ const useWrestlingStore = create<WrestlingStore>((set, get) => ({
             set({ wrestlingStarted: true });
             return;
         } else {
-            console.log("Wrestling already started, no need to set wrestlingStarted to true again!");
+            // console.log("Wrestling already started, no need to set wrestlingStarted to true again!");
         }
 
         let handicap = get().handicap;

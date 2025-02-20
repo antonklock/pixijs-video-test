@@ -204,6 +204,15 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // Remove old hitboxes
     get().hitboxes.forEach(removeAllHitboxes);
+    get().app?.stage.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+        console.log("Child label:", child.label);
+        if (child.label.includes("-container")) {
+            child.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+                child.destroy();
+            })
+            child.destroy();
+        }
+    });
 
     // Adding new hitboxes
     newScene.hitboxes.forEach(hitboxConfig => {

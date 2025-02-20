@@ -33,7 +33,7 @@ const H2AO6: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 4.5,
                 end: 100
             }]
         }

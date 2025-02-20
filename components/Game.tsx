@@ -2,7 +2,6 @@ import VideoSwitcher from "./VideoSwitcher";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect } from "react";
 import useDebugStore from "@/stores/debug/debugStore";
-import DebugMenu from "./DebugMenu";
 import DebugInfo from "./DebugInfo";
 import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
@@ -80,7 +79,6 @@ export default function Game() {
   return (
     <div className="relative top-0 left-0 w-full h-full overflow-hidden">
       <VideoSwitcher />
-      <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
       <DisplaySkipIntro />

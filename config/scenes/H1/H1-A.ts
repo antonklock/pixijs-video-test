@@ -39,8 +39,6 @@ const H1A: SceneObject = {
             name: "H1-A-END",
             triggerTime: 13,
             runEvent: () => {
-                const hub = determineHub();
-                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

@@ -4,6 +4,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import debugStore from "@/stores/debug/debugStore";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
 
 // TODO: Clean up this component
 const HitboxManager = () => {
@@ -47,26 +48,27 @@ const HitboxManager = () => {
           newTime >= hitbox.activationIntervals[0].start &&
           newTime <= hitbox.activationIntervals[0].end
         ) {
-          if (
-            !hitbox.isActive ||
-            getHitboxColor(hitbox.name) !== 0x00ff00 ||
-            getHitboxCursor(hitbox.name) !== "hover"
-          ) {
-            console.log("Activating hitbox:", hitbox.name);
-            handleActivateHitbox(hitbox.name);
-          } else {
-            console.log("Hitbox active:", hitbox.isActive);
+          if (!hitbox.isActive || getHitboxCursor(hitbox.name) !== "hover") {
+            const hitboxSceneId = hitbox.name.slice(3);
+            const sceneAlreadyPlayed = useGameSessionStore
+              .getState()
+              .startedScenes.has(hitboxSceneId);
+            const allowedDoubleScenes = ["H2-A", "H3-A"];
+            console.log(
+              "allowedDoubleScenes.includes(hitboxSceneId):",
+              allowedDoubleScenes.includes(hitboxSceneId)
+            );
+            if (
+              !sceneAlreadyPlayed ||
+              allowedDoubleScenes.includes(hitboxSceneId)
+            ) {
+              console.log("Activating hitbox:", hitbox.name);
+              handleActivateHitbox(hitbox.name);
+            }
           }
         } else {
-          if (
-            hitbox.isActive &&
-            getHitboxColor(hitbox.name) === 0x00ff00 &&
-            getHitboxCursor(hitbox.name) === "hover"
-          ) {
-            console.log("Deactivating hitbox:", hitbox.name);
+          if (hitbox.isActive && getHitboxCursor(hitbox.name) === "hover") {
             handleDeactivateHitbox(hitbox.name);
-          } else {
-            console.log("Hitbox inactive:", hitbox.isActive);
           }
         }
       });
@@ -150,9 +152,20 @@ const HitboxManager = () => {
   }
 
   function getHitboxCursor(hitboxName: string) {
-    const hitbox = findHitboxByName(hitboxName);
-    if (hitbox) {
-      return hitbox.cursor;
+    const hitboxContainers = gameGlobals.app.stage.children.filter(
+      (child: PIXI.Graphics) => child.label === hitboxName + "-container"
+    );
+    if (hitboxContainers.length > 0) {
+      const hitboxContainer = hitboxContainers[0];
+      if (hitboxContainer) {
+        const hitboxGraphic = hitboxContainer.children.find(
+          (child: PIXI.Graphics | PIXI.Container) => child.label === hitboxName
+        );
+        if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
+          // console.log("Hitbox graphic cursor:", hitboxGraphic.cursor);
+          return hitboxGraphic.cursor;
+        }
+      }
     }
     return null;
   }

@@ -35,7 +35,7 @@ const H3A: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 3.5,
+                start: 0,
                 end: 99999
             }]
         },

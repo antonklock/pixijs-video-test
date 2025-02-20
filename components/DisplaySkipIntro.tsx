@@ -8,8 +8,8 @@ interface DisplaySkipIntroProps {
   startDelay?: number;
 }
 
-function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
-  const { app } = useGameGlobalsStore();
+function DisplaySkipIntro({ startDelay = 1800 }: DisplaySkipIntroProps) {
+  const { isGameRunning, app } = useGameGlobalsStore();
 
   useEffect(() => {
     const display = window.localStorage.getItem("shouldDisplaySkip") === "true";
@@ -56,7 +56,7 @@ function DisplaySkipIntro({ startDelay = 4500 }: DisplaySkipIntroProps) {
     } else {
       console.log("Skip intro should not be displayed");
     }
-  }, [app]);
+  }, [isGameRunning]);
 
   return null;
 }

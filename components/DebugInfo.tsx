@@ -36,7 +36,10 @@ const DebugInfo = () => {
   if (!showDebugInfo) return null;
 
   return (
-    <div className="fixed top-0 right-0 bg-black bg-opacity-75 text-white p-4 m-4 rounded-lg max-w-md overflow-auto max-h-[90vh]">
+    <div
+      className="fixed top-0 right-0 bg-black bg-opacity-75 text-white p-4 m-4 rounded-lg max-w-md overflow-auto max-h-[90vh]"
+      style={{ zIndex: 9999999 }}
+    >
       <h2 className="text-xl font-bold mb-4">Debug Info</h2>
 
       <div className="mb-4">

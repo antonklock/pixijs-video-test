@@ -243,10 +243,15 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const nextScenes = newScene.nextScenes;
 
-    const coins = useGameGlobalsStore.getState().coins;
-    if (coins >= 0 && coins <= 9) {
-        nextScenes.push("M" + coins);
-        // console.log("Adding next scene: ", "M" + coins);
+    if (newScene.id === "H0") {
+        const coins = useGameGlobalsStore.getState().coins;
+        if (coins >= 0 && coins <= 9) {
+            const nextCoinScene = "M" + coins;
+            const filteredNextScenes = nextScenes.filter(sceneId => !sceneId.includes("M"));
+            nextScenes.length = 0;
+            nextScenes.push(...filteredNextScenes);
+            nextScenes.push(nextCoinScene);
+        }
     }
 
     // Add next scenes

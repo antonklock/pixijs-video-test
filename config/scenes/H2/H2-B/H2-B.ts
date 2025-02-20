@@ -22,9 +22,9 @@ const H2B: SceneObject = {
             name: "HB-H2-B-1",
             color: 0x466918,
             x: 0.5,
-            y: 0.5,
+            y: 0.7,
             width: 0.2,
-            height: 0.2,
+            height: 0.25,
             onHit: () => {
                 if (hitboxIsActive("HB-H2-B-1")) useGameGlobalsStore.getState().switchToScene("H2-B-1");
             },
@@ -59,9 +59,9 @@ const H2B: SceneObject = {
             name: "HB-H2-B-3",
             color: 0x69181b,
             x: 0.5,
-            y: 0.5,
+            y: 0.7,
             width: 0.2,
-            height: 0.2,
+            height: 0.25,
             onHit: () => {
                 if (hitboxIsActive("HB-H2-B-3")) useGameGlobalsStore.getState().switchToScene("H2-B-3");
             },

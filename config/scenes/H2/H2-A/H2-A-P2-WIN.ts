@@ -19,11 +19,16 @@ const H2AP2Win: SceneObject = {
     hitboxes: [],
     sceneEvents: [
         {
+            name: "H2-A-P2-WIN-COIN",
+            triggerTime: 3,
+            runEvent: () => {
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
+            },
+        },
+        {
             name: "H2-A-P2-WIN-END",
             triggerTime: 12,
             runEvent: () => {
-                const hub = determineHub();
-                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

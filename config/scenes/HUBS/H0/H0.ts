@@ -30,7 +30,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     },
@@ -47,7 +47,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     },
@@ -64,7 +64,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     },
@@ -81,7 +81,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     },
@@ -98,7 +98,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     },
@@ -120,7 +120,7 @@ const H0: SceneObject = {
         isLoaded: false,
         isActive: false,
         activationIntervals: [{
-            start: 0,
+            start: 2,
             end: 99999
         }]
     }]

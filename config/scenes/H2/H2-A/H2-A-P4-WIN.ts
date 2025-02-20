@@ -18,6 +18,13 @@ const H2AP4Win: SceneObject = {
     hitboxes: [],
     sceneEvents: [
         {
+            name: "H2-A-P4-WIN-COIN",
+            triggerTime: 3,
+            runEvent: () => {
+                useGameGlobalsStore.getState().addCoinsAndCheckWin(1);
+            },
+        },
+        {
             name: "H2-A-P4-WIN-END",
             triggerTime: 12,
             runEvent: () => {

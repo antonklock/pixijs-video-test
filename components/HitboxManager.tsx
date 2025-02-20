@@ -53,7 +53,14 @@ const HitboxManager = () => {
             const sceneAlreadyPlayed = useGameSessionStore
               .getState()
               .startedScenes.has(hitboxSceneId);
-            const allowedDoubleScenes = ["H2-A", "H3-A"];
+            const allowedDoubleScenes = [
+              "H2-A-O1",
+              "H2-A-O2",
+              "H2-A-O3",
+              "H2-A-O4",
+              "H2-A-O5",
+              "H2-A-O6",
+            ];
             if (
               !sceneAlreadyPlayed ||
               allowedDoubleScenes.includes(hitboxSceneId)
@@ -136,14 +143,6 @@ const HitboxManager = () => {
     } else {
       console.log("Hitbox container not found:", hitboxName + "-container");
     }
-  }
-
-  function getHitboxColor(hitboxName: string) {
-    const hitbox = findHitboxByName(hitboxName);
-    if (hitbox) {
-      return hitbox.color;
-    }
-    return null;
   }
 
   function getHitboxCursor(hitboxName: string) {

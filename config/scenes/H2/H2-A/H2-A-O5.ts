@@ -26,9 +26,10 @@ const H2AO5: SceneObject = {
             width: 0.2,
             height: 0.5,
             onHit: () => {
-                const nextScene = getNextDiceScene();
-
-                if (hitboxIsActive("HB-H2-A-O5") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                if (hitboxIsActive("HB-H2-A-O5")) {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                }
             },
             isLoaded: false,
             isActive: false,

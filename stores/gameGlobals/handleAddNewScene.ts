@@ -7,7 +7,7 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
     if (!get().app) {
         console.warn("Can't add new scene! App not initialized.");
         setTimeout(() => {
-            // location.reload();
+            location.reload();
         }, 1000);
     }
     if (get().stagedScenes.some(scene => scene.id === sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already staged.`);

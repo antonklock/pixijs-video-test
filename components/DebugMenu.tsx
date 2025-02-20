@@ -8,41 +8,7 @@ const DebugMenu = () => {
   const debugStore = useDebugStore();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState({ x: 4, y: 4 });
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [fadeIn, setFadeIn] = useState(false);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setDragging(true);
-    setOffset({ x: e.clientX - position.x, y: e.clientY - position.y });
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    if (dragging) {
-      setPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setDragging(false);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setDragging(true);
-    const touch = e.touches[0];
-    setOffset({ x: touch.clientX - position.x, y: touch.clientY - position.y });
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (dragging) {
-      const touch = e.touches[0];
-      setPosition({ x: touch.clientX - offset.x, y: touch.clientY - offset.y });
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    setDragging(false);
-  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -76,31 +42,18 @@ const DebugMenu = () => {
     setFadeIn(true);
   }, []);
 
-  React.useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [dragging, isOpen]);
-
   return (
     <div
       ref={menuRef}
       style={{
         position: "absolute",
-        top: position.y,
-        left: position.x,
+        top: 10,
+        left: 10,
         cursor: "move",
         opacity: fadeIn ? 1 : 0,
         transition: "opacity 0.5s ease",
-        zIndex: 999999999,
+        zIndex: 10001,
       }}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
       <button
         onClick={toggleMenu}

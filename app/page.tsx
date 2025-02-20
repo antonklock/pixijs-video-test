@@ -6,6 +6,7 @@ import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
 import * as Tone from "tone";
+import DebugMenu from "@/components/DebugMenu";
 
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
@@ -76,9 +77,9 @@ export default function Home() {
           bgColor={bgColor}
           isGameRunning={gameGlobals.isGameRunning}
         />
-
-        <Game />
       </div>
+      <Game />
+      <DebugMenu />
     </>
   );
 }

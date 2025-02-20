@@ -4,7 +4,7 @@ import gameGlobals from "@/stores/gameGlobals/gameGlobals";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 interface InitializePixiProps {
-    parentElement: HTMLElement;
+    parentElement: HTMLDivElement;
 }
 
 export const initializePixi = async (props: InitializePixiProps) => {
@@ -50,11 +50,11 @@ export const initializePixi = async (props: InitializePixiProps) => {
     app.stage.addChild(debugRect);
 
     // Resize the stage when the window is resized
-    window.addEventListener('resize', () => resizeStage());
+    window.addEventListener('resize', resizeStage);
 
     // Clean up function
     const cleanup = () => {
-        window.removeEventListener('resize', () => resizeStage());
+        window.removeEventListener('resize', resizeStage);
         app.destroy(true);
     };
 
@@ -123,6 +123,6 @@ export const shouldStageResize = (app: PIXI.Application) => {
 }
 
 export const resizeStage = () => {
-    console.warn("Resizing not implemented. Reloading page.");
-    // location.reload();
+    // TODO: Implement resize stage
+    location.reload();
 };

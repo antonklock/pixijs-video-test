@@ -14,6 +14,7 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHlsReady, setIsHlsReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [showFullscreenButton, setShowFullscreenButton] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -57,6 +58,12 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
 
   useEffect(() => {
     // Check if we're on mobile
+    if (screen.width < 768) return;
+
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) return console.log("Fullscreen not yet supported in Safari.");
+
+    setShowFullscreenButton(true);
   }, []);
 
   return (
@@ -94,18 +101,20 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
               priority
             />
           </button>
-          <button
-            onClick={() => {
-              if (screenfull.isEnabled) {
-                screenfull.request();
+          {showFullscreenButton && (
+            <button
+              onClick={() => {
+                if (screenfull.isEnabled) {
+                  screenfull.request();
+                }
+              }}
+              className={
+                "opacity-25 hover:opacity-75 mt-4 bg-white-200 text-white-200 font-semibold py-2 px-4 rounded-xl shadow hover:bg-white-300 transition duration-300 border border-white"
               }
-            }}
-            className={
-              "opacity-25 hover:opacity-75 mt-4 bg-white-200 text-white-200 font-semibold py-2 px-4 rounded-xl shadow hover:bg-white-300 transition duration-300 border border-white"
-            }
-          >
-            Fullscreen
-          </button>
+            >
+              Fullscreen
+            </button>
+          )}
         </div>
         <video
           className={`absolute top-0 left-0 w-full h-full transition-opacity duration-[3000ms] pointer-events-none ${

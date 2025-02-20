@@ -39,6 +39,7 @@ export interface GameGlobalsStore extends GameGlobals {
     cleanup: () => void;
     setCleanup: (cleanup: () => void) => void;
     setGameTime: (gameTime: number) => void;
+    cleanupPixi: () => void;
     gameTime: number;
     loseTime: number;
 }
@@ -106,6 +107,12 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         cleanup: () => null,
         setCleanup: (cleanup: () => void) => set({ cleanup }),
         setGameTime: (gameTime: number) => set({ gameTime }),
+        cleanupPixi: () => {
+            get().app?.destroy(true);
+            get().pixiContainer = null;
+            get().canvas = null;
+            get().app = null;
+        },
         gameTime: 0,
         loseTime: 196,
         // loseTime: 15,

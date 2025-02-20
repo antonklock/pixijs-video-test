@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Hls from "hls.js";
+import screenfull from "screenfull";
 
 interface PlayThumbButtonProps {
   onClick: () => void;
@@ -54,6 +55,10 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
     onClick();
   };
 
+  useEffect(() => {
+    // Check if we're on mobile
+  }, []);
+
   return (
     <>
       <div
@@ -88,6 +93,18 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
               }}
               priority
             />
+          </button>
+          <button
+            onClick={() => {
+              if (screenfull.isEnabled) {
+                screenfull.request();
+              }
+            }}
+            className={
+              "opacity-25 hover:opacity-75 mt-4 bg-white-200 text-white-200 font-semibold py-2 px-4 rounded-xl shadow hover:bg-white-300 transition duration-300 border border-white"
+            }
+          >
+            Fullscreen
           </button>
         </div>
         <video

@@ -1,3 +1,4 @@
+import screenfull from "screenfull";
 import PlayGame from "./PlayThumbImg";
 
 const TitleScreen = (props: {

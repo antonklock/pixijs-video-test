@@ -124,5 +124,5 @@ export const shouldStageResize = (app: PIXI.Application) => {
 
 export const resizeStage = () => {
     console.warn("Resizing not implemented. Reloading page.");
-    location.reload();
+    // location.reload();
 };

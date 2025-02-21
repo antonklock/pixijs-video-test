@@ -76,10 +76,6 @@ const MusicPlayer = () => {
     }
     setHasLoaded(true);
 
-    // const loseTime = 196;
-    // const loseTime = 15;
-
-    // End game at 196 seconds
     const loop = new Tone.Loop((time) => {
       setTransportSeconds(time);
       if (currentVideoRef.current) {
@@ -94,11 +90,6 @@ const MusicPlayer = () => {
       }
 
       const { gameState, currentScene } = useGameGlobalsStore.getState();
-
-      // if (shouldStageResize(app)) {
-      //   console.log("%cRESIZED STAGE", "color: orange;");
-      //   resizeStage(app);
-      // }
 
       // Fading out music when game is done
       if (time > loseTime + 5) {

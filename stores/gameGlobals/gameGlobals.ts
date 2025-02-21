@@ -115,7 +115,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         },
         gameTime: 0,
         loseTime: 283,
-        // loseTime: 15,
+        // loseTime: 12,
     }
 ));
 

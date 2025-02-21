@@ -46,7 +46,7 @@ export const initializePixi = async (props: InitializePixiProps) => {
 
     // Stage outline
     const debugRect = new PIXI.Graphics()
-        .setStrokeStyle({ width: 2, color: 0xff0000, alpha: 0.1 })
+        .setStrokeStyle({ width: 2, color: 0x000000, alpha: 0.1 })
         .rect(0, 0, dimensions.width, dimensions.height)
         .stroke();
     debugRect.zIndex = 999999999;

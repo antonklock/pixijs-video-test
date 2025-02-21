@@ -166,4 +166,36 @@ const syncVideoTime = (
   }, 100); // Check every 100ms
 };
 
+export const seekMusicToTime = async (time: number) => {
+  const fadeDuration = 250; // Duration for fade in/out in milliseconds
+  const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+
+  if (gameMusic) {
+    // Fade down the volume
+    await fadeVolume(gameMusic, -50, fadeDuration); // Fade out to silence
+
+    // Seek to the desired time
+    Tone.getTransport().seconds = time;
+
+    // Fade up the volume
+    await fadeVolume(gameMusic, 0, fadeDuration); // Fade back to normal volume
+  }
+  Tone.getTransport().seconds = time;
+};
+
+const fadeVolume = async (
+  player: Tone.Player,
+  targetVolume: number,
+  duration: number
+) => {
+  const currentVolume = player.volume.value;
+  const delta = targetVolume - currentVolume;
+  const step = delta / (duration / 10);
+
+  for (let i = 0; i < 10; i++) {
+    await new Promise((resolve) => setTimeout(resolve, duration / 10));
+    player.volume.value += step;
+  }
+};
+
 export default MusicPlayer;

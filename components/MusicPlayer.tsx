@@ -167,35 +167,47 @@ const syncVideoTime = (
 };
 
 export const seekMusicToTime = async (time: number) => {
-  const fadeDuration = 250; // Duration for fade in/out in milliseconds
+  const fadeDuration = 250;
   const gameMusic = useGameGlobalsStore.getState().musicPlayer;
 
   if (gameMusic) {
     // Fade down the volume
-    await fadeVolume(gameMusic, -50, fadeDuration); // Fade out to silence
+    // await fadeVolume(gameMusic, -50, fadeDuration); // Fade out to silence
+    gameMusic.volume.value = -50;
 
     // Seek to the desired time
     Tone.getTransport().seconds = time;
 
     // Fade up the volume
-    await fadeVolume(gameMusic, 0, fadeDuration); // Fade back to normal volume
+    fadeVolume(gameMusic, 0, fadeDuration); // Fade back to normal volume
   }
-  Tone.getTransport().seconds = time;
+  // Tone.getTransport().seconds = time; // This line is redundant now
 };
 
-const fadeVolume = async (
+const fadeVolume = (
   player: Tone.Player,
   targetVolume: number,
   duration: number
 ) => {
-  const currentVolume = player.volume.value;
-  const delta = targetVolume - currentVolume;
-  const step = delta / (duration / 10);
+  return new Promise<void>((resolve) => {
+    const currentVolume = player.volume.value;
+    const delta = targetVolume - currentVolume;
+    const step = delta / (duration / 10); // Adjust step calculation for smoother transition
+    let stepsRemaining = duration / 10;
 
-  for (let i = 0; i < 10; i++) {
-    await new Promise((resolve) => setTimeout(resolve, duration / 10));
-    player.volume.value += step;
-  }
+    const fade = () => {
+      if (stepsRemaining > 0) {
+        player.volume.value += step;
+        stepsRemaining--;
+        requestAnimationFrame(fade);
+      } else {
+        player.volume.value = targetVolume; // Ensure final volume is set
+        resolve();
+      }
+    };
+
+    fade();
+  });
 };
 
 export default MusicPlayer;

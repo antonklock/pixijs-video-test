@@ -1,6 +1,7 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
 import useFxStore from "@/stores/FX/fxStore";
+import addEndMessage from "@/PixiJs/addEndMessage";
 
 const L2: SceneObject = {
     id: "L2",
@@ -26,10 +27,20 @@ const L2: SceneObject = {
             }
         },
         {
-            name: "L2-END-GAME",
-            triggerTime: 17.25 + 4,
+            name: "L2-END-MESSAGE",
+            triggerTime: 17.25 + 3,
             runEvent: () => {
-                useGameGlobalsStore.getState().endGame();
+                addEndMessage("lose", 5);
+            }
+        },
+        {
+            name: "L2-END-GAME",
+            triggerTime: 17.25 + 5,
+            runEvent: () => {
+                useGameGlobalsStore.getState().currentScene?.video.player?.pause();
+                setTimeout(() => {
+                    useGameGlobalsStore.getState().endGame();
+                }, 6000);
             }
         },
     ]

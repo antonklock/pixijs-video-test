@@ -22,7 +22,7 @@ const useFxStore = create<FxStore>((set) => ({
             fadePlate.rect(0, 0, gameGlobalsStore.getState().app.stage.width, gameGlobalsStore.getState().app.stage.height);
             fadePlate.fill({ color: 0x000000 });
             fadePlate.alpha = 0;
-            fadePlate.zIndex = 9999999999;
+            fadePlate.zIndex = 9999;
             gameGlobalsStore.getState().app.stage.addChild(fadePlate);
         } else {
             console.warn("App not found - Can't initiate fade plate");

@@ -18,6 +18,9 @@ export const initializePixi = async (props: InitializePixiProps) => {
         background: new PIXI.Color({ r: 0, g: 0, b: 0, a: 0 }).toArray(),
         backgroundAlpha: 0,
         resizeTo: parentElement,
+        antialias: true,
+        resolution: 2,
+        autoDensity: true,
     });
 
     const canvas = app.canvas;
@@ -104,7 +107,6 @@ export const initializePixi = async (props: InitializePixiProps) => {
     coinContainer.alpha = 0;
     coinContainer.interactive = true;
     coinContainer.cursor = 'hover';
-
 
     return {
         app,

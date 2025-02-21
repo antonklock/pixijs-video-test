@@ -1,3 +1,4 @@
+import addEndMessage from "@/PixiJs/addEndMessage";
 import fxStore from "@/stores/FX/fxStore";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
@@ -18,6 +19,13 @@ const H6B: SceneObject = {
     },
     hitboxes: [],
     sceneEvents: [
+        {
+            name: "H6-B-MESSAGE",
+            triggerTime: 21,
+            runEvent: async () => {
+                addEndMessage("win", 10);
+            }
+        },
         {
             name: "H6-B-END",
             triggerTime: 73,

@@ -1,3 +1,4 @@
+import addEndMessage from "@/PixiJs/addEndMessage";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
 
@@ -18,11 +19,20 @@ const L1: SceneObject = {
     hitboxes: [],
     sceneEvents: [
         {
-            name: "L1-END",
+            name: "L1-END-MESSAGE",
             triggerTime: 7,
             runEvent: () => {
-                console.log("L1-END");
-                useGameGlobalsStore.getState().endGame();
+                addEndMessage("lose", 5);
+            }
+        },
+        {
+            name: "L1-END",
+            triggerTime: 8,
+            runEvent: () => {
+                useGameGlobalsStore.getState().currentScene?.video.player?.pause();
+                setTimeout(() => {
+                    useGameGlobalsStore.getState().endGame();
+                }, 7000);
             },
         }
     ]

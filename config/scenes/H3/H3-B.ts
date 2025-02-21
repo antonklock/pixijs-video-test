@@ -8,7 +8,7 @@ const H3B: SceneObject = {
         R2: 'https://klockworks.xyz/H3-B/playlist.m3u8'
     },
     name: 'Spelaren förlorar',
-    nextScenes: ["L2"],
+    nextScenes: ["H0"],
     video: {
         player: null,
         hls: null,
@@ -20,7 +20,7 @@ const H3B: SceneObject = {
             name: "H3-B-END",
             triggerTime: 6,
             runEvent: () => {
-                useGameGlobalsStore.getState().switchToScene("L2");
+                useGameGlobalsStore.getState().switchToScene("H0");
             },
         }
     ]

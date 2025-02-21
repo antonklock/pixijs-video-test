@@ -48,7 +48,7 @@ const G0: SceneObject = {
         },
         {
             name: "intro-end",
-            triggerTime: 70.5,
+            triggerTime: 69,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             }

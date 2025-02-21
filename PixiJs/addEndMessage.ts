@@ -1,7 +1,7 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import * as PIXI from "pixi.js";
 
-const addEndMessage = async (win: "win" | "lose", durationInSeconds: number = 8) => {
+const addEndMessage = async (win: "win" | "lose" | "sneek", durationInSeconds: number = 8) => {
     const app = useGameGlobalsStore.getState().app;
 
     const duration = durationInSeconds * 1000;
@@ -37,12 +37,22 @@ const addEndMessage = async (win: "win" | "lose", durationInSeconds: number = 8)
 
     const loseMessage = loseMessages[Math.floor(Math.random() * loseMessages.length)];
 
+    const sneekMessages = [
+        "Blast it! Ye slippery eel—where’d ye vanish to?!",
+        "That scurvy rat slipped away! I’ll have yer hide yet!",
+        "Vanished like a ghost with me gold—cursed be yer cunning!",
+        "Aye, ye won… but only ‘cause ye ran faster than me rum runs out!",
+        "Gone? That sneaky bilge rat! I’ll find ye yet, mark me words!"
+    ];
+
+    const sneekMessage = sneekMessages[Math.floor(Math.random() * sneekMessages.length)];
+
     const endMessage = new PIXI.Text({
-        text: win === "win" ? winMessage : loseMessage,
+        text: win === "win" ? winMessage : win === "lose" ? loseMessage : sneekMessage,
         style: {
             fontFamily: "Leander",
             fontSize: dimensions.width * 0.025,
-            fill: win === "win" ? 0x000000 : 0xff0000,
+            fill: win === "win" ? 0x000000 : win === "lose" ? 0xff0000 : 0x000000,
             align: "center",
             fontStyle: "italic",
         }

@@ -1,3 +1,6 @@
+import addEndMessage from "@/PixiJs/addEndMessage";
+import useFxStore from "@/stores/FX/fxStore";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
 
 const H2B2: SceneObject = {
@@ -14,7 +17,26 @@ const H2B2: SceneObject = {
         hls: null,
         sprite: null
     },
-    hitboxes: []
+    hitboxes: [],
+    sceneEvents: [
+        {
+            name: "H2-B-2-MESSAGE",
+            triggerTime: 7,
+            runEvent: () => {
+                addEndMessage("sneek", 8);
+            }
+        },
+        {
+            name: "H2-B-2-END",
+            triggerTime: 55,
+            runEvent: () => {
+                useFxStore.getState().fadeToBlack(1500);
+                setTimeout(() => {
+                    useGameGlobalsStore.getState().endGame();
+                }, 3000);
+            }
+        }
+    ]
 }
 
 export default H2B2;

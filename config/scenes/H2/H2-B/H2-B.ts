@@ -38,10 +38,10 @@ const H2B: SceneObject = {
         {
             name: "HB-H2-B-2",
             color: 0x69181b,
-            x: 0.7,
+            x: 0.72,
             y: 0.4,
-            width: 0.05,
-            height: 0.2,
+            width: 0.07,
+            height: 0.25,
             onHit: () => {
                 if (hitboxIsActive("HB-H2-B-2")) {
                     useGameGlobalsStore.getState().switchToScene("H2-B-2");

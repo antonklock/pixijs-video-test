@@ -52,7 +52,7 @@ const addEndMessage = async (win: "win" | "lose" | "sneek", durationInSeconds: n
         style: {
             fontFamily: "Leander",
             fontSize: dimensions.width * 0.025,
-            fill: win === "win" ? 0x000000 : win === "lose" ? 0xff0000 : 0x000000,
+            fill: win === "win" ? 0xffffff : win === "lose" ? 0xff0000 : 0xffffff,
             align: "center",
             fontStyle: "italic",
         }
@@ -61,14 +61,22 @@ const addEndMessage = async (win: "win" | "lose" | "sneek", durationInSeconds: n
     endMessage.label = "endMessage";
     endMessage.anchor.set(0.5);
     endMessage.position.set(dimensions.width * 0.5, dimensions.height * 0.5);
+
+    endMessage.style.dropShadow = true;
+    endMessage.style.dropShadow.color = "#000000";
+    endMessage.style.dropShadow.blur = 8;
+    endMessage.style.dropShadow.angle = Math.PI / 6;
+    endMessage.style.dropShadow.distance = 2;
+    endMessage.style.dropShadow.alpha = 0.5;
+
     app.stage.addChild(endMessage);
 
-    endMessage.alpha = 0; // Start with 0 alpha for fade-in effect
+    endMessage.alpha = 0;
 
     endMessage.zIndex = 999999999;
 
     // Fade in
-    const fadeInDuration = 1000; // Duration for fade in in milliseconds
+    const fadeInDuration = 1000;
     const fadeInStartTime = performance.now();
 
     const fadeIn = (currentTime: number) => {

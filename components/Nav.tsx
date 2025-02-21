@@ -2,7 +2,7 @@ const Nav = (props: { isGameRunning: boolean; isFading: boolean }) => {
   const { isFading } = props;
   return (
     <div
-      className={`absolute top-0 left-0 flex w-full items-center justify-center flex-row z-40 transition-opacity duration-500 ${
+      className={`absolute opacity-0 top-0 left-0 flex w-full items-center justify-center flex-row z-40 transition-opacity duration-500 ${
         isFading
           ? "opacity-0 -z-50 pointer-events-none"
           : "opacity-100 z-50 pointer-events-auto"

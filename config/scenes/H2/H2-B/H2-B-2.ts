@@ -31,9 +31,10 @@ const H2B2: SceneObject = {
             triggerTime: 55,
             runEvent: () => {
                 useFxStore.getState().fadeToBlack(1500);
+                useFxStore.getState().fadeMusicVolume(-50, 1500);
                 setTimeout(() => {
                     useGameGlobalsStore.getState().endGame();
-                }, 3000);
+                }, 2000);
             }
         }
     ]

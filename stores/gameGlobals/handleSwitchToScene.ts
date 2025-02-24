@@ -258,8 +258,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     //     // videoPlayer.volume = 0;
     // }
 
-    // const videoPlayer = newScene.video.player as HTMLVideoElement;
-    // videoPlayer.muted = false;
+    const videoPlayer = newScene.video.player as HTMLVideoElement;
+    videoPlayer.muted = false;
 }
 
 export default handleSwitchToScene;

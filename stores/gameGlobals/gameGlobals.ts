@@ -5,7 +5,7 @@ import handleAddNewScene from './handleAddNewScene';
 import handleSetCurrentScene from './handleSetCurrentScene';
 import handleSwitchToScene from './handleSwitchToScene';
 import handleUnstageScene from './handleUnstageScene';
-import * as Tone from 'tone';
+import { Howl } from 'howler';
 
 export interface GameGlobalsStore extends GameGlobals {
     gameState: "notStarted" | "playing" | "lost" | "won";
@@ -18,7 +18,7 @@ export interface GameGlobalsStore extends GameGlobals {
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
     gameMusic: Howl | null;
-    musicPlayer: Tone.Player | null;
+    musicPlayer: Howl | null;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -35,7 +35,7 @@ export interface GameGlobalsStore extends GameGlobals {
     setGameMusic: (gameMusic: Howl | null) => void;
     setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
-    setMusicPlayer: (musicPlayer: Tone.Player | null) => void;
+    setMusicPlayer: (musicPlayer: Howl | null) => void;
     cleanup: () => void;
     setCleanup: (cleanup: () => void) => void;
     setGameTime: (gameTime: number) => void;
@@ -103,7 +103,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
                 location.reload();
             }, 1000);
         },
-        setMusicPlayer: (musicPlayer: Tone.Player | null) => set({ musicPlayer }),
+        setMusicPlayer: (musicPlayer: Howl | null) => set({ musicPlayer }),
         cleanup: () => null,
         setCleanup: (cleanup: () => void) => set({ cleanup }),
         setGameTime: (gameTime: number) => set({ gameTime }),

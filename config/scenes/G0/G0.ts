@@ -30,8 +30,11 @@ const G0: SceneObject = {
             const skipIntro = useGameGlobalsStore.getState().app.stage.children.find((child: PIXI.Sprite) => child.label === "skip-intro");
             if (skipIntro) skipIntro.destroy();
 
-            if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0")
-            seekMusicToTime(70);
+            if (hitboxIsActive("HB-H0")) {
+                useGameGlobalsStore.getState().switchToScene("H0");
+                seekMusicToTime(65);
+            }
+
         },
         isLoaded: false,
         isActive: false,

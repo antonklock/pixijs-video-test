@@ -54,8 +54,13 @@ export default function Home() {
   }, [pixiContainerRef.current]);
 
   async function handleStartMusic() {
-    await Tone.start();
-    Tone.getTransport().start();
+    // await Tone.start();
+    // Tone.getTransport().start();
+
+    const music = gameGlobals.musicPlayer;
+    if (music) {
+      music.play();
+    }
   }
 
   return (

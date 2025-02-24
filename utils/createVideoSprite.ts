@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { Warning } from "postcss";
 
 export const createVideoSprite = async (
     video: HTMLVideoElement,
@@ -29,7 +30,7 @@ export const createVideoSprite = async (
 
         sprite.label = "videoSprite";
 
-        if (!dimensions.width || !dimensions.height) throw new Error("Can't create sprite! App not initialized.");
+        if (!dimensions.width || !dimensions.height) throw new Warning("Can't create sprite! App not initialized.");
 
         sprite.anchor.set(0.5);
         sprite.width = dimensions.width;
@@ -43,7 +44,6 @@ export const createVideoSprite = async (
 
         return sprite;
     } catch (error) {
-        console.error(`Error creating sprite:`, error);
-        throw error;
+        console.warn(`%cError creating sprite:`, "color: red; font-weight: bold;", error);
     }
 }; 

@@ -17,10 +17,17 @@ export default function Home() {
   const pixiContainerRef = useRef<HTMLDivElement>(null);
   const [gameReady, setGameReady] = useState(false);
 
+  const [gameMusicVolume, setGameMusicVolume] = useState(0);
+
   useEffect(() => {
     gameGlobals.setPixiContainer(pixiContainerRef.current);
     setIsFading(false);
   }, []);
+
+  useEffect(() => {
+    const volume = gameGlobals.musicPlayer?.volume();
+    if (volume) setGameMusicVolume(volume);
+  }, [gameGlobals.musicPlayer, gameGlobals, gameGlobals.musicPlayer?.volume]);
 
   useEffect(() => {
     if (gameGlobals.isGameRunning) {
@@ -127,6 +134,9 @@ export default function Home() {
         />
       </div>
       <Game />
+      <p className="text-white text-center absolute bottom-0 left-0 w-full z-[999999]">
+        Game music volume: {gameMusicVolume}
+      </p>
       {/* <DebugMenu /> */}
     </>
   );

@@ -2,6 +2,7 @@ import addEndMessage from "@/PixiJs/addEndMessage";
 import useFxStore from "@/stores/FX/fxStore";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
+import { fadeOutMusic } from "@/utils/fadeMusic";
 
 const L1: SceneObject = {
     id: "L1",
@@ -24,14 +25,22 @@ const L1: SceneObject = {
             triggerTime: 7,
             runEvent: () => {
                 addEndMessage("lose", 5);
-                const gameMusic = useGameGlobalsStore.getState().musicPlayer;
-                if (gameMusic) {
-                    const volume = gameMusic.volume();
-                    gameMusic.fade(volume, 0, 5000);
-                    console.log("Faded music volume from:", volume, "to:", 0);
+                const musicPlayer = useGameGlobalsStore.getState().musicPlayer;
+                if (musicPlayer) {
+                    fadeOutMusic(musicPlayer, 1, 0, 5000);
                 } else {
                     console.warn("Game music not found");
                 }
+
+                // TODO: Fix fade out of music
+                // const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+                // if (gameMusic) {
+                //     const volume = gameMusic.volume();
+                //     gameMusic.fade(volume, 0, 5000);
+                //     console.log("Faded music volume from:", volume, "to:", 0);
+                // } else {
+                //     console.warn("Game music not found");
+                // }
             }
         },
         {

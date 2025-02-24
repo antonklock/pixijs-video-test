@@ -33,11 +33,12 @@ const H6B: SceneObject = {
                 fxStore.getState().fadeMusicVolume(-50, 5000);
                 const currentVideo = useGameGlobalsStore.getState().currentScene?.video.player;
 
-                const gameMusic = useGameGlobalsStore.getState().musicPlayer;
-                if (gameMusic) {
-                    const volume = gameMusic.volume();
-                    gameMusic.fade(1, 0, 5000);
-                }
+                // TODO: Fix fade out of music
+                // const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+                // if (gameMusic) {
+                //     const volume = gameMusic.volume();
+                //     gameMusic.fade(1, 0, 5000);
+                // }
 
                 const videoPlayers = document.querySelectorAll('video');
                 videoPlayers.forEach((videoPlayer) => {

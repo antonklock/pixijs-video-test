@@ -88,8 +88,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         player.currentTime = music.currentTime - 30;
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
-        }, 250);
+        }, 500);
     } else if (newScene.id === "L1") {
+        player.muted = true;
+        player.autoplay = false;
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
@@ -256,7 +258,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     });
 
     const videoPlayer = newScene.video.player as HTMLVideoElement;
-    videoPlayer.muted = false;
+    if (sceneId !== "L1") videoPlayer.muted = false;
 }
 
 export default handleSwitchToScene;

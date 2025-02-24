@@ -17,8 +17,8 @@ export interface GameGlobalsStore extends GameGlobals {
     coins: number;
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
-    gameMusic: Howl | null;
-    musicPlayer: Howl | null;
+    // gameMusic: HTMLAudioElement | null;
+    musicPlayer: HTMLAudioElement | null;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
     setCurrentScene: (sceneId: string | null) => void;
@@ -32,10 +32,10 @@ export interface GameGlobalsStore extends GameGlobals {
     setSceneEvents: (sceneEvents: Set<string>) => void;
     setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => void;
     setStageDimensions: (dimensions: { width: number, height: number }) => void;
-    setGameMusic: (gameMusic: Howl | null) => void;
+    // setGameMusic: (gameMusic: HTMLAudioElement | null) => void;
     setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
-    setMusicPlayer: (musicPlayer: Howl | null) => void;
+    setMusicPlayer: (musicPlayer: HTMLAudioElement | null) => void;
     cleanup: () => void;
     setCleanup: (cleanup: () => void) => void;
     setGameTime: (gameTime: number) => void;
@@ -47,7 +47,7 @@ export interface GameGlobalsStore extends GameGlobals {
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
     {
         gameState: "notStarted",
-        gameMusic: null,
+        // gameMusic: null,
         pixiContainer: null,
         stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
@@ -83,7 +83,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         unstageScene: (sceneId: string) => handleUnstageScene(sceneId, get, set),
         setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => set({ gameState }),
         setStageDimensions: (dimensions: { width: number, height: number }) => set({ stageDimensions: dimensions }),
-        setGameMusic: (gameMusic: Howl | null) => set({ gameMusic }),
+        // setGameMusic: (gameMusic: HTMLAudioElement | null) => set({ gameMusic }),
         setPixiContainer: (pixiContainer: HTMLDivElement | null) => set({ pixiContainer }),
         endGame: () => {
             set({ isGameRunning: false })
@@ -103,7 +103,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
                 location.reload();
             }, 1000);
         },
-        setMusicPlayer: (musicPlayer: Howl | null) => set({ musicPlayer }),
+        setMusicPlayer: (musicPlayer: HTMLAudioElement | null) => set({ musicPlayer }),
         cleanup: () => null,
         setCleanup: (cleanup: () => void) => set({ cleanup }),
         setGameTime: (gameTime: number) => set({ gameTime }),
@@ -114,8 +114,8 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
             get().app = null;
         },
         gameTime: 0,
-        loseTime: 237,
-        // loseTime: 70,
+        // loseTime: 237,
+        loseTime: 70,
     }
 ));
 

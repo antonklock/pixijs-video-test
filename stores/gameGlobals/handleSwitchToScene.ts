@@ -260,6 +260,13 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const videoPlayer = newScene.video.player as HTMLVideoElement;
     videoPlayer.muted = false;
+
+    const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+    if (gameMusic) {
+        gameMusic.play();
+        if (gameMusic.volume() === 1) gameMusic.volume(0.9);
+        else gameMusic.volume(1);
+    }
 }
 
 export default handleSwitchToScene;

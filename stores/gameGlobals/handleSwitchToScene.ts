@@ -84,16 +84,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
-        seconds = get().gameTime;
-        console.log("Game time: ", get().gameTime);
-        if (!seconds || seconds === 0) {
-            console.log("Seconds is 0");
-        }
-        newCurrentTime = seconds ?? 0;
-        // player.currentTime = newCurrentTime - 33;
-        // player.currentTime = newCurrentTime - 30.5;
         player.currentTime = get().gameTime - 31;
-        console.log("New current time: ", newCurrentTime);
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 250);
@@ -149,7 +140,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     }
 
     function changeVideoPlayer(delay: number = 0) {
-        // console.log("Video players: ", videoPlayers);
         setTimeout(() => {
             videoPlayers.forEach((videoPlayer) => {
                 if (videoPlayer === player) return;
@@ -180,9 +170,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (currentScene) {
         useGameSessionStore.getState().endScene(currentScene, newDate);
     }
-    // else {
-    //     console.warn("Can't end previous scene in session. No previous scene found");
-    // }
 
     // Add scene to session
     useGameSessionStore.getState().startScene(newScene, newDate);
@@ -262,14 +249,17 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         get().addNewScene(nextSceneId);
     });
 
-    if (!newScene.id.includes("H0")) {
-        const videoPlayer = newScene.video.player as HTMLVideoElement;
-        videoPlayer.muted = false;
-    } else {
-        const videoPlayer = newScene.video.player as HTMLVideoElement;
-        videoPlayer.muted = false;
-        videoPlayer.volume = 0;
-    }
+    // if (!newScene.id.includes("H0")) {
+    //     const videoPlayer = newScene.video.player as HTMLVideoElement;
+    //     videoPlayer.muted = false;
+    // } else {
+    //     const videoPlayer = newScene.video.player as HTMLVideoElement;
+    //     videoPlayer.muted = false;
+    //     // videoPlayer.volume = 0;
+    // }
+
+    const videoPlayer = newScene.video.player as HTMLVideoElement;
+    videoPlayer.muted = false;
 }
 
 export default handleSwitchToScene;

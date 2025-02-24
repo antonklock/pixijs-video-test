@@ -2,6 +2,7 @@ import addEndMessage from "@/PixiJs/addEndMessage";
 import fxStore from "@/stores/FX/fxStore";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
+import { fadeOutMusic } from "@/utils/fadeMusic";
 
 const H6B: SceneObject = {
     id: "H6-B",
@@ -33,12 +34,10 @@ const H6B: SceneObject = {
                 fxStore.getState().fadeMusicVolume(-50, 5000);
                 const currentVideo = useGameGlobalsStore.getState().currentScene?.video.player;
 
-                // TODO: Fix fade out of music
-                // const gameMusic = useGameGlobalsStore.getState().musicPlayer;
-                // if (gameMusic) {
-                //     const volume = gameMusic.volume();
-                //     gameMusic.fade(1, 0, 5000);
-                // }
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    fadeOutMusic(musicPlayer, 1, 0, 5000);
+                }
 
                 const videoPlayers = document.querySelectorAll('video');
                 videoPlayers.forEach((videoPlayer) => {

@@ -31,16 +31,6 @@ const L1: SceneObject = {
                 } else {
                     console.warn("Game music not found");
                 }
-
-                // TODO: Fix fade out of music
-                // const gameMusic = useGameGlobalsStore.getState().musicPlayer;
-                // if (gameMusic) {
-                //     const volume = gameMusic.volume();
-                //     gameMusic.fade(volume, 0, 5000);
-                //     console.log("Faded music volume from:", volume, "to:", 0);
-                // } else {
-                //     console.warn("Game music not found");
-                // }
             }
         },
         {

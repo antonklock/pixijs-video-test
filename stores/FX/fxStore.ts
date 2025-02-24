@@ -22,7 +22,7 @@ const useFxStore = create<FxStore>((set) => ({
             fadePlate.zIndex = 9999;
             gameGlobalsStore.getState().app.stage.addChild(fadePlate);
         } else {
-            console.warn("App not found - Can't initiate fade plate");
+            // console.warn("App not found - Can't initiate fade plate");
         }
     },
     isFaded: false,

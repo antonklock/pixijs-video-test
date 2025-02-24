@@ -1,9 +1,6 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
 import determineHub from "./determineHub";
-import useDebugStore from "@/stores/debug/debugStore";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
-import useAlertStore from "@/stores/Alerts/AlertStore";
 
 interface HLSVideo {
     element: HTMLVideoElement;

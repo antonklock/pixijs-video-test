@@ -85,11 +85,6 @@ export default function Home() {
             if (useGameGlobalsStore.getState().gameState === "playing") {
               gameGlobals.switchToScene("L1");
               gameGlobals.setGameState("lost");
-              console.log(
-                "New game state:",
-                useGameGlobalsStore.getState().gameState
-              );
-              console.log("Game lost at:", currentTime);
             } else if (useGameGlobalsStore.getState().gameState === "won") {
               gameGlobals.switchToScene("H6-B");
             }

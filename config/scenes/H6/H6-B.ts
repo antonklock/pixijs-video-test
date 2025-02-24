@@ -33,29 +33,35 @@ const H6B: SceneObject = {
                 fxStore.getState().fadeMusicVolume(-50, 5000);
                 const currentVideo = useGameGlobalsStore.getState().currentScene?.video.player;
 
+                const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+                if (gameMusic) {
+                    const volume = gameMusic.volume();
+                    gameMusic.fade(1, 0, 5000);
+                }
+
                 const videoPlayers = document.querySelectorAll('video');
                 videoPlayers.forEach((videoPlayer) => {
                     if (videoPlayer !== currentVideo) {
                         videoPlayer.style.opacity = "0";
-                        videoPlayer.pause(); // Optional: Pause other videos if needed
+                        videoPlayer.pause();
                     }
                 });
 
-
                 if (currentVideo) {
-                    const fadeOutDuration = 5000; // Duration for fade out in milliseconds
+                    const fadeOutDuration = 5000;
                     const startTime = performance.now();
                     const initialOpacity = 1;
 
                     const fadeOut = (currentTime: number) => {
                         const elapsed = currentTime - startTime;
                         const t = Math.min(elapsed / fadeOutDuration, 1);
-                        currentVideo.style.opacity = String(initialOpacity * (1 - t));
+                        const opacity = initialOpacity * (1 - t);
+                        currentVideo.style.opacity = String(opacity);
 
                         if (t < 1) {
                             requestAnimationFrame(fadeOut);
                         } else {
-                            currentVideo.pause(); // Pause the video after fading out
+                            currentVideo.pause();
                         }
                     };
 

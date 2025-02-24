@@ -137,7 +137,6 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
           muted
           loop
           playsInline
-          preload="auto"
         >
           Your browser does not support the video tag.
         </video>

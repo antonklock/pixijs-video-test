@@ -74,8 +74,26 @@ export default function Home() {
         gameMusic.play();
         gameMusic.seek(8.25);
 
+        const loseTime = gameGlobals.loseTime;
+
         const gameTimeInterval = setInterval(() => {
-          gameGlobals.setGameTime(gameMusic.seek());
+          const currentTime = gameMusic.seek();
+
+          gameGlobals.setGameTime(currentTime);
+
+          if (currentTime > loseTime) {
+            if (useGameGlobalsStore.getState().gameState === "playing") {
+              gameGlobals.switchToScene("L1");
+              gameGlobals.setGameState("lost");
+              console.log(
+                "New game state:",
+                useGameGlobalsStore.getState().gameState
+              );
+              console.log("Game lost at:", currentTime);
+            } else if (useGameGlobalsStore.getState().gameState === "won") {
+              gameGlobals.switchToScene("H6-B");
+            }
+          }
         }, 100);
 
         const currentTime = new Date().toLocaleTimeString();

@@ -31,6 +31,14 @@ const L2: SceneObject = {
             triggerTime: 17.25 + 3,
             runEvent: () => {
                 addEndMessage("lose", 5);
+                const gameMusic = useGameGlobalsStore.getState().musicPlayer;
+                if (gameMusic) {
+                    const volume = gameMusic.volume();
+                    gameMusic.fade(volume, 0, 5000);
+                    console.log("Faded music volume from:", volume, "to:", 0);
+                } else {
+                    console.warn("Game music not found");
+                }
             }
         },
         {

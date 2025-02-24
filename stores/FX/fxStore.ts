@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import gameGlobalsStore from "../gameGlobals/gameGlobals";
 import { Graphics } from "pixi.js";
-import * as Tone from "tone";
+// import * as Tone from "tone";
 
 interface FxStore {
     initiateFadePlate: () => void;
@@ -9,8 +9,8 @@ interface FxStore {
     fadeToBlack: (duration: number) => Promise<void>;
     unfadeToBlack: (duration: number) => Promise<void>;
     fadeMusicVolume: (targetVolume: number, duration: number) => Promise<void>;
-    applyLowpassFilter: (frequency: number) => Promise<void>;
-    removeLowpassFilter: () => Promise<void>;
+    // applyLowpassFilter: (frequency: number) => Promise<void>;
+    // removeLowpassFilter: () => Promise<void>;
 }
 
 const useFxStore = create<FxStore>((set) => ({
@@ -53,26 +53,26 @@ const useFxStore = create<FxStore>((set) => ({
             return await fadeVolume(gameMusic, targetVolume, duration);
         }
     },
-    applyLowpassFilter: async (frequency: number): Promise<void> => {
-        const gameMusic = gameGlobalsStore.getState().musicPlayer;
-        if (gameMusic) {
-            const filter = new Tone.Filter({
-                frequency: frequency,
-                type: "lowpass",
-                rolloff: -12
-            })
+    // applyLowpassFilter: async (frequency: number): Promise<void> => {
+    //     const gameMusic = gameGlobalsStore.getState().musicPlayer;
+    //     if (gameMusic) {
+    //         const filter = new Tone.Filter({
+    //             frequency: frequency,
+    //             type: "lowpass",
+    //             rolloff: -12
+    //         })
 
-            gameMusic.disconnect();
-            gameMusic.connect(filter);
-            filter.toDestination();
-        }
-    },
-    removeLowpassFilter: async (): Promise<void> => {
-        const gameMusic = gameGlobalsStore.getState().musicPlayer;
-        if (gameMusic) {
-            //TODO: Remove the filter
-        }
-    }
+    //         gameMusic.disconnect();
+    //         gameMusic.connect(filter);
+    //         filter.toDestination();
+    //     }
+    // },
+    // removeLowpassFilter: async (): Promise<void> => {
+    //     const gameMusic = gameGlobalsStore.getState().musicPlayer;
+    //     if (gameMusic) {
+    //         //TODO: Remove the filter
+    //     }
+    // }
 }));
 
 const fade = (fadePlate: Graphics, targetAlpha: number, duration: number): Promise<void> => {
@@ -98,9 +98,9 @@ const fade = (fadePlate: Graphics, targetAlpha: number, duration: number): Promi
     });
 };
 
-const fadeVolume = (audio: Tone.Player, targetVolume: number, duration: number): Promise<void> => {
+const fadeVolume = (audio: Howl, targetVolume: number, duration: number): Promise<void> => {
     return new Promise((resolve) => {
-        const startVolume = audio.volume.value;
+        const startVolume = audio.volume();
         const startTime = performance.now();
 
         const lerp = (t: number) => startVolume + (targetVolume - startVolume) * t;
@@ -108,7 +108,7 @@ const fadeVolume = (audio: Tone.Player, targetVolume: number, duration: number):
         const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const t = Math.min(elapsed / duration, 1);
-            audio.volume.value = lerp(t);
+            audio.volume(lerp(t));
 
             if (t < 1) {
                 requestAnimationFrame(animate);

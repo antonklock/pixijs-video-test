@@ -47,7 +47,8 @@ const useFxStore = create<FxStore>((set) => ({
     fadeMusicVolume: async (targetVolume: number, duration: number): Promise<void> => {
         const gameMusic = gameGlobalsStore.getState().musicPlayer;
         if (gameMusic) {
-            return await fadeVolume(gameMusic, targetVolume, duration);
+            return;
+            // return await fadeVolume(gameMusic, targetVolume, duration);
         }
     },
 }));

@@ -21,8 +21,8 @@ const M1: SceneObject = {
             name: "M1-END",
             triggerTime: 2.5,
             runEvent: () => {
-                console.log("M1-END");
-                useGameGlobalsStore.getState().switchToScene("H0");
+                // console.log("M1-END");
+                useGameGlobalsStore.getState().switchToScene("H0", false);
             },
         }
     ]

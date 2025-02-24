@@ -31,6 +31,10 @@ const G0: SceneObject = {
             if (hitboxIsActive("HB-H0")) {
                 useGameGlobalsStore.getState().switchToScene("H0");
                 useGameGlobalsStore.getState().musicPlayer?.seek(65);
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.currentTime = 65;
+                }
             }
 
         },

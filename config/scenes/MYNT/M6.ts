@@ -21,8 +21,8 @@ const M6: SceneObject = {
             name: "M6-END",
             triggerTime: 2,
             runEvent: () => {
-                console.log("M6-END");
-                useGameGlobalsStore.getState().switchToScene("H0");
+                // console.log("M6-END");
+                useGameGlobalsStore.getState().switchToScene("H0", false);
             },
         }
     ]

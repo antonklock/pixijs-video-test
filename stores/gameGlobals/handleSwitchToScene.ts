@@ -84,7 +84,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
-        player.currentTime = get().gameTime - 31;
+        const music = document.getElementById("game-music") as HTMLAudioElement;
+        player.currentTime = music.currentTime - 30;
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 250);
@@ -144,7 +145,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             videoPlayers.forEach((videoPlayer) => {
                 if (videoPlayer === player) return;
                 videoPlayer.style.opacity = "0";
-                videoPlayer.pause();
+                // videoPlayer.pause();
                 videoPlayer.style.zIndex = "-1000";
             });
 
@@ -185,7 +186,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
             // TODO: Can we make this more elegant?
             setTimeout(() => {
-                scene.video.player?.pause();
+                // scene.video.player?.pause();
                 // get().unstageScene(scene.id);
             }, 1000);
         });
@@ -215,6 +216,9 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         });
     });
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Unstaging scenes
     const { stagedScenes } = get();
     stagedScenes.forEach(scene => {
@@ -224,12 +228,14 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         scene.isActive = false;
         scene.video.sprite.visible = false;
 
-        // TODO: Can we make this more elegant?
+        // // TODO: Can we make this more elegant?
         setTimeout(() => {
             scene.video.player?.pause();
             get().unstageScene(scene.id);
-        }, 1000);
+        }, 4000);
     });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const nextScenes = newScene.nextScenes;
 
@@ -249,25 +255,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         get().addNewScene(nextSceneId);
     });
 
-    // if (!newScene.id.includes("H0")) {
-    //     const videoPlayer = newScene.video.player as HTMLVideoElement;
-    //     videoPlayer.muted = false;
-    // } else {
-    //     const videoPlayer = newScene.video.player as HTMLVideoElement;
-    //     videoPlayer.muted = false;
-    //     // videoPlayer.volume = 0;
-    // }
-
     const videoPlayer = newScene.video.player as HTMLVideoElement;
     videoPlayer.muted = false;
-
-    const gameMusic = useGameGlobalsStore.getState().musicPlayer;
-    if (gameMusic) {
-        gameMusic.pause();
-        gameMusic.play();
-        if (gameMusic.volume() === 1) gameMusic.volume(0.9);
-        else gameMusic.volume(1);
-    }
 }
 
 export default handleSwitchToScene;

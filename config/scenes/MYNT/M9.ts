@@ -22,7 +22,7 @@ const M9: SceneObject = {
             triggerTime: 2,
             runEvent: () => {
                 console.log("M9-END");
-                useGameGlobalsStore.getState().switchToScene("H0");
+                useGameGlobalsStore.getState().switchToScene("H0", false);
             },
         }
     ]

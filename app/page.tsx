@@ -6,7 +6,6 @@ import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
 import { Howl } from "howler";
-import DebugMenu from "@/components/DebugMenu";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 

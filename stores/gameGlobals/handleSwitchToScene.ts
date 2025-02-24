@@ -263,9 +263,12 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const gameMusic = useGameGlobalsStore.getState().musicPlayer;
     if (gameMusic) {
-        gameMusic.play();
-        if (gameMusic.volume() === 1) gameMusic.volume(0.9);
-        else gameMusic.volume(1);
+        gameMusic.pause();
+        setTimeout(() => {
+            gameMusic.play();
+            if (gameMusic.volume() === 1) gameMusic.volume(0.9);
+            else gameMusic.volume(1);
+        }, 100)
     }
 }
 

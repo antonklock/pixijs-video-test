@@ -5,7 +5,7 @@ import { GameGlobalsStore } from './gameGlobals';
 import { StagedSceneObject } from '@/types';
 import addHitbox from '@/PixiJs/addHitbox';
 import * as PIXI from 'pixi.js';
-import * as Tone from "tone";
+// import * as Tone from "tone";
 
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
@@ -75,7 +75,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // console.log("New scene: ", newScene);
 
-    let seconds = Tone.getTransport().seconds;
+    // let seconds = Tone.getTransport().seconds;
+    let seconds = 0;
     let newCurrentTime = seconds ?? 0;
     const player = newScene.video.player as HTMLVideoElement;
     const videoPlayers = document.querySelectorAll('video');

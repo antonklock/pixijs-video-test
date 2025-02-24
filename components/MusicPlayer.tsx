@@ -29,121 +29,80 @@ const MusicPlayer = () => {
   const currentVideoRef = useRef<HTMLVideoElement | null>(null);
   const currentSceneRef = useRef<SceneObject | null>(null);
 
+  const [isPrepared, setIsPrepared] = useState(false);
+
+  // useEffect(() => {
+  //   if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
+
+  //   return () => {
+  //     // playerRef.current?.stop();
+  //     // playerRef.current?.dispose();
+  //     // playerRef.current = null;
+  //     setIsPlaying(false);
+  //     setHasLoaded(false);
+  //   };
+  // }, [isGameRunning]);
+
+  // useEffect(() => {
+  //   const currentVideo =
+  //     useGameGlobalsStore.getState().currentScene?.video.player;
+  //   if (currentVideo) {
+  //     setCurrentVideo(currentVideo);
+  //     currentVideoRef.current = currentVideo;
+  //     currentSceneRef.current = useGameGlobalsStore.getState().currentScene;
+  //     console.log("Current video set");
+  //   }
+  // }, [currentScene]);
+
   useEffect(() => {
-    if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
+    // loadMusic();
+    // const link = document.createElement("link");
+    // link.rel = "preload";
+    // link.href = musicUrl.current;
+    // link.as = "audio";
+    // document.head.appendChild(link);
+  }, []);
 
-    return () => {
-      // playerRef.current?.stop();
-      // playerRef.current?.dispose();
-      // playerRef.current = null;
-      setIsPlaying(false);
-      setHasLoaded(false);
-    };
-  }, [isGameRunning]);
+  // const loadMusic = async () => {
+  //   if (playerRef.current) return;
+  //   console.log("Loading music...");
 
-  useEffect(() => {
-    const currentVideo =
-      useGameGlobalsStore.getState().currentScene?.video.player;
-    if (currentVideo) {
-      setCurrentVideo(currentVideo);
-      currentVideoRef.current = currentVideo;
-      currentSceneRef.current = useGameGlobalsStore.getState().currentScene;
-      console.log("Current video set");
-    }
-  }, [currentScene]);
+  //   const howl = new Howl({
+  //     src: [musicUrl.current],
+  //     loop: false,
+  //   });
+  //   playerRef.current = howl;
 
-  const loadMusic = async () => {
-    if (playerRef.current) return;
-    // console.log("Loading music...");
+  //   if (!playerRef.current) return console.error("Failed to create howl");
 
-    const howl = new Howl({
-      src: [musicUrl.current],
-      loop: false,
-    });
-    playerRef.current = howl;
-    // if (!playerRef.current) return console.error("Failed to create player");
-    if (!playerRef.current) return console.error("Failed to create howl");
-    // await playerRef.current.load(musicUrl.current);
-    // console.log("Music loaded");
+  //   const gameGlobals = useGameGlobalsStore.getState();
+  //   const setMusicPlayer = gameGlobals.setMusicPlayer;
+  //   setMusicPlayer(playerRef.current);
 
-    const gameGlobals = useGameGlobalsStore.getState();
-    const setMusicPlayer = gameGlobals.setMusicPlayer;
-    const loseTime = gameGlobals.loseTime;
-    const app = gameGlobals.app;
-    setMusicPlayer(playerRef.current);
+  //   setHasLoaded(true);
+  //   setIsPrepared(true);
 
-    playerRef.current.play();
+  //   const musicTimeInterval = setInterval(() => {
+  //     gameGlobals.setGameTime(playerRef.current?.seek() || 0);
+  //   }, 250);
+  // };
 
-    // Tone.getTransport().start();
-    // playerRef.current?.sync();
-    // if (playerRef.current?.state !== "started") {
-    //   playerRef.current?.start();
-    //   playerRef.current?.sync();
-    //   setIsPlaying(true);
-    //   // console.log("Playing music...");
-    // }
+  // const handlePrepareMusic = async () => {
+  //   await loadMusic();
+  // };
 
-    setIsPlaying(true);
-    setHasLoaded(true);
+  // const handleStartMusic = async () => {
+  //   if (!isPrepared) {
+  //     await handlePrepareMusic();
+  //   }
 
-    const musicTimeInterval = setInterval(() => {
-      // console.log("Music time: ", playerRef.current?.seek());
-      gameGlobals.setGameTime(playerRef.current?.seek() || 0);
-    }, 250);
-
-    // playerRef.current.on("time", (time: number) => {
-    //   console.log("Music time: ", time);
-    // });
-
-    // const loop = new Tone.Loop((time) => {
-    //   setTransportSeconds(time);
-    //   if (currentVideoRef.current) {
-    //     setCurrentVideoTime(currentVideoRef.current.currentTime);
-    //     if (playerRef.current) {
-    //       if (currentSceneRef.current?.id === "H0") {
-    //         // syncVideoTime(currentVideoRef.current, playerRef.current, 1.75);
-    //       }
-    //     }
-    //   } else {
-    //     console.log("Current video not set");
-    //   }
-
-    //   const { gameState, currentScene } = useGameGlobalsStore.getState();
-
-    //   // Fading out music when game is done
-    //   if (time > loseTime + 5) {
-    //     if (gameState === "playing" || gameState === "lost") {
-    //       if (
-    //         playerRef.current?.volume?.value ||
-    //         playerRef.current?.volume.value === 0
-    //       ) {
-    //         if (playerRef.current.volume.value > -50) {
-    //           playerRef.current.volume.value -= 5;
-    //         }
-    //       }
-    //     }
-    //   }
-
-    //   // End game when time is up
-    //   if (time > loseTime) {
-    //     if (gameState === "playing") {
-    //       // console.log("gameState: ", gameState + " - losing game");
-    //       setGameState("lost");
-    //       switchToScene("L1");
-    //     } else if (gameState === "won" || currentScene?.id !== "H6-B") {
-    //       // console.log("gameState: ", gameState + " - winning game");
-    //       switchToScene("H6-B");
-    //     } else {
-    //       // console.log("gameState: ", gameState + " - can't lose game");
-    //       console.log(`Can't lose game when state is ${gameState}`);
-    //     }
-    //   }
-
-    //   useGameGlobalsStore.getState().setGameTime(time);
-    // }, "16n").start();
-
-    // loopRef.current = loop;
-  };
+  //   const music = playerRef.current;
+  //   if (music) {
+  //     music.play();
+  //   } else {
+  //     console.warn("Music player not found");
+  //   }
+  // };
 
   return (
     <>
@@ -206,25 +165,23 @@ export const seekMusicToTime = async (time: number) => {
 };
 
 const fadeVolume = (player: Howl, targetVolume: number, duration: number) => {
-  return new Promise<void>((resolve) => {
-    const currentVolume = player.volume();
-    const delta = targetVolume - currentVolume;
-    const step = delta / (duration / 10); // Adjust step calculation for smoother transition
-    let stepsRemaining = duration / 10;
-
-    const fade = () => {
-      if (stepsRemaining > 0) {
-        player.volume(currentVolume + step);
-        stepsRemaining--;
-        requestAnimationFrame(fade);
-      } else {
-        player.volume(targetVolume); // Ensure final volume is set
-        resolve();
-      }
-    };
-
-    fade();
-  });
+  // return new Promise<void>((resolve) => {
+  //   const currentVolume = player.volume();
+  //   const delta = targetVolume - currentVolume;
+  //   const step = delta / (duration / 10); // Adjust step calculation for smoother transition
+  //   let stepsRemaining = duration / 10;
+  //   const fade = () => {
+  //     if (stepsRemaining > 0) {
+  //       player.volume(currentVolume + step);
+  //       stepsRemaining--;
+  //       requestAnimationFrame(fade);
+  //     } else {
+  //       player.volume(targetVolume); // Ensure final volume is set
+  //       resolve();
+  //     }
+  //   };
+  //   fade();
+  // });
 };
 
 export default MusicPlayer;

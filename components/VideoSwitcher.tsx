@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { initializePixi } from "@/PixiJs/InitializePixi";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { Dimensions } from "../types";
-import * as Tone from "tone";
-import calculateStageDimensions from "@/utils/calculateStageDimensions";
 
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
@@ -27,9 +25,9 @@ const VideoSwitcher = () => {
   });
 
   useEffect(() => {
-    if (Tone.getTransport().state !== "started") {
-      Tone.start();
-    }
+    // if (Tone.getTransport().state !== "started") {
+    //   Tone.start();
+    // }
   }, []);
 
   // Initialize Pixi

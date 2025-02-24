@@ -5,8 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
-import * as Tone from "tone";
+import { Howl } from "howler";
 import DebugMenu from "@/components/DebugMenu";
+
+const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
 export default function Home() {
   const gameGlobals = useGameGlobalsStore();
@@ -29,12 +31,14 @@ export default function Home() {
   }, [gameGlobals.isGameRunning]);
 
   const handleStartGame = async () => {
-    handleStartMusic();
+    await handleStartMusic();
 
     setIsFading(true);
     setBgColor("bg-black");
     await gameGlobals.addNewScene("G0");
     gameGlobals.switchToScene("G0");
+    const currentTime = new Date().toLocaleTimeString();
+    console.log("Video started at:", currentTime);
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
     }, 500);
@@ -54,12 +58,29 @@ export default function Home() {
   }, [pixiContainerRef.current]);
 
   async function handleStartMusic() {
-    // await Tone.start();
-    // Tone.getTransport().start();
-
     const music = gameGlobals.musicPlayer;
     if (music) {
       music.play();
+      music.seek(8.25);
+      return Promise.resolve();
+    } else {
+      try {
+        const gameMusic = new Howl({
+          src: [musicUrl],
+          loop: false,
+        });
+
+        gameGlobals.setMusicPlayer(gameMusic);
+        gameMusic.play();
+        gameMusic.seek(8.25);
+        const currentTime = new Date().toLocaleTimeString();
+        console.log("Music started at:", currentTime);
+
+        return Promise.resolve();
+      } catch (error) {
+        console.error("Error starting music", error);
+        return Promise.reject(error);
+      }
     }
   }
 

@@ -2,13 +2,37 @@ import createNewStagedScene from '@/logic/game/CreateSceneFromId';
 import loadVideo from '@/utils/loadVideo';
 import { createVideoSprite } from '@/utils/createVideoSprite';
 import { GameGlobalsStore } from '@/stores/gameGlobals/gameGlobals';
+import { initializePixi } from "../../PixiJs/InitializePixi";
 
 const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) => {
     if (!get().app) {
         console.warn("Can't add new scene! App not initialized.");
-        // setTimeout(() => {
-        //     location.reload();
-        // }, 1000);
+        const maxRetries = 5;
+        let attempts = 0;
+
+        const retryInterval = setInterval(async () => {
+            if (attempts >= maxRetries) {
+                clearInterval(retryInterval);
+                console.warn("%cMax retries reached. %cUnable to add new scene. Reloading page...", "color: red; font-weight: bold;", "color: white; font-weight: regular;");
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+                return;
+            }
+
+            attempts++;
+            console.log(`Attempt ${attempts} to add new scene...`);
+
+            const pixiContainer = document.getElementById("pixi-container");
+            if (!pixiContainer) return console.warn("Pixi container not found.");
+
+            await initializePixi({ parentElement: pixiContainer as HTMLDivElement });
+
+            if (get().app) {
+                clearInterval(retryInterval);
+                console.log("App initialized. Proceeding to add new scene.");
+            }
+        }, 1000);
     }
     if (get().stagedScenes.some(scene => scene.id === sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already staged.`);
     if (get().loadingScenes.has(sceneId)) return console.warn(`Can't add new scene! Scene ${sceneId} is already loading.`);

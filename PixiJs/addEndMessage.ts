@@ -20,9 +20,9 @@ const addEndMessage = async (win: "win" | "lose" | "sneek", durationInSeconds: n
     const winMessages = [
         "Ye won… or I be seein’ double?",
         "Glory’s yersh—now where’d me rum go?",
-        "Shiny victory, blurry vision… aye, that’s the way!",
+        "Shiny victory, blurry vision… aye, that be the way!",
         "Ye did it… I think… ah, who cares—cheers!",
-        "A toast… to yer winnin’! Or was it mine?"
+        "A toast… to yer winnin’! Or was it mine? What?"
     ]
 
     const winMessage = winMessages[Math.floor(Math.random() * winMessages.length)];

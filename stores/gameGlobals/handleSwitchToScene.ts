@@ -179,9 +179,10 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     if (currentScene) {
         useGameSessionStore.getState().endScene(currentScene, newDate);
-    } else {
-        console.warn("Can't end previous scene in session. No previous scene found");
     }
+    // else {
+    //     console.warn("Can't end previous scene in session. No previous scene found");
+    // }
 
     // Add scene to session
     useGameSessionStore.getState().startScene(newScene, newDate);

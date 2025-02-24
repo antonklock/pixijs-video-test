@@ -1,13 +1,13 @@
-import VideoSwitcher from "./VideoSwitcher";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useEffect } from "react";
-import useDebugStore from "@/stores/debug/debugStore";
-import DebugInfo from "./DebugInfo";
-import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
-import DisplaySkipIntro from "./DisplaySkipIntro";
+import useDebugStore from "@/stores/debug/debugStore";
 import SceneEventManager from "./SceneEventManager";
+import DisplaySkipIntro from "./DisplaySkipIntro";
 import useFxStore from "@/stores/FX/fxStore";
+import VideoSwitcher from "./VideoSwitcher";
+import HitboxManager from "./HitboxManager";
+import DebugInfo from "./DebugInfo";
+import { useEffect } from "react";
 import * as PIXI from "pixi.js";
 
 export default function Game() {

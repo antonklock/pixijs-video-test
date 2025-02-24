@@ -72,21 +72,28 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 play-thumb-button w-full h-full ${className}`}
       >
         <div
-          className={`absolute top-1/2 pb-10 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] flex flex-col items-center justify-center  ${
+          className={`absolute top-1/2 pb-10 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[3000ms] flex flex-col items-center justify-center w-full ${
             isMounted ? "opacity-100" : "opacity-0"
           }`}
           style={{ zIndex: 513 }}
         >
           <Image
-            className={``}
+            className={"w-32"}
             src={"/logos/ybp-Logo-white-256.png"}
             alt="Play Thumbnail"
             width={150}
             height={150}
             style={{ zIndex: 513 }}
           />
+          <h1 className={`text-white-200 md:text-4xl text-3xl mb-4`}>
+            Raise Your Glass
+          </h1>
 
-          <button onClick={handleClick} className={``} style={{ zIndex: 512 }}>
+          <button
+            onClick={handleClick}
+            className={"md:w-40 w-32"}
+            style={{ zIndex: 512 }}
+          >
             <Image
               src={"/images/play-game.png"}
               alt="Play Thumbnail"

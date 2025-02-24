@@ -24,12 +24,6 @@ const VideoSwitcher = () => {
     scale: 1,
   });
 
-  useEffect(() => {
-    // if (Tone.getTransport().state !== "started") {
-    //   Tone.start();
-    // }
-  }, []);
-
   // Initialize Pixi
   useEffect(() => {
     if (initializationRef.current === true || appRef.current) return;

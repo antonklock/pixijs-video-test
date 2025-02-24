@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import gameGlobalsStore from "../gameGlobals/gameGlobals";
 import { Graphics } from "pixi.js";
-// import * as Tone from "tone";
 
 interface FxStore {
     initiateFadePlate: () => void;
@@ -9,8 +8,6 @@ interface FxStore {
     fadeToBlack: (duration: number) => Promise<void>;
     unfadeToBlack: (duration: number) => Promise<void>;
     fadeMusicVolume: (targetVolume: number, duration: number) => Promise<void>;
-    // applyLowpassFilter: (frequency: number) => Promise<void>;
-    // removeLowpassFilter: () => Promise<void>;
 }
 
 const useFxStore = create<FxStore>((set) => ({
@@ -53,26 +50,6 @@ const useFxStore = create<FxStore>((set) => ({
             return await fadeVolume(gameMusic, targetVolume, duration);
         }
     },
-    // applyLowpassFilter: async (frequency: number): Promise<void> => {
-    //     const gameMusic = gameGlobalsStore.getState().musicPlayer;
-    //     if (gameMusic) {
-    //         const filter = new Tone.Filter({
-    //             frequency: frequency,
-    //             type: "lowpass",
-    //             rolloff: -12
-    //         })
-
-    //         gameMusic.disconnect();
-    //         gameMusic.connect(filter);
-    //         filter.toDestination();
-    //     }
-    // },
-    // removeLowpassFilter: async (): Promise<void> => {
-    //     const gameMusic = gameGlobalsStore.getState().musicPlayer;
-    //     if (gameMusic) {
-    //         //TODO: Remove the filter
-    //     }
-    // }
 }));
 
 const fade = (fadePlate: Graphics, targetAlpha: number, duration: number): Promise<void> => {

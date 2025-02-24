@@ -2,8 +2,6 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import * as PIXI from "pixi.js";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
-import determineHub from "@/utils/determineHub";
-import { seekMusicToTime } from "@/components/MusicPlayer";
 
 const G0: SceneObject = {
     id: "G0",
@@ -32,7 +30,7 @@ const G0: SceneObject = {
 
             if (hitboxIsActive("HB-H0")) {
                 useGameGlobalsStore.getState().switchToScene("H0");
-                seekMusicToTime(65);
+                useGameGlobalsStore.getState().musicPlayer?.seek(65);
             }
 
         },

@@ -8,7 +8,6 @@ import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
 import DisplaySkipIntro from "./DisplaySkipIntro";
 import SceneEventManager from "./SceneEventManager";
 import useFxStore from "@/stores/FX/fxStore";
-import MusicPlayer from "./MusicPlayer";
 import * as PIXI from "pixi.js";
 
 export default function Game() {
@@ -83,7 +82,6 @@ export default function Game() {
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
       <DisplaySkipIntro />
-      <MusicPlayer />
       <SceneEventManager />
     </div>
   );

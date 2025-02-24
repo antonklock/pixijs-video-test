@@ -88,12 +88,14 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         changeVideoPlayer(0);
         // seconds = Tone.getTransport().seconds;
         seconds = get().gameTime;
+        console.log("Game time: ", get().gameTime);
         if (!seconds || seconds === 0) {
             console.log("Seconds is 0");
         }
         newCurrentTime = seconds ?? 0;
         // player.currentTime = newCurrentTime - 33;
-        player.currentTime = newCurrentTime - 30.5;
+        // player.currentTime = newCurrentTime - 30.5;
+        player.currentTime = get().gameTime - 31;
         console.log("New current time: ", newCurrentTime);
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);

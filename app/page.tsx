@@ -38,7 +38,7 @@ export default function Home() {
     await gameGlobals.addNewScene("G0");
     gameGlobals.switchToScene("G0");
     const currentTime = new Date().toLocaleTimeString();
-    console.log("Video started at:", currentTime);
+    // console.log("Video started at:", currentTime);
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
     }, 500);
@@ -73,8 +73,13 @@ export default function Home() {
         gameGlobals.setMusicPlayer(gameMusic);
         gameMusic.play();
         gameMusic.seek(8.25);
+
+        const gameTimeInterval = setInterval(() => {
+          gameGlobals.setGameTime(gameMusic.seek());
+        }, 100);
+
         const currentTime = new Date().toLocaleTimeString();
-        console.log("Music started at:", currentTime);
+        // console.log("Music started at:", currentTime);
 
         return Promise.resolve();
       } catch (error) {

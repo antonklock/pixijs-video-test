@@ -1,14 +1,10 @@
-import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv';
+import { createClient } from '@/supabase/supabaseServer';
 
-dotenv.config();
+export default async function SupabaseClient() {
+    const supabase = await createClient();
+    // const { data } = await supabase.from("test-table").select();
 
-const { SUPABASE_URL, SUPABASE_KEY } = process.env;
+    // console.log(data);
 
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-    throw new Error("SUPABASE_URL and SUPABASE_KEY must be set")
+    return null
 }
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
-
-export default supabase;

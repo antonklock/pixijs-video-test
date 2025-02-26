@@ -7,6 +7,8 @@ import Game from "@/components/Game";
 import Nav from "@/components/Nav";
 import { Howl } from "howler";
 import DebugMenu from "@/components/DebugMenu";
+import saveGameSession from "@/stores/gameSession/saveGameSession";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -139,6 +141,11 @@ export default function Home() {
     };
   }, [pixiContainerRef.current]);
 
+  const handleSaveGameSession = async () => {
+    const gameSession = useGameSessionStore.getState();
+    await saveGameSession(gameSession);
+  };
+
   return (
     <>
       <Nav isGameRunning={gameGlobals.isGameRunning} isFading={isFading} />
@@ -171,6 +178,7 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
+      <button onClick={() => handleSaveGameSession()}>Save Game Session</button>
     </>
   );
 }

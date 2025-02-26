@@ -5,7 +5,6 @@ import handleAddNewScene from './handleAddNewScene';
 import handleSetCurrentScene from './handleSetCurrentScene';
 import handleSwitchToScene from './handleSwitchToScene';
 import handleUnstageScene from './handleUnstageScene';
-import { Howl } from 'howler';
 
 export interface GameGlobalsStore extends GameGlobals {
     gameState: "notStarted" | "playing" | "lost" | "won";
@@ -17,7 +16,6 @@ export interface GameGlobalsStore extends GameGlobals {
     coins: number;
     loadingScenes: Set<string>;
     sceneEvents: Set<string>;
-    // gameMusic: HTMLAudioElement | null;
     musicPlayer: HTMLAudioElement | null;
     addNewScene: (sceneId: string) => Promise<StagedSceneObject | null>;
     setStagedScenes: (scenes: StagedSceneObject[]) => void;
@@ -32,7 +30,6 @@ export interface GameGlobalsStore extends GameGlobals {
     setSceneEvents: (sceneEvents: Set<string>) => void;
     setGameState: (gameState: "notStarted" | "playing" | "lost" | "won") => void;
     setStageDimensions: (dimensions: { width: number, height: number }) => void;
-    // setGameMusic: (gameMusic: HTMLAudioElement | null) => void;
     setPixiContainer: (pixiContainer: HTMLDivElement | null) => void;
     endGame: () => void;
     setMusicPlayer: (musicPlayer: HTMLAudioElement | null) => void;
@@ -42,12 +39,12 @@ export interface GameGlobalsStore extends GameGlobals {
     cleanupPixi: () => void;
     gameTime: number;
     loseTime: number;
+    videoOffset: number;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
     {
         gameState: "notStarted",
-        // gameMusic: null,
         pixiContainer: null,
         stageDimensions: { width: 0, height: 0 },
         isGameRunning: false,
@@ -115,6 +112,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         },
         gameTime: 0,
         loseTime: 237,
+        videoOffset: 30.72,
         // loseTime: 70,
     }
 ));

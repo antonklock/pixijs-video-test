@@ -55,6 +55,58 @@ export default function Home() {
       }
     }, 100);
 
+    const syncInterval = setInterval(() => {
+      const currentScene = useGameGlobalsStore.getState().currentScene;
+      if (!currentScene) return console.warn("Current scene not found");
+      const videoPlayer = currentScene?.video.player as HTMLVideoElement;
+      if (!videoPlayer) return console.warn("Video player not found");
+      const musicTime = musicPlayerRef.current?.currentTime;
+      if (!musicTime) return console.warn("Music time not found");
+      const offset = gameGlobals.videoOffset;
+      const videoTime = videoPlayer.currentTime + offset;
+
+      let timeDiff = 0;
+
+      if (musicTime < videoTime) {
+        timeDiff = videoTime - musicTime;
+      } else {
+        timeDiff = musicTime - videoTime;
+      }
+
+      if (currentScene.id === "H0") {
+        if (timeDiff > 0.1) {
+          if (musicTime > videoTime) {
+            console.log(
+              "Music is ahead of video - %c timeDiff: ",
+              "color: red",
+              timeDiff.toFixed(2)
+            );
+            // videoPlayer.currentTime = musicTime - offset;
+            if (videoPlayer.playbackRate !== 1.25) {
+              videoPlayer.playbackRate = 1.25;
+              console.log("Playback rate set to 1.25");
+            }
+          } else {
+            console.log(
+              "Video is ahead of music - %c timeDiff: ",
+              "color: red",
+              timeDiff.toFixed(2)
+            );
+            if (videoPlayer.playbackRate !== 0.75) {
+              videoPlayer.playbackRate = 0.75;
+              console.log("Playback rate set to 0.75");
+            }
+          }
+        } else {
+          console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
+          if (videoPlayer.playbackRate !== 1) {
+            videoPlayer.playbackRate = 1;
+            console.log("Playback rate set to 1");
+          }
+        }
+      }
+    }, 500);
+
     setIsFading(true);
     setBgColor("bg-black");
     await gameGlobals.addNewScene("G0");

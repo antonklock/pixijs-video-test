@@ -85,7 +85,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await player.play();
         changeVideoPlayer(0);
         const music = document.getElementById("game-music") as HTMLAudioElement;
-        player.currentTime = music.currentTime - 30;
+        player.currentTime = music.currentTime - get().videoOffset;
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 500);

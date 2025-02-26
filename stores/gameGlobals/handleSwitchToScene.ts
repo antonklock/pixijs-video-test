@@ -257,17 +257,18 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (sceneId !== "L1") videoPlayer.muted = false;
 
     if (sceneId === "H6-B") {
+        // const playPromise = videoPlayer.play();
+        // if (playPromise !== undefined) {
+        //     videoPlayer.muted = true;
+        //     const music = document.getElementById("game-music") as HTMLAudioElement;
+        //     music.play();
+        // } else {
+        //     videoPlayer.play();
+        //     const music = document.getElementById("game-music") as HTMLAudioElement;
+        //     music.play();
+        // }
 
-        const playPromise = videoPlayer.play();
-        if (playPromise !== undefined) {
-            videoPlayer.muted = true;
-            const music = document.getElementById("game-music") as HTMLAudioElement;
-            music.play();
-        } else {
-            videoPlayer.play();
-            const music = document.getElementById("game-music") as HTMLAudioElement;
-            music.play();
-        }
+        videoPlayer.muted = true;
 
         // Add event listener to unmute video on user interaction
         const handleUserInteraction = () => {

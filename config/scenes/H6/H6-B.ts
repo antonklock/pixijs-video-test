@@ -29,7 +29,7 @@ const H6B: SceneObject = {
         },
         {
             name: "H6-B-END",
-            triggerTime: 73,
+            triggerTime: 71,
             runEvent: async () => {
                 fxStore.getState().fadeMusicVolume(-50, 5000);
                 const currentVideo = useGameGlobalsStore.getState().currentScene?.video.player;

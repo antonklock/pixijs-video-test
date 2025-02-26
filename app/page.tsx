@@ -28,7 +28,6 @@ export default function Home() {
   }, [gameGlobals.isGameRunning]);
 
   const handleStartGame = async () => {
-    // await handleStartMusic();
     musicPlayerRef.current?.play();
     if (musicPlayerRef.current) {
       gameGlobals.setMusicPlayer(musicPlayerRef.current);
@@ -36,7 +35,6 @@ export default function Home() {
     }
 
     const gameMusic = musicPlayerRef.current;
-
     const loseTime = gameGlobals.loseTime;
 
     const gameTimeInterval = setInterval(() => {
@@ -46,11 +44,23 @@ export default function Home() {
       gameGlobals.setGameTime(currentTime);
 
       if (currentTime > loseTime) {
+        const currentScene = useGameGlobalsStore.getState().currentScene;
         if (useGameGlobalsStore.getState().gameState === "playing") {
           gameGlobals.switchToScene("L1");
           gameGlobals.setGameState("lost");
-        } else if (useGameGlobalsStore.getState().gameState === "won") {
+        } else if (
+          useGameGlobalsStore.getState().gameState === "won" &&
+          currentScene?.id !== "H6-B"
+        ) {
           gameGlobals.switchToScene("H6-B");
+
+          const currentScene = useGameGlobalsStore.getState().currentScene;
+          const videoPlayer = currentScene?.video?.player;
+
+          if (videoPlayer) {
+            videoPlayer.muted = true;
+            console.log("Video player muted");
+          } else console.warn("Video player not found");
         }
       }
     }, 100);
@@ -84,7 +94,7 @@ export default function Home() {
             // videoPlayer.currentTime = musicTime - offset;
             if (videoPlayer.playbackRate !== 1.25) {
               videoPlayer.playbackRate = 1.25;
-              console.log("Playback rate set to 1.25");
+              // console.log("Playback rate set to 1.25");
             }
           } else {
             console.log(
@@ -94,14 +104,14 @@ export default function Home() {
             );
             if (videoPlayer.playbackRate !== 0.75) {
               videoPlayer.playbackRate = 0.75;
-              console.log("Playback rate set to 0.75");
+              // console.log("Playback rate set to 0.75");
             }
           }
         } else {
           console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
           if (videoPlayer.playbackRate !== 1) {
             videoPlayer.playbackRate = 1;
-            console.log("Playback rate set to 1");
+            // console.log("Playback rate set to 1");
           }
         }
       }
@@ -111,8 +121,6 @@ export default function Home() {
     setBgColor("bg-black");
     await gameGlobals.addNewScene("G0");
     gameGlobals.switchToScene("G0");
-    const currentTime = new Date().toLocaleTimeString();
-    // console.log("Video started at:", currentTime);
     setTimeout(() => {
       gameGlobals.setIsGameRunning(true);
     }, 500);
@@ -130,50 +138,6 @@ export default function Home() {
       }
     };
   }, [pixiContainerRef.current]);
-
-  async function handleStartMusic() {
-    const music = gameGlobals.musicPlayer;
-    if (music) {
-      music.play();
-      // music.seek(8.25);
-      return Promise.resolve();
-    } else {
-      try {
-        const gameMusic = new Howl({
-          src: [musicUrl],
-          loop: false,
-        });
-
-        gameMusic.play();
-        gameMusic.seek(8.25);
-
-        const loseTime = gameGlobals.loseTime;
-
-        const gameTimeInterval = setInterval(() => {
-          const currentTime = gameMusic.seek();
-
-          gameGlobals.setGameTime(currentTime);
-
-          if (currentTime > loseTime) {
-            if (useGameGlobalsStore.getState().gameState === "playing") {
-              gameGlobals.switchToScene("L1");
-              gameGlobals.setGameState("lost");
-            } else if (useGameGlobalsStore.getState().gameState === "won") {
-              gameGlobals.switchToScene("H6-B");
-            }
-          }
-        }, 100);
-
-        const currentTime = new Date().toLocaleTimeString();
-        // console.log("Music started at:", currentTime);
-
-        return Promise.resolve();
-      } catch (error) {
-        console.error("Error starting music", error);
-        return Promise.reject(error);
-      }
-    }
-  }
 
   return (
     <>

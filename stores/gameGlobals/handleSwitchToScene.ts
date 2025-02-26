@@ -259,6 +259,32 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const videoPlayer = newScene.video.player as HTMLVideoElement;
     if (sceneId !== "L1") videoPlayer.muted = false;
+
+    if (sceneId === "H6-B") {
+
+        const playPromise = videoPlayer.play();
+        if (playPromise !== undefined) {
+            videoPlayer.muted = true;
+            const music = document.getElementById("game-music") as HTMLAudioElement;
+            music.play();
+        } else {
+            videoPlayer.play();
+            const music = document.getElementById("game-music") as HTMLAudioElement;
+            music.play();
+        }
+
+        // Add event listener to unmute video on user interaction
+        const handleUserInteraction = () => {
+            videoPlayer.muted = false;
+            // Remove the event listener once it's been triggered
+            document.removeEventListener('click', handleUserInteraction);
+            document.removeEventListener('touchstart', handleUserInteraction);
+        };
+
+        // Add listeners for both click and touch events
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+    }
 }
 
 export default handleSwitchToScene;

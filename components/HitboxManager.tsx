@@ -120,7 +120,7 @@ const HitboxManager = () => {
         }
       });
     } else {
-      console.log("Hitbox container not found:", hitboxName + "-container");
+      // console.log("Hitbox container not found:", hitboxName + "-container");
     }
   }
 
@@ -141,7 +141,7 @@ const HitboxManager = () => {
         }
       });
     } else {
-      console.log("Hitbox container not found:", hitboxName + "-container");
+      // console.log("Hitbox container not found:", hitboxName + "-container");
     }
   }
 

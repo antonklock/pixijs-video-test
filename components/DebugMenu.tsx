@@ -82,31 +82,31 @@ const DebugMenu = () => {
         />
       </button>
       {isOpen && (
-        <div className="bg-black border border-gray-300 rounded flex flex-col shadow-lg p-4 mt-2 gap-2">
-          <div className="flex flex-row justify-between items-center gap-2">
+        <div className="bg-black border border-gray-300 rounded flex flex-col shadow-lg p-3 mt-2 gap-1 h-[70vh] overflow-y-scroll">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleHitboxes}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle Hitboxes
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showHitboxes ? "text-green-500" : "text-red-500"
               }`}
             >
               {debugStore.showHitboxes ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleLoadingIndicators}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle Loading Indicators
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showLoadingIndicators
                   ? "text-green-500"
                   : "text-red-500"
@@ -115,30 +115,30 @@ const DebugMenu = () => {
               {debugStore.showLoadingIndicators ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleDebugInfo}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle Debug Info
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showDebugInfo ? "text-green-500" : "text-red-500"
               }`}
             >
               {debugStore.showDebugInfo ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleCurrentVideoTime}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle Current Video Time
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showCurrentVideoTime
                   ? "text-green-500"
                   : "text-red-500"
@@ -147,58 +147,58 @@ const DebugMenu = () => {
               {debugStore.showCurrentVideoTime ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleShowCoins}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle Show Coins
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showCoins ? "text-green-500" : "text-red-500"
               }`}
             >
               {debugStore.showCoins ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleHlsMessages}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Toggle HLS Messages
             </button>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 debugStore.showHlsMessages ? "text-green-500" : "text-red-500"
               }`}
             >
               {debugStore.showHlsMessages ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
-            <label className="flex-grow text-white border border-white rounded-full p-2">
+          <div className="flex flex-row justify-between items-center gap-1">
+            <label className="flex-grow text-white border border-white rounded-full p-1 text-sm">
               <input
                 type="checkbox"
                 checked={shouldDisplaySkip}
                 onChange={toggleShouldDisplaySkip}
-                className="mr-2"
+                className="mr-1 h-3 w-3"
               />
               Should Display Skip
             </label>
             <span
-              className={`text-white ${
+              className={`text-white text-xs ${
                 shouldDisplaySkip ? "text-green-500" : "text-red-500"
               }`}
             >
               {shouldDisplaySkip ? "ON" : "OFF"}
             </span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-2">
+          <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={addCoin}
-              className="flex-grow text-white border border-white rounded-full p-2"
+              className="flex-grow text-white border border-white rounded-full p-1 text-sm"
             >
               Add Coin
             </button>

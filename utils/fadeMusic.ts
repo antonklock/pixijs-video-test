@@ -13,7 +13,7 @@ export const fadeOutMusic = (player: HTMLAudioElement, from: number, to: number,
             player.volume = 0;
         }
 
-        console.log("Fading music from:", player.volume, "to:", to);
+        // console.log("Fading music from:", player.volume, "to:", to);
 
         if (progress < 1) {
             requestAnimationFrame(fade);
@@ -40,7 +40,7 @@ export const fadeInMusic = (player: HTMLAudioElement, from: number, to: number, 
             player.volume = 1;
         }
 
-        console.log("Fading music from:", player.volume, "to:", to);
+        // console.log("Fading music from:", player.volume, "to:", to);
 
         if (progress < 1) {
             requestAnimationFrame(fade);

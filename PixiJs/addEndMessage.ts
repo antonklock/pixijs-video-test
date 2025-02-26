@@ -18,31 +18,31 @@ const addEndMessage = async (win: "win" | "lose" | "sneek", durationInSeconds: n
     await PIXI.Assets.loadBundle("fonts");
 
     const winMessages = [
-        "Ye won… or I be seein’ double?",
+        "Ya won… or I be seein’ double?",
         "Glory’s yersh—now where’d me rum go?",
         "Shiny victory, blurry vision… aye, that be the way!",
-        "Ye did it… I think… ah, who cares—cheers!",
+        "Ya did it… I think… ah, who cares—cheers!",
         "A toast… to yer winnin’! Or was it mine? What?"
     ]
 
     const winMessage = winMessages[Math.floor(Math.random() * winMessages.length)];
 
     const loseMessages = [
-        "Ye lost… now grab a mop ‘fore I lose me patience!",
-        "No glory, no gold… just ye, a bucket, an’ a lifetime o’ scrubbin’.",
-        "While they sail to riches, ye be here washin’ tankards—cheers to that!",
+        "Ya lost… now grab a mop ‘fore I lose me patience!",
+        "No glory, no gold… just you, a bucket, an’ a lifetime o’ scrubbin’.",
+        "While they sail to riches, ya be here washin’ tankards—cheers to that!",
         "Ain’t no treasure fer losers—only dirty floors an’ empty mugs!",
-        "Ye fought, ye failed… now get to cleanin’, ya soggy biscuit!"
+        "Ya fought, ya failed… now get to cleanin’, ya soggy biscuit!"
     ]
 
     const loseMessage = loseMessages[Math.floor(Math.random() * loseMessages.length)];
 
     const sneekMessages = [
-        "Blast it! Ye slippery eel—where’d ye vanish to?!",
+        "Blast it! Ya slippery eel—where’d ya vanish to?!",
         "That scurvy rat slipped away! I’ll have yer hide yet!",
         "Vanished like a ghost with me gold—cursed be yer cunning!",
-        "Aye, ye won… but only ‘cause ye ran faster than me rum runs out!",
-        "Gone? That sneaky bilge rat! I’ll find ye yet, mark me words!"
+        "Aye, ya won… but only ‘cause ya ran faster than me rum runs out!",
+        "Gone? That sneaky bilge rat! I’ll find ya yet, mark me words!"
     ];
 
     const sneekMessage = sneekMessages[Math.floor(Math.random() * sneekMessages.length)];

@@ -85,7 +85,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await player.play();
         changeVideoPlayer(0);
         const music = document.getElementById("game-music") as HTMLAudioElement;
-        player.currentTime = music.currentTime - 30;
+        player.currentTime = music.currentTime - get().videoOffset;
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 500);
@@ -147,7 +147,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             videoPlayers.forEach((videoPlayer) => {
                 if (videoPlayer === player) return;
                 videoPlayer.style.opacity = "0";
-                // videoPlayer.pause();
+                videoPlayer.pause();
                 videoPlayer.style.zIndex = "-1000";
             });
 
@@ -219,8 +219,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     });
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Unstaging scenes
     const { stagedScenes } = get();
     stagedScenes.forEach(scene => {
@@ -236,8 +234,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             get().unstageScene(scene.id);
         }, 4000);
     });
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const nextScenes = newScene.nextScenes;
 
@@ -259,6 +255,25 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     const videoPlayer = newScene.video.player as HTMLVideoElement;
     if (sceneId !== "L1") videoPlayer.muted = false;
+
+    if (sceneId === "H6-B") {
+        // videoPlayer.muted = true;
+
+        // Add event listener to unmute video on user interaction
+        const handleUserInteraction = () => {
+            const currentScene = useGameGlobalsStore.getState().currentScene;
+            const videoPlayer = currentScene?.video.player;
+            if (videoPlayer) videoPlayer.muted = false;
+
+            document.removeEventListener('click', handleUserInteraction);
+            document.removeEventListener('touchstart', handleUserInteraction);
+        };
+
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+    }
+
+    if (sceneId === "H0") videoPlayer.muted = true;
 }
 
 export default handleSwitchToScene;

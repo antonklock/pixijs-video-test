@@ -70,17 +70,17 @@ export const initializePixi = async (props: InitializePixiProps) => {
     const coinPouchTexture = await PIXI.Assets.load('/images/coin-pouch-128x128.png');
     const coinPouchSprite = new PIXI.Sprite(coinPouchTexture);
 
-    const blackCircle = new PIXI.Graphics()
-        .circle(dimensions.width * 0.1, dimensions.height * 0.77, 36)
-        .fill({ color: 0x855b1f, alpha: 0.65 })
+    const bgCircle = new PIXI.Graphics()
+        .circle(dimensions.width * 0.1, dimensions.height * 0.77, dimensions.width * 0.1 * 0.30)
+        .fill({ color: 0xeecc88, alpha: 1 })
 
     // Create a filter for blurring
     const blurFilter = new PIXI.BlurFilter();
-    blurFilter.strength = 10;
-    blackCircle.filters = [blurFilter];
+    blurFilter.strength = 25;
+    bgCircle.filters = [blurFilter];
 
-    blackCircle.interactive = false;
-    blackCircle.cursor = 'default';
+    bgCircle.interactive = false;
+    bgCircle.cursor = 'default';
 
     coinPouchSprite.interactive = false;
     coinPouchSprite.cursor = 'default';
@@ -88,7 +88,44 @@ export const initializePixi = async (props: InitializePixiProps) => {
     coinPouchSprite.x = dimensions.width * 0.1;
     coinPouchSprite.y = dimensions.height * 0.75;
     coinPouchSprite.anchor.set(0.5);
-    coinPouchSprite.scale.set(0.75);
+    const coinPouchSpriteStartScale = (dimensions.width * 0.01) * 0.075;
+    coinPouchSprite.scale.set(coinPouchSpriteStartScale);
+
+    bgCircle.alpha = 0.65;
+
+    coinContainer.on("pointerover", () => {
+        const animateGraphic = () => {
+            const animateBgCircle = bgCircle.alpha < 1;
+            const animatePouch = coinPouchSprite.scale.x < coinPouchSpriteStartScale * 1.05;
+            if (animatePouch) {
+                coinPouchSprite.scale.set(coinPouchSprite.scale.x + 0.01);
+            }
+            if (animateBgCircle) {
+                bgCircle.alpha += 0.05;
+            }
+
+            if (animatePouch || animateBgCircle) requestAnimationFrame(animateGraphic);
+        }
+
+        animateGraphic();
+    });
+
+    coinContainer.on("pointerout", () => {
+        const animateGraphic = () => {
+            const animateBgCircle = bgCircle.alpha > 0.65;
+            const animatePouch = coinPouchSprite.scale.x > coinPouchSpriteStartScale;
+            if (animatePouch) {
+                coinPouchSprite.scale.set(coinPouchSprite.scale.x - 0.01);
+            }
+            if (animateBgCircle) {
+                bgCircle.alpha -= 0.05;
+            }
+
+            if (animatePouch || animateBgCircle) requestAnimationFrame(animateGraphic);
+        }
+
+        animateGraphic();
+    })
 
     coinContainer.on('pointerdown', () => {
         // console.log("Coin pouch clicked!");
@@ -99,9 +136,27 @@ export const initializePixi = async (props: InitializePixiProps) => {
             // console.log("Switching to scene:", coinScene);
             useGameGlobalsStore.getState().switchToScene(coinScene, false);
         }
+
+        if (coinContainer && coinContainer.alpha > 0) {
+            coinContainer.alpha = 1;
+            const fadeOut = () => {
+                if (coinContainer.alpha > 0) {
+                    coinContainer.alpha -= 0.1;
+                    requestAnimationFrame(fadeOut);
+                } else {
+                    coinContainer.interactive = false;
+                    coinContainer.cursor = "default";
+
+                    console.log("Coin container faded out");
+                    coinPouchSprite.scale.set(coinPouchSpriteStartScale);
+                    bgCircle.alpha = 0.65;
+                }
+            };
+            fadeOut();
+        }
     });
 
-    coinContainer.addChild(blackCircle);
+    coinContainer.addChild(bgCircle);
     coinContainer.addChild(coinPouchSprite);
 
     coinContainer.alpha = 0;

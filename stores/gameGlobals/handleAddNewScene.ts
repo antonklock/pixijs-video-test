@@ -7,6 +7,10 @@ import { initializePixi } from "../../PixiJs/InitializePixi";
 const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, set: (state: GameGlobalsStore) => void) => {
     if (!get().app) {
         console.warn("Can't add new scene! App not initialized.");
+
+        // TODO: Fix this bug instead of reloading the page
+        location.reload();
+
         const maxRetries = 5;
         let attempts = 0;
 

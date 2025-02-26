@@ -147,7 +147,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             videoPlayers.forEach((videoPlayer) => {
                 if (videoPlayer === player) return;
                 videoPlayer.style.opacity = "0";
-                // videoPlayer.pause();
+                videoPlayer.pause();
                 videoPlayer.style.zIndex = "-1000";
             });
 
@@ -281,6 +281,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         document.addEventListener('click', handleUserInteraction);
         document.addEventListener('touchstart', handleUserInteraction);
     }
+
+    if (sceneId === "H0") videoPlayer.muted = true;
 }
 
 export default handleSwitchToScene;

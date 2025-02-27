@@ -21,6 +21,16 @@ export default function Home() {
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isMobile =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent.toLowerCase()
+      );
+    gameGlobals.isMobile = isMobile;
+    console.log("Device detected as:", isMobile ? "mobile" : "desktop");
+  }, []);
+
+  useEffect(() => {
     if (gameGlobals.isGameRunning) {
       document.body.style.overflow = "hidden";
     } else {
@@ -85,34 +95,38 @@ export default function Home() {
       }
 
       if (currentScene.id === "H0") {
-        if (timeDiff > 0.1) {
-          if (musicTime > videoTime) {
-            console.log(
-              "Music is ahead of video - %c timeDiff: ",
-              "color: red",
-              timeDiff.toFixed(2)
-            );
-            // videoPlayer.currentTime = musicTime - offset;
-            if (videoPlayer.playbackRate !== 1.25) {
-              videoPlayer.playbackRate = 1.25;
-              // console.log("Playback rate set to 1.25");
+        if (timeDiff > 3) {
+          videoPlayer.currentTime = musicTime - offset;
+        } else {
+          if (timeDiff > 0.1) {
+            if (musicTime > videoTime) {
+              console.log(
+                "Music is ahead of video - %c timeDiff: ",
+                "color: red",
+                timeDiff.toFixed(2)
+              );
+              // videoPlayer.currentTime = musicTime - offset;
+              if (videoPlayer.playbackRate !== 1.25) {
+                videoPlayer.playbackRate = 1.25;
+                // console.log("Playback rate set to 1.25");
+              }
+            } else {
+              console.log(
+                "Video is ahead of music - %c timeDiff: ",
+                "color: red",
+                timeDiff.toFixed(2)
+              );
+              if (videoPlayer.playbackRate !== 0.75) {
+                videoPlayer.playbackRate = 0.75;
+                // console.log("Playback rate set to 0.75");
+              }
             }
           } else {
-            console.log(
-              "Video is ahead of music - %c timeDiff: ",
-              "color: red",
-              timeDiff.toFixed(2)
-            );
-            if (videoPlayer.playbackRate !== 0.75) {
-              videoPlayer.playbackRate = 0.75;
-              // console.log("Playback rate set to 0.75");
+            console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
+            if (videoPlayer.playbackRate !== 1) {
+              videoPlayer.playbackRate = 1;
+              // console.log("Playback rate set to 1");
             }
-          }
-        } else {
-          console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
-          if (videoPlayer.playbackRate !== 1) {
-            videoPlayer.playbackRate = 1;
-            // console.log("Playback rate set to 1");
           }
         }
       }
@@ -183,6 +197,9 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
+      <p className="text-white text-center absolute bottom-10 left-10 z-[999999999]">
+        {gameGlobals.isMobile ? "Mobile" : "Desktop"}
+      </p>
     </>
   );
 }

@@ -40,6 +40,7 @@ export interface GameGlobalsStore extends GameGlobals {
     gameTime: number;
     loseTime: number;
     videoOffset: number;
+    isMobile: boolean;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
@@ -111,9 +112,10 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
             get().app = null;
         },
         gameTime: 0,
-        loseTime: 237,
-        // loseTime: 70,
+        // loseTime: 237,
+        loseTime: 70,
         videoOffset: 30.72,
+        isMobile: false,
     }
 ));
 

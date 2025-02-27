@@ -275,7 +275,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (sceneId !== "L1") videoPlayer.muted = false;
 
     if (sceneId === "H6-B") {
-        if (!get().isMobile) {
+        if (get().isMobile) {
             videoPlayer.muted = true;
 
             // Add event listener to unmute video on user interaction
@@ -290,6 +290,8 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
             document.addEventListener('click', handleUserInteraction);
             document.addEventListener('touchstart', handleUserInteraction);
+        } else {
+            videoPlayer.muted = false;
         }
     }
 

@@ -182,13 +182,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     const gameSession = useGameSessionStore.getState();
     const isSaving = useSaveGameStore.getState().isSaving;
     if (!isSaving) {
-        saveGameSessionFromClient(gameSession).then(() => {
-            console.log("Game session saved successfully");
-            useSaveGameStore.getState().setIsSaving(false);
-        }).catch((error) => {
-            console.error("Error saving game session: ", error);
-            useSaveGameStore.getState().setIsSaving(false);
-        })
+        saveGameSessionFromClient(gameSession)
     } else {
         console.log("Game session is already being saved. Skipping...");
     }

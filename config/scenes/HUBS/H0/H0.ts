@@ -116,7 +116,7 @@ const H0: SceneObject = {
                 const videoPlayer = useGameGlobalsStore.getState().currentScene?.video?.player;
                 if (videoPlayer) videoPlayer.muted = false;
             } else {
-                if (hitboxIsActive("HB-H6")) useGameGlobalsStore.getState().switchToScene("H6-A");
+                if (hitboxIsActive("HB-H6")) useGameGlobalsStore.getState().switchToScene("H6-A", false);
             }
         },
         isLoaded: false,

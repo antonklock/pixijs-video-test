@@ -232,7 +232,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         setTimeout(() => {
             scene.video.player?.pause();
             get().unstageScene(scene.id);
-        }, 4000);
+        }, 1000);
     });
 
     const nextScenes = newScene.nextScenes;

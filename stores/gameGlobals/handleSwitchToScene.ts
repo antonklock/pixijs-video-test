@@ -275,7 +275,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (sceneId !== "L1") videoPlayer.muted = false;
 
     if (sceneId === "H6-B") {
-        // videoPlayer.muted = true;
+        videoPlayer.muted = true;
 
         // Add event listener to unmute video on user interaction
         const handleUserInteraction = () => {

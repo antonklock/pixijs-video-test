@@ -7,6 +7,7 @@ import Game from "@/components/Game";
 import Nav from "@/components/Nav";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
 import { v4 as uuidv4 } from "uuid";
+import DebugMenu from "@/components/DebugMenu";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -175,7 +176,7 @@ export default function Home() {
         />
       </div>
       <Game />
-      {/* <DebugMenu /> */}
+      <DebugMenu />
       <audio
         ref={musicPlayerRef}
         id="game-music"

@@ -18,20 +18,6 @@ const H1C: SceneObject = {
     },
     hitboxes: [],
     sceneEvents: [
-        // {
-        //     name: "H1-C-BUCKET",
-        //     triggerTime: 9,
-        //     runEvent: () => {
-        //         useFxStore.getState().applyLowpassFilter(200);
-        //     },
-        // },
-        // {
-        //     name: "H1-C-BUCKET-2",
-        //     triggerTime: 11,
-        //     runEvent: () => {
-        //         useFxStore.getState().removeLowpassFilter();
-        //     },
-        // },
         {
             name: "H1-C-END",
             triggerTime: 18,

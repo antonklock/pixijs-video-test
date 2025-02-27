@@ -100,10 +100,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
-        seconds = 6.4;
-        newCurrentTime = seconds ?? 0;
-        player.currentTime = newCurrentTime - 1.5;
-        console.log("New current time: ", newCurrentTime);
+        player.currentTime = 4.9;
         setTimeout(() => {
             useFxStore.getState().unfadeToBlack(250);
         }, 250);
@@ -111,12 +108,9 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
-        seconds = 6.4;
-        newCurrentTime = seconds ?? 0;
-        player.currentTime = newCurrentTime - 1.5;
+        player.currentTime = 4.9;
         await useFxStore.getState().unfadeToBlack(250);
     } else if (newScene.id === "H1") {
-        // await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
         seconds = 2.9;
@@ -126,9 +120,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
         changeVideoPlayer(0);
-        seconds = 17.25;
-        newCurrentTime = seconds ?? 0;
-        player.currentTime = newCurrentTime - 1.5;
+        player.currentTime = 15.75;
         useFxStore.getState().unfadeToBlack(5);
     } else if (newScene.id.includes("M")) {
         await useFxStore.getState().fadeToBlack(250);

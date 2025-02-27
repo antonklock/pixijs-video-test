@@ -6,14 +6,15 @@ export const fadeOutMusic = (player: HTMLAudioElement, from: number, to: number,
     const fade = (currentTime: number) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const newVolume = Math.max(0, startVolume - change * progress);
+        let newVolume = Math.max(0, startVolume - change * progress);
+        if (newVolume < 0) newVolume = 0;
+        if (newVolume > 1) newVolume = 1;
+
         if (player.volume !== newVolume) {
             player.volume = newVolume;
         } else {
             player.volume = 0;
         }
-
-        // console.log("Fading music from:", player.volume, "to:", to);
 
         if (progress < 1) {
             requestAnimationFrame(fade);

@@ -50,10 +50,19 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
         if (!newVideo?.element) return console.warn("Couldn't load video for scene: ", sceneId);
         if (!newVideo?.hls) return console.warn("Couldn't load hls for scene: ", sceneId);
 
+        // TODO: Hacking the start time of scenes
         if (sceneId === "H0") {
             const musicTime = get().musicPlayer?.currentTime;
             const offset = get().videoOffset;
             if (musicTime && offset) newVideo.element.currentTime = musicTime - offset + 2;
+        } else if (sceneId === "H1") {
+            newVideo.element.currentTime = 2.9;
+        } else if (sceneId === "H6-B") {
+            newVideo.element.currentTime = 4.9;
+        } else if (sceneId === "H6-A") {
+            newVideo.element.currentTime = 4.9;
+        } else if (sceneId === "L2") {
+            newVideo.element.currentTime = 15.75;
         }
 
         const newSprite = await createVideoSprite(newVideo.element, get().app);

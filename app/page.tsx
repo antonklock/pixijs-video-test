@@ -21,13 +21,17 @@ export default function Home() {
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const isMobile =
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-        userAgent.toLowerCase()
-      );
+    const isTouchDevice =
+      "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+
+    const isMobile = isTouchDevice || isSmallScreen;
+
     gameGlobals.isMobile = isMobile;
+
     console.log("Device detected as:", isMobile ? "mobile" : "desktop");
+    console.log("Touch Device:", isTouchDevice);
+    console.log("Small Screen:", isSmallScreen);
   }, []);
 
   useEffect(() => {

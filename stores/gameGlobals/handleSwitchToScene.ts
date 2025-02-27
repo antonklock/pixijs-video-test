@@ -90,7 +90,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             useFxStore.getState().unfadeToBlack(250);
         }, 500);
     } else if (newScene.id === "L1") {
-        player.muted = true;
+        if (get().isMobile) player.muted = true;
         player.autoplay = false;
         await useFxStore.getState().fadeToBlack(250);
         await player.play();
@@ -272,7 +272,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     });
 
     const videoPlayer = newScene.video.player as HTMLVideoElement;
-    if (sceneId !== "L1") videoPlayer.muted = false;
+    if (sceneId !== "L1" && !get().isMobile) videoPlayer.muted = false;
 
     if (sceneId === "H6-B") {
         if (get().isMobile) {

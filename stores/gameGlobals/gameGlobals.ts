@@ -114,8 +114,8 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         },
         setIsMobile: (isMobile: boolean) => set({ isMobile }),
         gameTime: 0,
-        // loseTime: 237,
-        loseTime: 70,
+        loseTime: 237,
+        // loseTime: 70,
         videoOffset: 30.72,
         isMobile: false,
     }

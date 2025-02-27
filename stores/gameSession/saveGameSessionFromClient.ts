@@ -2,9 +2,11 @@
 
 import { GameSession, Metadata, PerformanceMetrics } from "@/types"
 import { saveGameSessionAction } from "./saveGameSessionAction"
+import useSaveGameStore from "./saveGameStore";
 
 export async function saveGameSessionFromClient(gameSession: GameSession) {
     try {
+        useSaveGameStore.getState().setIsSaving(true);
 
         const metadata: Metadata = {
             userAgent: navigator.userAgent,
@@ -52,5 +54,7 @@ export async function saveGameSessionFromClient(gameSession: GameSession) {
     } catch (error) {
         console.error('Failed to save game session from client:', error);
         return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    } finally {
+        useSaveGameStore.getState().setIsSaving(false);
     }
 }

@@ -8,7 +8,8 @@ import * as PIXI from 'pixi.js';
 
 import useFxStore from '../FX/fxStore';
 import useGameSessionStore from '../gameSession/gameSession';
-
+import useSaveGameStore from '../gameSession/saveGameStore';
+import { saveGameSessionFromClient } from '../gameSession/saveGameSessionFromClient';
 interface SwitchToSceneConfig {
     sceneId: string;
     loadNextScenes: boolean;
@@ -176,6 +177,22 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // Add scene to session
     useGameSessionStore.getState().startScene(newScene, newDate);
+
+    // Save game session
+    const gameSession = useGameSessionStore.getState();
+    const isSaving = useSaveGameStore.getState().isSaving;
+    if (!isSaving) {
+        saveGameSessionFromClient(gameSession).then(() => {
+            console.log("Game session saved successfully");
+            useSaveGameStore.getState().setIsSaving(false);
+        }).catch((error) => {
+            console.error("Error saving game session: ", error);
+            useSaveGameStore.getState().setIsSaving(false);
+        })
+    } else {
+        console.log("Game session is already being saved. Skipping...");
+    }
+
 
     if (!loadNextScenes) {
         const { stagedScenes } = get();

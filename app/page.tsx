@@ -6,8 +6,6 @@ import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
 import DebugMenu from "@/components/DebugMenu";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
-import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -18,17 +16,7 @@ export default function Home() {
   const pixiContainerRef = useRef<HTMLDivElement>(null);
   const [gameReady, setGameReady] = useState(false);
 
-  const [saveSuccess, setSaveSuccess] = useState(false);
-  const [saveError, setSaveError] = useState(false);
-
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSaveSuccess(false);
-      setSaveError(false);
-    }, 2000);
-  }, [saveError, saveSuccess]);
 
   useEffect(() => {
     if (gameGlobals.isGameRunning) {
@@ -150,18 +138,6 @@ export default function Home() {
     };
   }, [pixiContainerRef.current]);
 
-  const handleSaveGameSession = async () => {
-    const gameSession = useGameSessionStore.getState();
-    const result = await saveGameSessionFromClient(gameSession);
-    if (result.success) {
-      setSaveSuccess(true);
-      setSaveError(false);
-    } else {
-      setSaveError(true);
-      setSaveSuccess(false);
-    }
-  };
-
   return (
     <>
       <Nav isGameRunning={gameGlobals.isGameRunning} isFading={isFading} />
@@ -194,18 +170,6 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
-      <button
-        className={`absolute bottom-4 left-4 transition-all duration-300 ${
-          saveSuccess ? "border-2 border-green-500 bg-black text-green" : ""
-        } ${saveError ? "border-2 border-red-500 bg-black text-red" : ""} ${
-          saveSuccess === false && saveError === false
-            ? "bg-white text-black"
-            : ""
-        }  px-4 py-2 rounded-md z-[9999999]`}
-        onClick={() => handleSaveGameSession()}
-      >
-        Save Game Session
-      </button>
     </>
   );
 }

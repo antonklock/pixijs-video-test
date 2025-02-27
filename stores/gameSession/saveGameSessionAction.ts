@@ -32,6 +32,7 @@ export async function saveGameSessionAction(
                 session: filteredSession,
                 metadata: gameSession.metadata,
                 performance_metrics: gameSession.performanceMetrics,
+                user_token: gameSession.userToken,
             }]);
 
         if (error) {

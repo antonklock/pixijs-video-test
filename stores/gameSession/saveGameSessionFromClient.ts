@@ -3,10 +3,17 @@
 import { GameSession, Metadata, PerformanceMetrics } from "@/types"
 import { saveGameSessionAction } from "./saveGameSessionAction"
 import useSaveGameStore from "./saveGameStore";
+import { v4 as uuidv4 } from 'uuid';
 
 export async function saveGameSessionFromClient(gameSession: GameSession) {
     try {
         useSaveGameStore.getState().setIsSaving(true);
+
+        let token = localStorage.getItem("ybp-user-token");
+        if (!token) {
+            token = uuidv4();
+            localStorage.setItem("ybp-user-token", token);
+        }
 
         const metadata: Metadata = {
             userAgent: navigator.userAgent,
@@ -38,6 +45,7 @@ export async function saveGameSessionFromClient(gameSession: GameSession) {
 
         const serializedData = {
             id: gameSession.id,
+            userToken: gameSession.userToken,
             startedScenes: Array.from(gameSession.startedScenes) as string[],
             metadata,
             performanceMetrics,

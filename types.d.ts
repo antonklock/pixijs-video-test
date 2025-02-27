@@ -78,6 +78,7 @@ export interface Session {
 
 export interface GameSession {
     id: string;
+    userToken: string;
     startedScenes: Set<string>;
     session: Session[];
     startScene: (scene: SceneObject, timeStarted: Date) => void;

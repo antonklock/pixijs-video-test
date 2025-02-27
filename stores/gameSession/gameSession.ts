@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const useGameSessionStore = create<GameSession>((set) => ({
     id: uuidv4(),
+    userToken: "",
     startedScenes: new Set(),
     session: [],
     startScene: (scene, timeStarted) =>

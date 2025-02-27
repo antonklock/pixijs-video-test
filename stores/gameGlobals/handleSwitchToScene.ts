@@ -4,6 +4,7 @@ import { sceneObjects } from '@/config/sceneConfig';
 import { GameGlobalsStore } from './gameGlobals';
 import { StagedSceneObject } from '@/types';
 import addHitbox from '@/PixiJs/addHitbox';
+import { v4 as uuidv4 } from 'uuid';
 import * as PIXI from 'pixi.js';
 
 import useFxStore from '../FX/fxStore';
@@ -72,8 +73,6 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             return console.warn(`Can't play scene! Scene ${sceneId} not found.`);
         }
     }
-
-    // console.log("New scene: ", newScene);
 
     let seconds = 0;
     let newCurrentTime = seconds ?? 0;
@@ -181,6 +180,14 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     // Save game session
     const gameSession = useGameSessionStore.getState();
     const isSaving = useSaveGameStore.getState().isSaving;
+
+    const userToken = useGameSessionStore.getState().userToken;
+
+    if (!userToken) {
+        useGameSessionStore.getState().userToken = uuidv4();
+        localStorage.setItem("ybp-user-token", userToken);
+    }
+
     if (!isSaving) {
         saveGameSessionFromClient(gameSession)
     } else {

@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
-import DebugMenu from "@/components/DebugMenu";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
+import { v4 as uuidv4 } from "uuid";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -137,6 +138,19 @@ export default function Home() {
       }
     };
   }, [pixiContainerRef.current]);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("ybp-user-token");
+    if (!userToken) {
+      const token = uuidv4();
+      useGameSessionStore.getState().userToken = token;
+      localStorage.setItem("ybp-user-token", token);
+      console.log("User token set");
+    } else {
+      useGameSessionStore.getState().userToken = userToken;
+      console.log("User token retrieved");
+    }
+  }, []);
 
   return (
     <>

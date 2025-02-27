@@ -27,7 +27,7 @@ export default function Home() {
 
     const isMobile = isTouchDevice || isSmallScreen;
 
-    gameGlobals.isMobile = isMobile;
+    gameGlobals.setIsMobile(isMobile);
 
     console.log("Device detected as:", isMobile ? "mobile" : "desktop");
     console.log("Touch Device:", isTouchDevice);

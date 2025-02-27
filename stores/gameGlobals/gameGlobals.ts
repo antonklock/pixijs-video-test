@@ -37,6 +37,7 @@ export interface GameGlobalsStore extends GameGlobals {
     setCleanup: (cleanup: () => void) => void;
     setGameTime: (gameTime: number) => void;
     cleanupPixi: () => void;
+    setIsMobile: (isMobile: boolean) => void;
     gameTime: number;
     loseTime: number;
     videoOffset: number;
@@ -111,6 +112,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
             get().canvas = null;
             get().app = null;
         },
+        setIsMobile: (isMobile: boolean) => set({ isMobile }),
         gameTime: 0,
         // loseTime: 237,
         loseTime: 70,

@@ -5,10 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import TitleScreen from "@/components/TitleScreen";
 import Game from "@/components/Game";
 import Nav from "@/components/Nav";
-import { Howl } from "howler";
 import DebugMenu from "@/components/DebugMenu";
-import saveGameSession from "@/stores/gameSession/saveGameSession";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
+import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -18,6 +17,9 @@ export default function Home() {
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
   const pixiContainerRef = useRef<HTMLDivElement>(null);
   const [gameReady, setGameReady] = useState(false);
+
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
 
@@ -143,7 +145,14 @@ export default function Home() {
 
   const handleSaveGameSession = async () => {
     const gameSession = useGameSessionStore.getState();
-    await saveGameSession(gameSession);
+    const result = await saveGameSessionFromClient(gameSession);
+    if (result.success) {
+      setSaveSuccess(true);
+      setSaveError(false);
+    } else {
+      setSaveError(true);
+      setSaveSuccess(false);
+    }
   };
 
   return (
@@ -178,7 +187,18 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
-      <button onClick={() => handleSaveGameSession()}>Save Game Session</button>
+      <button
+        className={`absolute bottom-4 left-4 ${
+          saveSuccess ? "border border-green-500 bg-green-100 text-black" : ""
+        } ${saveError ? "border border-red-500 bg-red-100 text-black" : ""} ${
+          saveSuccess === false && saveError === false
+            ? "bg-white text-black"
+            : ""
+        }  px-4 py-2 rounded-md z-[9999999]`}
+        onClick={() => handleSaveGameSession()}
+      >
+        Save Game Session
+      </button>
     </>
   );
 }

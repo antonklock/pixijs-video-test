@@ -1,15 +1,9 @@
 import { create } from 'zustand';
-import { SceneObject } from '@/types';
-
-interface GameSession {
-    startedScenes: Set<string>;
-    session: { scene: SceneObject; timeStarted: Date; timeEnded: Date | null }[];
-    startScene: (scene: SceneObject, timeStarted: Date) => void;
-    endScene: (scene: SceneObject, timeEnded: Date) => void;
-    clearSession: () => void;
-}
+import { GameSession } from '@/types';
+import { v4 as uuidv4 } from 'uuid';
 
 const useGameSessionStore = create<GameSession>((set) => ({
+    id: uuidv4(),
     startedScenes: new Set(),
     session: [],
     startScene: (scene, timeStarted) =>

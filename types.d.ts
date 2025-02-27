@@ -69,3 +69,35 @@ export interface GameGlobals {
     coins: number;
     sceneEvents: Set<string>;
 }
+
+export interface Session {
+    scene: SceneObject;
+    timeStarted: Date;
+    timeEnded: Date | null;
+}
+
+export interface GameSession {
+    id: string;
+    startedScenes: Set<string>;
+    session: Session[];
+    startScene: (scene: SceneObject, timeStarted: Date) => void;
+    endScene: (scene: SceneObject, timeEnded: Date) => void;
+    clearSession: () => void;
+}
+
+export interface PerformanceMetrics {
+    loadTime: number;
+    domContentLoaded: number;
+    firstPaint: number;
+    firstContentfulPaint: number;
+}
+
+export interface Metadata {
+    userAgent: string;
+    language: string;
+    screenWidth: number;
+    screenHeight: number;
+    timeZone: string;
+    sessionStartTime: string;
+    referrer: string;
+}   

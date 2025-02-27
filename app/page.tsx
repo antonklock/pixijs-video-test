@@ -24,6 +24,13 @@ export default function Home() {
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    setTimeout(() => {
+      setSaveSuccess(false);
+      setSaveError(false);
+    }, 2000);
+  }, [saveError, saveSuccess]);
+
+  useEffect(() => {
     if (gameGlobals.isGameRunning) {
       document.body.style.overflow = "hidden";
     } else {
@@ -188,9 +195,9 @@ export default function Home() {
         onError={(e) => console.error("Error loading audio", e)}
       />
       <button
-        className={`absolute bottom-4 left-4 ${
-          saveSuccess ? "border border-green-500 bg-green-100 text-black" : ""
-        } ${saveError ? "border border-red-500 bg-red-100 text-black" : ""} ${
+        className={`absolute bottom-4 left-4 transition-all duration-300 ${
+          saveSuccess ? "border-2 border-green-500 bg-black text-green" : ""
+        } ${saveError ? "border-2 border-red-500 bg-black text-red" : ""} ${
           saveSuccess === false && saveError === false
             ? "bg-white text-black"
             : ""

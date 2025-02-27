@@ -13,13 +13,23 @@ export async function saveGameSessionAction(
     gameSession: SerializedGameSession
 ): Promise<{ success: boolean; error?: string }> {
     try {
+        const filteredSession = gameSession.session.map((session) => ({
+            scene: {
+                id: session.scene.id,
+                source: session.scene.source,
+                name: session.scene.name,
+            },
+            time_started: session.timeStarted,
+            time_ended: session.timeEnded,
+        }));
+
         const supabase = await createClient();
         const { data, error } = await supabase
             .from('game_sessions')
             .upsert([{
                 id: gameSession.id,
                 started_scenes: Array.from(gameSession.startedScenes),
-                session: gameSession.session,
+                session: filteredSession,
                 metadata: gameSession.metadata,
                 performance_metrics: gameSession.performanceMetrics,
             }]);

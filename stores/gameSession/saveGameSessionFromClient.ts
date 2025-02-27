@@ -58,10 +58,10 @@ export async function saveGameSessionFromClient(gameSession: GameSession) {
             endScene: gameSession.endScene,
         }
 
-        console.log("Game session saved successfully");
+        // console.log("Game session saved successfully");
         return await saveGameSessionAction(serializedData);
     } catch (error) {
-        console.error('Failed to save game session from client:', error);
+        // console.error('Failed to save game session from client:', error);
         return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     } finally {
         useSaveGameStore.getState().setIsSaving(false);

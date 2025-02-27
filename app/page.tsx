@@ -163,7 +163,7 @@ export default function Home() {
         />
       </div>
       <Game />
-      <DebugMenu />
+      {/* <DebugMenu /> */}
       <audio
         ref={musicPlayerRef}
         id="game-music"

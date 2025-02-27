@@ -197,9 +197,6 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
-      <p className="text-white text-center absolute bottom-10 left-10 z-[999999999]">
-        {gameGlobals.isMobile ? "Mobile" : "Desktop"}
-      </p>
     </>
   );
 }

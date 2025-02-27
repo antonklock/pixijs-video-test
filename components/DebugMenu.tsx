@@ -83,6 +83,10 @@ const DebugMenu = () => {
       </button>
       {isOpen && (
         <div className="bg-black border border-gray-300 rounded flex flex-col shadow-lg p-3 mt-2 gap-1 h-[70vh] overflow-y-scroll">
+          <p className="text-white text-xs mb-2">
+            isMobile:{" "}
+            {useGameGlobalsStore.getState().isMobile ? "true" : "false"}
+          </p>
           <div className="flex flex-row justify-between items-center gap-1">
             <button
               onClick={toggleHitboxes}

@@ -275,20 +275,22 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (sceneId !== "L1") videoPlayer.muted = false;
 
     if (sceneId === "H6-B") {
-        videoPlayer.muted = true;
+        if (!get().isMobile) {
+            videoPlayer.muted = true;
 
-        // Add event listener to unmute video on user interaction
-        const handleUserInteraction = () => {
-            const currentScene = useGameGlobalsStore.getState().currentScene;
-            const videoPlayer = currentScene?.video.player;
-            if (videoPlayer) videoPlayer.muted = false;
+            // Add event listener to unmute video on user interaction
+            const handleUserInteraction = () => {
+                const currentScene = useGameGlobalsStore.getState().currentScene;
+                const videoPlayer = currentScene?.video.player;
+                if (videoPlayer) videoPlayer.muted = false;
 
-            document.removeEventListener('click', handleUserInteraction);
-            document.removeEventListener('touchstart', handleUserInteraction);
-        };
+                document.removeEventListener('click', handleUserInteraction);
+                document.removeEventListener('touchstart', handleUserInteraction);
+            };
 
-        document.addEventListener('click', handleUserInteraction);
-        document.addEventListener('touchstart', handleUserInteraction);
+            document.addEventListener('click', handleUserInteraction);
+            document.addEventListener('touchstart', handleUserInteraction);
+        }
     }
 
     if (sceneId === "H0") videoPlayer.muted = true;

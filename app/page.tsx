@@ -145,10 +145,8 @@ export default function Home() {
       const token = uuidv4();
       useGameSessionStore.getState().userToken = token;
       localStorage.setItem("ybp-user-token", token);
-      console.log("User token set");
     } else {
       useGameSessionStore.getState().userToken = userToken;
-      console.log("User token retrieved");
     }
   }, []);
 

@@ -211,91 +211,91 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             }, 1000);
         });
         return console.log("Skipping loading next scenes");
-    }
-
-    // Remove old hitboxes
-    get().hitboxes.forEach(removeAllHitboxes);
-    get().app?.stage.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
-        if (child.label && child.label.includes("-container")) {
-            child.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+    } else {
+        // Remove old hitboxes
+        get().hitboxes.forEach(removeAllHitboxes);
+        get().app?.stage.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+            if (child.label && child.label.includes("-container")) {
+                child.children.forEach((child: PIXI.Graphics | PIXI.Container) => {
+                    child.destroy();
+                })
                 child.destroy();
-            })
-            child.destroy();
-        }
-    });
-
-    // Adding new hitboxes
-    newScene.hitboxes.forEach(hitboxConfig => {
-        const displaySkipIntro = window.localStorage.getItem("shouldDisplaySkip") === "true";
-        if (!displaySkipIntro && hitboxConfig.name === "HB-H0") return console.log("Skipping hitbox HB-H0 first time!");
-        const { onHit, ...config } = hitboxConfig;
-        addHitbox({
-            ...config, onClick: () => {
-                if (onHit) onHit();
             }
         });
-    });
 
 
-    // Unstaging scenes
-    const { stagedScenes } = get();
-    stagedScenes.forEach(scene => {
-        if (scene.id === sceneId) return;
-        if (scene.nextScenes.includes(scene.id)) return;
+        // Adding new hitboxes
+        newScene.hitboxes.forEach(hitboxConfig => {
+            const displaySkipIntro = window.localStorage.getItem("shouldDisplaySkip") === "true";
+            if (!displaySkipIntro && hitboxConfig.name === "HB-H0") return console.log("Skipping hitbox HB-H0 first time!");
+            const { onHit, ...config } = hitboxConfig;
+            addHitbox({
+                ...config, onClick: () => {
+                    if (onHit) onHit();
+                }
+            });
+        });
 
-        scene.isActive = false;
-        scene.video.sprite.visible = false;
+        // Unstaging scenes
+        const { stagedScenes } = get();
+        stagedScenes.forEach(scene => {
+            if (scene.id === sceneId) return;
+            if (scene.nextScenes.includes(scene.id)) return;
 
-        // // TODO: Can we make this more elegant?
-        setTimeout(() => {
-            scene.video.player?.pause();
-            get().unstageScene(scene.id);
-        }, 1000);
-    });
+            scene.isActive = false;
+            scene.video.sprite.visible = false;
 
-    const nextScenes = newScene.nextScenes;
+            // // TODO: Can we make this more elegant?
+            setTimeout(() => {
+                scene.video.player?.pause();
+                get().unstageScene(scene.id);
+            }, 1000);
+        });
 
-    if (newScene.id === "H0") {
-        const coins = useGameGlobalsStore.getState().coins;
-        if (coins >= 0 && coins <= 9) {
-            const nextCoinScene = "M" + coins;
-            const filteredNextScenes = nextScenes.filter(sceneId => !sceneId.includes("M"));
-            nextScenes.length = 0;
-            nextScenes.push(...filteredNextScenes);
-            nextScenes.push(nextCoinScene);
+        const nextScenes = newScene.nextScenes;
+
+        if (newScene.id === "H0") {
+            const coins = useGameGlobalsStore.getState().coins;
+            if (coins >= 0 && coins <= 9) {
+                const nextCoinScene = "M" + coins;
+                const filteredNextScenes = nextScenes.filter(sceneId => !sceneId.includes("M"));
+                nextScenes.length = 0;
+                nextScenes.push(...filteredNextScenes);
+                nextScenes.push(nextCoinScene);
+            }
         }
-    }
 
-    // Add next scenes
-    nextScenes.forEach(nextSceneId => {
-        get().addNewScene(nextSceneId);
-    });
+        // Add next scenes
+        nextScenes.forEach(nextSceneId => {
+            get().addNewScene(nextSceneId);
+        });
 
-    const videoPlayer = newScene.video.player as HTMLVideoElement;
-    if (sceneId !== "L1" && !get().isMobile) videoPlayer.muted = false;
+        const videoPlayer = newScene.video.player as HTMLVideoElement;
+        if (sceneId !== "L1" && !get().isMobile) videoPlayer.muted = false;
 
-    if (sceneId === "H6-B") {
-        if (get().isMobile) {
-            videoPlayer.muted = true;
+        if (sceneId === "H6-B") {
+            if (get().isMobile) {
+                videoPlayer.muted = true;
 
-            // Add event listener to unmute video on user interaction
-            const handleUserInteraction = () => {
-                const currentScene = useGameGlobalsStore.getState().currentScene;
-                const videoPlayer = currentScene?.video.player;
-                if (videoPlayer) videoPlayer.muted = false;
+                // Add event listener to unmute video on user interaction
+                const handleUserInteraction = () => {
+                    const currentScene = useGameGlobalsStore.getState().currentScene;
+                    const videoPlayer = currentScene?.video.player;
+                    if (videoPlayer) videoPlayer.muted = false;
 
-                document.removeEventListener('click', handleUserInteraction);
-                document.removeEventListener('touchstart', handleUserInteraction);
-            };
+                    document.removeEventListener('click', handleUserInteraction);
+                    document.removeEventListener('touchstart', handleUserInteraction);
+                };
 
-            document.addEventListener('click', handleUserInteraction);
-            document.addEventListener('touchstart', handleUserInteraction);
-        } else {
-            videoPlayer.muted = false;
+                document.addEventListener('click', handleUserInteraction);
+                document.addEventListener('touchstart', handleUserInteraction);
+            } else {
+                videoPlayer.muted = false;
+            }
         }
-    }
 
-    if (sceneId === "H0") videoPlayer.muted = true;
+        if (sceneId === "H0") videoPlayer.muted = true;
+    }
 }
 
 export default handleSwitchToScene;

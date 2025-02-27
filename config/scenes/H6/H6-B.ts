@@ -1,6 +1,8 @@
 import addEndMessage from "@/PixiJs/addEndMessage";
 import fxStore from "@/stores/FX/fxStore";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
+import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
 import { SceneObject } from "@/types";
 import { fadeOutMusic } from "@/utils/fadeMusic";
 
@@ -67,6 +69,16 @@ const H6B: SceneObject = {
 
                     requestAnimationFrame(fadeOut);
                 }
+
+                const sessionLength = useGameSessionStore.getState().session.length;
+                const newSession = useGameSessionStore.getState().session;
+                newSession[sessionLength - 1].timeEnded = new Date();
+                useGameSessionStore.setState({
+                    session: newSession
+                });
+
+                const gameSession = useGameSessionStore.getState();
+                saveGameSessionFromClient(gameSession);
 
                 setTimeout(() => {
                     useGameGlobalsStore.getState().endGame();

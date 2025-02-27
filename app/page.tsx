@@ -8,6 +8,7 @@ import Nav from "@/components/Nav";
 import useGameSessionStore from "@/stores/gameSession/gameSession";
 import { v4 as uuidv4 } from "uuid";
 import DebugMenu from "@/components/DebugMenu";
+import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -28,6 +29,19 @@ export default function Home() {
     const isMobile = isTouchDevice || isSmallScreen;
 
     gameGlobals.setIsMobile(isMobile);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      const sessionLength = useGameSessionStore.getState().session.length;
+      const newSession = useGameSessionStore.getState().session;
+      newSession[sessionLength - 1].timeEnded = new Date();
+      useGameSessionStore.setState({
+        session: newSession,
+      });
+      const gameSession = useGameSessionStore.getState();
+      saveGameSessionFromClient(gameSession);
+    };
   }, []);
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 import addEndMessage from "@/PixiJs/addEndMessage";
 import useFxStore from "@/stores/FX/fxStore";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
+import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
 import { SceneObject } from "@/types";
 import { fadeOutMusic } from "@/utils/fadeMusic";
 
@@ -38,6 +40,17 @@ const L1: SceneObject = {
             triggerTime: 8,
             runEvent: () => {
                 useGameGlobalsStore.getState().currentScene?.video.player?.pause();
+
+                const sessionLength = useGameSessionStore.getState().session.length;
+                const newSession = useGameSessionStore.getState().session;
+                newSession[sessionLength - 1].timeEnded = new Date();
+                useGameSessionStore.setState({
+                    session: newSession
+                });
+
+                const gameSession = useGameSessionStore.getState();
+                saveGameSessionFromClient(gameSession);
+
                 setTimeout(() => {
                     useGameGlobalsStore.getState().endGame();
                 }, 7000);

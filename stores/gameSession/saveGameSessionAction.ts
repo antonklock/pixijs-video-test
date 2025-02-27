@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from "@/supabase/supabaseServer";
+import { createAdminClient } from "@/supabase/supabaseServer";
 import { GameSession, Metadata, PerformanceMetrics } from '@/types';
 
 interface SerializedGameSession extends Omit<GameSession, 'clearSession' | 'startedScenes'> {
@@ -23,7 +23,7 @@ export async function saveGameSessionAction(
             time_ended: session.timeEnded,
         }));
 
-        const supabase = await createClient();
+        const supabase = await createAdminClient();
         const { data, error } = await supabase
             .from('game_sessions')
             .upsert([{

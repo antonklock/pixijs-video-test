@@ -1,14 +1,14 @@
 "use client";
 
+import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
+import useGameSessionStore from "@/stores/gameSession/gameSession";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useRef, useState } from "react";
 import TitleScreen from "@/components/TitleScreen";
-import Game from "@/components/Game";
-import Nav from "@/components/Nav";
-import useGameSessionStore from "@/stores/gameSession/gameSession";
-import { v4 as uuidv4 } from "uuid";
 import DebugMenu from "@/components/DebugMenu";
-import { saveGameSessionFromClient } from "@/stores/gameSession/saveGameSessionFromClient";
+import Game from "@/components/Game";
+import { v4 as uuidv4 } from "uuid";
+import Nav from "@/components/Nav";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -26,9 +26,12 @@ export default function Home() {
       "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
     const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
 
-    const isMobile = isTouchDevice || isSmallScreen;
+    const isMobile = isTouchDevice && isSmallScreen;
 
     gameGlobals.setIsMobile(isMobile);
+
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+    gameGlobals.setIsPortrait(isPortrait);
   }, []);
 
   useEffect(() => {
@@ -201,6 +204,8 @@ export default function Home() {
           isFading={isFading}
           bgColor={bgColor}
           isGameRunning={gameGlobals.isGameRunning}
+          isMobile={gameGlobals.isMobile}
+          isPortrait={gameGlobals.isPortrait}
         />
       </div>
       <Game />

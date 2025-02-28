@@ -38,10 +38,12 @@ export interface GameGlobalsStore extends GameGlobals {
     setGameTime: (gameTime: number) => void;
     cleanupPixi: () => void;
     setIsMobile: (isMobile: boolean) => void;
+    setIsPortrait: (isPortrait: boolean) => void;
     gameTime: number;
     loseTime: number;
     videoOffset: number;
     isMobile: boolean;
+    isPortrait: boolean;
 }
 
 const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
@@ -113,11 +115,13 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
             get().app = null;
         },
         setIsMobile: (isMobile: boolean) => set({ isMobile }),
+        setIsPortrait: (isPortrait: boolean) => set({ isPortrait }),
         gameTime: 0,
         loseTime: 237,
         // loseTime: 70,
         videoOffset: 30.72,
         isMobile: false,
+        isPortrait: false,
     }
 ));
 

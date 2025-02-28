@@ -1,4 +1,3 @@
-import screenfull from "screenfull";
 import PlayGame from "./PlayThumbImg";
 
 const TitleScreen = (props: {
@@ -6,9 +5,17 @@ const TitleScreen = (props: {
   isFading: boolean;
   bgColor: string;
   isGameRunning: boolean;
+  isMobile: boolean;
+  isPortrait: boolean;
 }) => {
-  const { handleStartGame, isFading, bgColor, isGameRunning } = props;
-
+  const {
+    handleStartGame,
+    isFading,
+    bgColor,
+    isGameRunning,
+    isMobile,
+    isPortrait,
+  } = props;
   return (
     <div
       className={`w-full h-auto flex items-center flex-col justify-center ${bgColor} transition-colors duration-500 ${
@@ -21,6 +28,8 @@ const TitleScreen = (props: {
           className={`transition-opacity duration-500 ${
             isFading ? "opacity-0" : "opacity-100"
           }`}
+          isPortrait={isPortrait}
+          isMobile={isMobile}
         />
       )}
     </div>

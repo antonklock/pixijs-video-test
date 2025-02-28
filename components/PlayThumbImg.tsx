@@ -8,9 +8,16 @@ import screenfull from "screenfull";
 interface PlayThumbButtonProps {
   onClick: () => void;
   className?: string;
+  isPortrait?: boolean;
+  isMobile?: boolean;
 }
 
-const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
+const PlayGame: React.FC<PlayThumbButtonProps> = ({
+  onClick,
+  className,
+  isPortrait,
+  isMobile,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHlsReady, setIsHlsReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -89,25 +96,59 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({ onClick, className }) => {
             Raise Your Glass
           </h1>
 
-          <button
-            onClick={handleClick}
-            className={"md:w-40 w-32"}
-            style={{ zIndex: 512 }}
-          >
-            <Image
-              src={"/images/play-game.png"}
-              alt="Play Thumbnail"
-              width={150}
-              height={150}
-              style={{
-                objectFit: "cover",
-                width: "auto",
-                height: "auto",
-                zIndex: 11,
-              }}
-              priority
-            />
-          </button>
+          {isMobile ? (
+            isPortrait ? (
+              <div className="flex flex-col items-center gap-2">
+                <Image
+                  src={"/images/rotate-phone.svg"}
+                  alt="Rotate phone icon"
+                  width={35}
+                  height={35}
+                />
+                <p className="text-white-200 text-sm">Rotate phone to play</p>
+              </div>
+            ) : (
+              <button
+                onClick={handleClick}
+                className={"md:w-40 w-32"}
+                style={{ zIndex: 512 }}
+              >
+                <Image
+                  src={"/images/play-game.png"}
+                  alt="Play Thumbnail"
+                  width={150}
+                  height={150}
+                  style={{
+                    objectFit: "cover",
+                    width: "auto",
+                    height: "auto",
+                    zIndex: 11,
+                  }}
+                  priority
+                />
+              </button>
+            )
+          ) : (
+            <button
+              onClick={handleClick}
+              className={"md:w-40 w-32"}
+              style={{ zIndex: 512 }}
+            >
+              <Image
+                src={"/images/play-game.png"}
+                alt="Play Thumbnail"
+                width={150}
+                height={150}
+                style={{
+                  objectFit: "cover",
+                  width: "auto",
+                  height: "auto",
+                  zIndex: 11,
+                }}
+                priority
+              />
+            </button>
+          )}
           {showFullscreenButton && (
             <button
               onClick={() => {

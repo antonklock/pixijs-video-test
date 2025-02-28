@@ -46,6 +46,30 @@ const G0: SceneObject = {
     }],
     sceneEvents: [
         {
+            name: "G0-START",
+            triggerTime: 0,
+            runEvent: () => {
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.currentTime = 22.75;
+                    musicPlayer.pause();
+
+                    // console.log("musicPlayer.currentTime:", musicPlayer.currentTime);
+                }
+            }
+        },
+        {
+            name: "G0-START-MUSIC",
+            triggerTime: 15,
+            runEvent: () => {
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.play();
+                    // console.log("Playing music...")
+                }
+            }
+        },
+        {
             name: "set-skip-intro",
             triggerTime: 20,
             runEvent: () => {

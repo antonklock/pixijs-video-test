@@ -28,13 +28,18 @@ const H2B2: SceneObject = {
         },
         {
             name: "H2-B-2-END",
-            triggerTime: 55,
+            triggerTime: 50,
             runEvent: () => {
-                useFxStore.getState().fadeToBlack(1500);
-                useFxStore.getState().fadeMusicVolume(-50, 1500);
+                useFxStore.getState().fadeToBlack(4000);
+                useFxStore.getState().fadeMusicVolume(-50, 4000);
+
+                setTimeout(() => {
+                    addEndMessage("win", 5);
+                }, 1000);
+
                 setTimeout(() => {
                     useGameGlobalsStore.getState().endGame();
-                }, 2000);
+                }, 7000);
             }
         }
     ]

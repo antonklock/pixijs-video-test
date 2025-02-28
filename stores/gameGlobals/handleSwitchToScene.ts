@@ -269,6 +269,27 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             if (get().isMobile) {
                 videoPlayer.muted = true;
 
+                const app = get().app;
+                const mutedTexture = await PIXI.Assets.load('/images/muted.png');
+                const mutedSprite = new PIXI.Sprite(mutedTexture);
+                mutedSprite.anchor.set(0.5);
+                mutedSprite.x = app.screen.width * 0.9;
+                mutedSprite.y = app.screen.height * 0.75;
+                mutedSprite.scale.set((app.stage.width * 0.01) * 0.04);
+
+                mutedSprite.alpha = 0;
+
+                app.stage.addChild(mutedSprite);
+
+                const animateMutedSprite = () => {
+                    mutedSprite.alpha += 0.02;
+                    if (mutedSprite.alpha < 1) requestAnimationFrame(animateMutedSprite);
+                }
+
+                setTimeout(() => {
+                    animateMutedSprite();
+                }, 1000);
+
                 // Add event listener to unmute video on user interaction
                 const handleUserInteraction = () => {
                     const currentScene = useGameGlobalsStore.getState().currentScene;
@@ -277,6 +298,15 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
                     document.removeEventListener('click', handleUserInteraction);
                     document.removeEventListener('touchstart', handleUserInteraction);
+
+
+                    const fadeOutMuteSprite = () => {
+                        mutedSprite.alpha -= 0.1;
+                        if (mutedSprite.alpha > 0) requestAnimationFrame(fadeOutMuteSprite);
+                        else mutedSprite.destroy();
+                    }
+
+                    fadeOutMuteSprite();
                 };
 
                 document.addEventListener('click', handleUserInteraction);

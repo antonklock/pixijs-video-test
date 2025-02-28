@@ -54,7 +54,15 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
         if (sceneId === "H0") {
             const musicTime = get().musicPlayer?.currentTime;
             const offset = get().videoOffset;
-            if (musicTime && offset) newVideo.element.currentTime = musicTime - offset + 2;
+            const currentScene = get().currentScene;
+            const endEvent = currentScene?.sceneEvents?.find(event => event.name.endsWith("-END"));
+            if (musicTime && offset) {
+                if (endEvent) {
+                    newVideo.element.currentTime = musicTime - offset + endEvent.triggerTime;
+                } else {
+                    newVideo.element.currentTime = musicTime - offset + 2;
+                }
+            }
         } else if (sceneId === "H1") {
             newVideo.element.currentTime = 2.9;
         } else if (sceneId === "H6-B") {

@@ -33,6 +33,7 @@ const G0: SceneObject = {
                 const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
                 if (musicPlayer) {
                     musicPlayer.currentTime = 65;
+                    musicPlayer.play();
                 }
             }
 

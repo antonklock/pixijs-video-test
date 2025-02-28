@@ -263,7 +263,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
         });
 
         const videoPlayer = newScene.video.player as HTMLVideoElement;
-        if (sceneId !== "L1" && !get().isMobile) videoPlayer.muted = false;
+        // if (sceneId !== "L1" && !get().isMobile) videoPlayer.muted = false;
 
         if (sceneId === "H6-B") {
             if (get().isMobile) {
@@ -284,9 +284,13 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
             } else {
                 videoPlayer.muted = false;
             }
+        } else if (sceneId === "H0") {
+            videoPlayer.muted = true;
+        } else if (sceneId === "L1" && get().isMobile) {
+            videoPlayer.muted = true;
+        } else {
+            videoPlayer.muted = false;
         }
-
-        if (sceneId === "H0") videoPlayer.muted = true;
     }
 }
 

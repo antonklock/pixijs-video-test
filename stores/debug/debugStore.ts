@@ -8,11 +8,15 @@ export interface DebugStore {
     showDebugInfo: boolean;
     showCurrentVideoTime: boolean;
     sceneEvents: Set<string>;
+    showCoins: boolean;
+    showHlsMessages: boolean;
     setShowHitboxes: (value: boolean) => void;
     setShowLoadingIndicators: (value: boolean) => void;
     setShowDebugMenu: (value: boolean) => void;
     setShowDebugInfo: (value: boolean) => void;
     setShowCurrentVideoTime: (value: boolean) => void;
+    setShowCoins: (value: boolean) => void;
+    setShowHlsMessages: (value: boolean) => void;
 }
 
 const useDebugStore = create<DebugStore>((set) => ({
@@ -22,6 +26,8 @@ const useDebugStore = create<DebugStore>((set) => ({
     showDebugInfo: false,
     showCurrentVideoTime: false,
     sceneEvents: new Set(),
+    showCoins: false,
+    showHlsMessages: false,
     setShowHitboxes: (value: boolean) => {
         set({ showHitboxes: value });
         if (typeof window !== 'undefined') {
@@ -39,6 +45,16 @@ const useDebugStore = create<DebugStore>((set) => ({
     setShowDebugInfo: (value: boolean) => set({ showDebugInfo: value }),
     setShowCurrentVideoTime: (value: boolean) => {
         set((state) => ({ ...state, showCurrentVideoTime: value }));
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('showCurrentVideoTime', JSON.stringify(value));
+        }
+    },
+    setShowCoins: (value: boolean) => set({ showCoins: value }),
+    setShowHlsMessages: (value: boolean) => {
+        set({ showHlsMessages: value });
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('showHlsMessages', JSON.stringify(value));
+        }
     },
 }));
 

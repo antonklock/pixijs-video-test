@@ -13,6 +13,10 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const leander = localFont({
+  src: "../public/fonts/Leander.ttf",
+});
+
 export const metadata: Metadata = {
   title: "Raise Your Glass",
   description: "Ye Banished Privateers",
@@ -26,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${leander.className} antialiased`}
       >
         {children}
       </body>

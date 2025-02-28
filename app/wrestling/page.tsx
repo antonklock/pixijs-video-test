@@ -1,7 +1,7 @@
 "use client";
 
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const GameControl = () => {
   const [gameStarted, setGameStarted] = useState(false);
@@ -20,7 +20,7 @@ const GameControl = () => {
     if (strength >= 8) return "bg-green-500";
     if (strength >= 5) return "bg-yellow-500";
     if (strength >= 3) return "bg-red-500";
-    return "bg-red-500"; // Empty bar
+    return "bg-red-500";
   };
 
   return (

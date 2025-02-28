@@ -5,8 +5,9 @@ import hitboxIsActive from "@/utils/hitboxActiveCheck";
 const H5: SceneObject = {
     id: "H5",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/b825b39829e2e5bdd4d9f4394f09f87b/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/ASntOql3ZK01GlHAtOercyEpRPZ6BmctmYBWdVqiSxBQ.m3u8'
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H5/playlist.m3u8' // R2
     },
     name: 'Buskspel',
     nextScenes: ["H5-A", "H5-B", "H5-C"],
@@ -29,7 +30,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         },
@@ -46,7 +47,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         },
@@ -63,7 +64,7 @@ const H5: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 10,
+                start: 3,
                 end: 99999
             }]
         }

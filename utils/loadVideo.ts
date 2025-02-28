@@ -1,6 +1,6 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
-import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import determineHub from "./determineHub";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -8,10 +8,19 @@ interface HLSVideo {
 }
 
 const loadVideo = async (id: string) => {
-    const gameGlobals = useGameGlobalsStore.getState();
     const sceneObject = sceneObjects.find((obj) => obj.id === id);
 
-    const source = gameGlobals.videoProvider === "mux" ? sceneObject?.source.mux : sceneObject?.source.cloudflare;
+    // let source = gameGlobals.videoProvider === "R2" ? sceneObject?.source.R2 : sceneObject?.source.cloudflare;
+    let source = sceneObject?.source.R2;
+
+    // TODO: This is a hack to load the correct video for the hub
+    if (id.includes("H0")) {
+        // console.log("Started scenes: ", useGameSessionStore.getState().startedScenes);
+
+        const hub = determineHub();
+        // console.log(`%cLoading video for %c${hub}`, 'color: #bbffbb; font-weight: regular;', 'color: orange; font-weight: bold;');
+        source = `https://klockworks.xyz/${hub}/playlist.m3u8`;
+    }
 
     try {
         if (!sceneObject) throw new Error(`Scene object not found for ${id}`);
@@ -30,6 +39,7 @@ const setupHls = async (source: string) => {
         const newVideoElement = document.createElement("video");
         const video = initVideo(newVideoElement);
 
+        // Skip native HLS check and directly use hls.js
         if (Hls.isSupported()) {
             const hls = new Hls({
                 debug: false,
@@ -37,12 +47,7 @@ const setupHls = async (source: string) => {
                 lowLatencyMode: true,
             });
 
-            hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                // console.log(`HLS media attached for video ${video.id}`);
-            });
-
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                // console.log(`HLS manifest parsed for video ${video.id}`);
                 resolve({ element: video, hls });
             });
 
@@ -50,20 +55,11 @@ const setupHls = async (source: string) => {
                 if (data.fatal) {
                     console.error(`HLS fatal error ${video.id}: ${data.type}`);
                     reject(data.error);
-                    // onError(`HLS fatal error ${video.id}: ${data.type}`);
                 }
             });
 
             hls.attachMedia(video);
             hls.loadSource(source);
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = source;
-            video.addEventListener("loadedmetadata", () => {
-                resolve({ element: video, hls: null });
-            });
-            video.addEventListener("error", (error) => {
-                reject(error.error as Error);
-            });
         } else {
             reject(new Error("HLS not supported"));
         }
@@ -71,13 +67,19 @@ const setupHls = async (source: string) => {
 };
 
 const initVideo = (video: HTMLVideoElement) => {
-    video.setAttribute("playsinline", "true");
+    video.playsInline = true;
     video.setAttribute("webkit-playsinline", "true");
     video.muted = true;
     video.loop = true;
+    video.autoplay = false;
     video.crossOrigin = "anonymous";
     video.preload = "auto";
     video.style.position = "absolute";
+    video.style.top = "50%";
+    video.style.left = "50%";
+    video.style.transform = "translate(-50%, -50%)";
+    video.style.height = "auto";
+    video.style.width = "100%";
     video.style.opacity = "0";
     video.style.pointerEvents = "none";
     video.style.zIndex = "-1000";

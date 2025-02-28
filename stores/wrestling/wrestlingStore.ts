@@ -24,10 +24,12 @@ const useWrestlingStore = create<WrestlingStore>((set, get) => ({
         if (!get().wrestlingStarted) {
             set({ wrestlingStarted: true });
             return;
+        } else {
+            // console.log("Wrestling already started, no need to set wrestlingStarted to true again!");
         }
 
         let handicap = get().handicap;
-        let gameTime = get().gameTime;
+        const gameTime = get().gameTime;
 
         if (get().strength < 2 && handicap < 0.2) {
             handicap += 0.1;

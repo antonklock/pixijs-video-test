@@ -1,39 +1,66 @@
-import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
-import { usePixiStage } from "../hooks/usePixiStage";
+import * as PIXI from "pixi.js";
+import { useEffect, useRef, useState } from "react";
 import { initializePixi } from "@/PixiJs/InitializePixi";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+import { Dimensions } from "../types";
 
 const VideoSwitcher = () => {
   const gameGlobals = useGameGlobalsStore();
 
-  const [errors, setErrors] = useState<string[]>([]);
   const initializationRef = useRef(false);
 
   const videosRef = useRef<HTMLVideoElement[] | null[]>([]);
   const hlsInstancesRef = useRef<Hls[] | null[]>([]);
+  const videoSpritesRef = useRef<PIXI.Sprite[] | null[]>([]);
 
-  const addError = (error: string) => {
-    setErrors((prev) => [...prev, error]);
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const appRef = useRef<PIXI.Application>();
 
-  const { containerRef, canvasRef, appRef, videoSpritesRef, dimensions } =
-    usePixiStage({ onError: addError });
+  const [dimensions, setDimensions] = useState<Dimensions>({
+    width: 0,
+    height: 0,
+    scale: 1,
+  });
 
   // Initialize Pixi
   useEffect(() => {
-    if (initializationRef.current) return;
+    if (initializationRef.current === true || appRef.current) return;
     initializationRef.current = true;
 
     const createPixiApp = async () => {
-      const { app, canvas } = await initializePixi(dimensions);
+      const container = document.getElementById(
+        "pixi-container"
+      ) as HTMLDivElement;
+      if (!container) return console.warn("Container not found");
 
-      if (!canvas || !containerRef.current || !app) return;
-      containerRef.current.appendChild(canvas);
+      const { app, canvas, dimensions } = await initializePixi({
+        parentElement: container,
+      });
+      if (!canvas || !containerRef.current || !app)
+        return console.warn("Pixi app failed to initialize");
+
+      if (
+        !gameGlobals.stageDimensions.width ||
+        !gameGlobals.stageDimensions.height
+      ) {
+        gameGlobals.setStageDimensions({
+          width: dimensions.width,
+          height: dimensions.height,
+        });
+      }
+
+      container.appendChild(canvas);
       appRef.current = app;
+
+      // // Disable auto-resizing
+      app.renderer.resize(dimensions.width, dimensions.height);
 
       gameGlobals.setApp(app);
       gameGlobals.setCanvas(canvas);
+
+      // console.log("App initialized");
     };
 
     createPixiApp();
@@ -43,7 +70,7 @@ const VideoSwitcher = () => {
     );
 
     return cleanup;
-  }, []);
+  }, [gameGlobals.pixiContainer]);
 
   const cleanup = () => {
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
@@ -69,32 +96,12 @@ const VideoSwitcher = () => {
     gameGlobals.setCurrentScene(null);
 
     gameGlobals.stagedScenes.forEach((scene) => scene.clear());
+
+    // console.log("Cleanup");
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center -z-10"
-    >
-      <div
-        className=""
-        style={{
-          aspectRatio: "16/9",
-          maxHeight: "100vh",
-          maxWidth: "100vw",
-        }}
-      />
-
-      {gameGlobals.currentScene ? false : <></>}
-
-      {errors.length > 0 && (
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 mt-4 p-4 bg-red-100 text-red-700 rounded z-10">
-          {errors.map((error, index) => (
-            <div key={`${error}-${index}`}>{error}</div>
-          ))}
-        </div>
-      )}
-    </div>
+    <div ref={containerRef} className="fixed overflow-hidden bg-black -z-10" />
   );
 };
 

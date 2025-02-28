@@ -6,8 +6,9 @@ import getNextDiceScene from "@/utils/getNextDiceScene";
 const H2AO2: SceneObject = {
     id: "H2-A-O2",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/p7rHmNQIOL5VqFIMCivEBpxPoUHRJURDpd02286MjW1s.m3u8'
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-A-O2/playlist.m3u8' // R2
     },
     name: 'Motståndare rullar tärning - 5',
     nextScenes: [],
@@ -21,18 +22,19 @@ const H2AO2: SceneObject = {
             name: "HB-H2-A-O2",
             color: 0x00ffff,
             x: 0.5,
-            y: 0.5,
+            y: 0.6,
             width: 0.2,
-            height: 0.2,
+            height: 0.5,
             onHit: () => {
-                const nextScene = getNextDiceScene();
-
-                if (hitboxIsActive("HB-H2-A-O2") && nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                if (hitboxIsActive("HB-H2-A-O2")) {
+                    const nextScene = getNextDiceScene();
+                    if (nextScene) useGameGlobalsStore.getState().switchToScene(nextScene);
+                }
             },
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 4.5,
                 end: 100
             }]
         }

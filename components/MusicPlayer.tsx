@@ -1,64 +1,42 @@
-"use client";
+// "use client";
 
-import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useRef, useState, useEffect, useMemo } from "react";
-import * as Tone from "tone";
+// import useDebugStore from "@/stores/debug/debugStore";
+// import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
+// import { SceneObject } from "@/types";
+// import { useRef, useState, useEffect } from "react";
+// import { Howl } from "howler";
 
-const musicUrl =
-  "https://klockworks.xyz/Music/Ye%20Banished%20Privateers%20-%20Raise%20Your%20Glass.mp3";
+// const MusicPlayer = () => {
 
-const MusicPlayer = () => {
-  const playerRef = useRef<Tone.Player | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
+//   const [transportSeconds, setTransportSeconds] = useState(0);
 
-  const { isGameRunning } = useGameGlobalsStore();
+//   const [currentVideoTime, setCurrentVideoTime] = useState(0);
 
-  useEffect(() => {
-    console.log("isGameRunning", isGameRunning);
-    if (isGameRunning && !isPlaying && !hasLoaded) loadMusic();
+//   return (
+//     <>
+//       {useDebugStore.getState().showCurrentVideoTime && (
+//         <div
+//           className="absolute top-0 left-20 text-white"
+//           style={{
+//             zIndex: "100000",
+//           }}
+//         >
+//           <p>Music time: {transportSeconds}</p>
+//           <p>Current video time: {currentVideoTime}</p>
+//         </div>
+//       )}
+//     </>
+//   );
+// };
 
-    return () => {
-      playerRef.current?.stop();
-      playerRef.current?.dispose();
-      playerRef.current = null;
-      setIsPlaying(false);
-      setHasLoaded(false);
-    };
-  }, []);
+// export const seekMusicToTime = async (time: number) => {
+//   const fadeDuration = 250;
+//   const gameMusic = useGameGlobalsStore.getState().musicPlayer;
 
-  const loadMusic = async () => {
-    playerRef.current = new Tone.Player(musicUrl).toDestination();
-    await playerRef.current.load(musicUrl);
+//   if (gameMusic) {
+//     // Seek to the desired time
+//     gameMusic.seek(time);
+//     console.log("Seeked to ", time);
+// };
 
-    playerRef.current?.sync();
-    Tone.getTransport().start();
-    if (playerRef.current?.state !== "started") {
-      playerRef.current?.start();
-      setIsPlaying(true);
-    }
-    setHasLoaded(true);
-  };
-
-  const togglePlayback = () => {
-    if (!playerRef.current || !hasLoaded) return;
-
-    if (isPlaying) {
-      Tone.getTransport().pause();
-      setIsPlaying(false);
-    } else {
-      Tone.getTransport().start();
-      setIsPlaying(true);
-    }
-  };
-
-  return (
-    <>
-      <button className="absolute top-10 right-10" onClick={togglePlayback}>
-        {isPlaying ? "Pause" : "Play"}
-      </button>
-    </>
-  );
-};
-
-export default MusicPlayer;
+// export default MusicPlayer;

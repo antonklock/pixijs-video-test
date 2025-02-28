@@ -1,20 +1,23 @@
-import VideoSwitcher from "./VideoSwitcher";
-import SceneLoadingIndicators from "./SceneLoadingIndicators";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import { useEffect, useState } from "react";
-import useDebugStore from "@/stores/debug/debugStore";
-import DebugMenu from "./DebugMenu";
-import DebugInfo from "./DebugInfo";
-import HitboxManager from "./HitboxManager";
 import removeAllHitboxes from "@/PixiJs/removeAllHitboxes";
-import MusicPlayer from "./MusicPlayer";
-import DisplaySkipIntro from "./DisplaySkipIntro";
+import useDebugStore from "@/stores/debug/debugStore";
 import SceneEventManager from "./SceneEventManager";
+import DisplaySkipIntro from "./DisplaySkipIntro";
+import useFxStore from "@/stores/FX/fxStore";
+import VideoSwitcher from "./VideoSwitcher";
+import HitboxManager from "./HitboxManager";
+import DebugInfo from "./DebugInfo";
+import { useEffect } from "react";
+import * as PIXI from "pixi.js";
 
 export default function Game() {
   const gameGlobals = useGameGlobalsStore();
-  const [initialSceneLoaded, setInitialSceneLoaded] = useState(false);
-  const [initialScenePlaying, setInitialScenePlaying] = useState(false);
+
+  useEffect(() => {
+    useFxStore.getState().initiateFadePlate();
+    gameGlobals.setGameState("playing");
+    // console.log("Fade plate initiated");
+  }, []);
 
   // Cleanup hitboxes when the app is destroyed
   useEffect(() => {
@@ -27,50 +30,59 @@ export default function Game() {
 
   useEffect(() => {
     if (!gameGlobals.app) return;
-    if (!initialSceneLoaded) {
-      gameGlobals.addNewScene("G0");
-      setInitialSceneLoaded(true);
+
+    const coins = gameGlobals.coins;
+
+    if (gameGlobals.currentScene?.id === "H0" && coins >= 0) {
+      const coinContainer = gameGlobals.app.stage.children.find(
+        (child: PIXI.Container) => child.label === "coinContainer"
+      );
+      if (coinContainer) {
+        coinContainer.alpha = 0;
+        const fadeIn = () => {
+          if (coinContainer.alpha < 1) {
+            coinContainer.alpha += 0.1;
+            requestAnimationFrame(fadeIn);
+          } else {
+            coinContainer.interactive = true;
+            coinContainer.cursor = "hover";
+
+            console.log("Coin container faded in");
+          }
+        };
+        fadeIn();
+      }
+    } else {
+      const coinContainer = gameGlobals.app.stage.children.find(
+        (child: PIXI.Container) => child.label === "coinContainer"
+      );
+      if (coinContainer && coinContainer.alpha > 0) {
+        coinContainer.alpha = 1;
+        const fadeOut = () => {
+          if (coinContainer.alpha > 0) {
+            coinContainer.alpha -= 0.1;
+            requestAnimationFrame(fadeOut);
+          } else {
+            coinContainer.interactive = false;
+            coinContainer.cursor = "default";
+
+            console.log("Coin container faded out");
+          }
+        };
+        fadeOut();
+      }
     }
+  }, [gameGlobals.currentScene]);
 
-    // TODO: Can we find a more elegant solution? I don't like the timer.
-    if (!initialScenePlaying) {
-      setTimeout(() => {
-        gameGlobals.switchToScene("G0");
-        setInitialScenePlaying(true);
-      }, 1000);
-    }
-  }, [
-    gameGlobals.app,
-    initialSceneLoaded,
-    initialScenePlaying,
-    gameGlobals.currentScene?.isReady,
-    gameGlobals,
-  ]);
-
-  // useEffect(() => {
-  //   if (gameGlobals.currentScene) {
-  //     const sceneEventNames =
-  //       gameGlobals.currentScene.sceneEvents?.map((event) => event.name) ?? [];
-  //     gameGlobals.setSceneEvents(new Set(sceneEventNames));
-  //     console.log("Scene events set:", sceneEventNames);
-  //   }
-  // }, [gameGlobals.currentScene]);
-
-  const { showLoadingIndicators, showDebugInfo } = useDebugStore();
+  const { showDebugInfo } = useDebugStore();
 
   return (
-    <div className="w-full h-full overflow-hidden">
+    <div className="relative top-0 left-0 w-full h-full overflow-hidden">
       <VideoSwitcher />
-      <DebugMenu />
       {showDebugInfo && <DebugInfo />}
       <HitboxManager />
-      {gameGlobals.isGameRunning && <MusicPlayer />}
       <DisplaySkipIntro />
-      {showLoadingIndicators && <SceneLoadingIndicators />}
       <SceneEventManager />
-      <p className="text-white text-2xl font-bold absolute bottom-10 right-10">
-        Coins: {gameGlobals.coins}
-      </p>
     </div>
   );
 }

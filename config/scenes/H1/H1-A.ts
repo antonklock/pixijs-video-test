@@ -1,13 +1,14 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
+import determineHub from "@/utils/determineHub";
 
 const H1A: SceneObject = {
     id: "H1-A",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/36597fa6c0bf1a5820b712e1e832cf8f/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/cLZvm9Cue6iqHFP3tkImW01jNIyTH02XPMrsRarh1zwII.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H1-A/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '',
+        R2: 'https://klockworks.xyz/H1-A/playlist.m3u8'
     },
     name: 'Skura golvet',
     nextScenes: ["H1-A-1"],
@@ -36,7 +37,7 @@ const H1A: SceneObject = {
     sceneEvents: [
         {
             name: "H1-A-END",
-            triggerTime: 13,
+            triggerTime: 21,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

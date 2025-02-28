@@ -6,10 +6,9 @@ import { SceneObject } from "@/types";
 const G0: SceneObject = {
     id: "G0",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/f63d15e200eb568dfef34b3b6696a761/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/SbcBoRA74N8PM0291B9YSRHsBkbR2eyXObPCel4JBNYA.m3u8' // Mux
-        mux: 'https://klockworks.xyz/G0/playlist.m3u8' // Custom R2 domain
-        // mux: 'https://pub-3d195669b2f149b99b13aeea19bd7cfa.r2.dev/G0/playlist.m3u8' // Cloudflare R2.dev
+        cloudflare: '',
+        mux: '',
+        R2: 'https://klockworks.xyz/G0/playlist.m3u8'
     },
     name: 'Intro sovrum',
     nextScenes: ['H0'],
@@ -24,11 +23,20 @@ const G0: SceneObject = {
         x: 0.8,
         y: 0.75,
         width: 0.15,
-        height: 0.075,
+        height: 0.1,
         onHit: () => {
             const skipIntro = useGameGlobalsStore.getState().app.stage.children.find((child: PIXI.Sprite) => child.label === "skip-intro");
             if (skipIntro) skipIntro.destroy();
-            if (hitboxIsActive("HB-H0")) useGameGlobalsStore.getState().switchToScene("H0")
+
+            if (hitboxIsActive("HB-H0")) {
+                useGameGlobalsStore.getState().switchToScene("H0");
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.currentTime = 65;
+                    musicPlayer.play();
+                }
+            }
+
         },
         isLoaded: false,
         isActive: false,
@@ -39,8 +47,39 @@ const G0: SceneObject = {
     }],
     sceneEvents: [
         {
-            name: "intro-end",
-            triggerTime: 70.5,
+            name: "G0-START",
+            triggerTime: 0,
+            runEvent: () => {
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.currentTime = 22.75;
+                    musicPlayer.pause();
+
+                    // console.log("musicPlayer.currentTime:", musicPlayer.currentTime);
+                }
+            }
+        },
+        {
+            name: "G0-START-MUSIC",
+            triggerTime: 15,
+            runEvent: () => {
+                const musicPlayer = document.getElementById("game-music") as HTMLAudioElement;
+                if (musicPlayer) {
+                    musicPlayer.play();
+                    // console.log("Playing music...")
+                }
+            }
+        },
+        {
+            name: "set-skip-intro",
+            triggerTime: 20,
+            runEvent: () => {
+                localStorage.setItem("shouldDisplaySkip", "true");
+            }
+        },
+        {
+            name: "G0-END",
+            triggerTime: 69,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             }

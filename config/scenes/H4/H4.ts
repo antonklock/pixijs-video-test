@@ -5,9 +5,9 @@ import hitboxIsActive from "@/utils/hitboxActiveCheck";
 const H4: SceneObject = {
     id: "H4",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/307bbb62ad743bdd735e8c8c3c585db9/manifest/video.m3u8',
-        // mux: 'https://stream.mux.com/U3LFixVH9VTTCbC9fscswacz970032bYisYAhVCyl01C8.m3u8' // Mux
-        mux: 'https://klockworks.xyz/H4/playlist.m3u8' // R2
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H4/playlist.m3u8' // R2
     },
     name: 'Stjäla',
     nextScenes: ["H4-A", "H4-B", "H4-C"],
@@ -72,7 +72,7 @@ const H4: SceneObject = {
     sceneEvents: [
         {
             name: "H4-END",
-            triggerTime: 6,
+            triggerTime: 53,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

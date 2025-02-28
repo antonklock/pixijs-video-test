@@ -5,8 +5,9 @@ import hitboxIsActive from "@/utils/hitboxActiveCheck";
 const H3: SceneObject = {
     id: "H3",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/626070ae0b2893d10b59d4f0741c07eb/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/uGRxDsvdKgd5D5voRRoAq2uudvdcvuG6s02NmjkOGxgM.m3u8'
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H3/playlist.m3u8' // R2
     },
     name: 'Armbrytning',
     nextScenes: ["H3-A", "H3-B"],
@@ -27,7 +28,7 @@ const H3: SceneObject = {
                 if (hitboxIsActive("HB-H3-A")) useGameGlobalsStore.getState().switchToScene("H3-A");
             },
             activationIntervals: [{
-                start: 2,
+                start: 9,
                 end: 99999
             }],
         },
@@ -44,7 +45,7 @@ const H3: SceneObject = {
             isLoaded: false,
             isActive: false,
             activationIntervals: [{
-                start: 2,
+                start: 4,
                 end: 99999
             }]
         }

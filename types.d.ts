@@ -34,6 +34,7 @@ export interface SceneObject {
     source: {
         mux: string;
         cloudflare: string;
+        R2: string;
     }
     video: {
         player: MediaPlayerElement | null;
@@ -57,13 +58,47 @@ export interface StagedSceneObject extends SceneObject {
 }
 
 export interface GameGlobals {
+    gameState: "notStarted" | "playing" | "lost" | "won";
     isGameRunning: boolean;
     app: PIXI.Application | null;
     canvas: HTMLCanvasElement | null;
     currentScene: StagedSceneObject | null;
     stagedScenes: StagedSceneObject[];
-    videoProvider: "mux" | "cloudflare";
+    videoProvider: "mux" | "cloudflare" | "R2";
     hitboxes: PIXI.Container[];
     coins: number;
     sceneEvents: Set<string>;
 }
+
+export interface Session {
+    scene: SceneObject;
+    timeStarted: Date;
+    timeEnded: Date | null;
+}
+
+export interface GameSession {
+    id: string;
+    userToken: string;
+    startedScenes: Set<string>;
+    session: Session[];
+    startScene: (scene: SceneObject, timeStarted: Date) => void;
+    endScene: (scene: SceneObject, timeEnded: Date) => void;
+    clearSession: () => void;
+}
+
+export interface PerformanceMetrics {
+    loadTime: number;
+    domContentLoaded: number;
+    firstPaint: number;
+    firstContentfulPaint: number;
+}
+
+export interface Metadata {
+    userAgent: string;
+    language: string;
+    screenWidth: number;
+    screenHeight: number;
+    timeZone: string;
+    sessionStartTime: string;
+    referrer: string;
+}   

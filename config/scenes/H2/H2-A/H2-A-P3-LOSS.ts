@@ -1,12 +1,12 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
-import hitboxIsActive from "@/utils/hitboxActiveCheck";
 import { SceneObject } from "@/types";
 
 const H2AP3Loss: SceneObject = {
     id: "H2-A-P3-LOSS",
     source: {
-        cloudflare: 'https://customer-8b2ok7c97mpbuf67.cloudflarestream.com/7665a8b3eaa5d596946bcd6927b0241d/manifest/video.m3u8',
-        mux: 'https://stream.mux.com/ZpyxMJBpYPhP4vngTecv00lpqJ6vMrAfbUanGhFOVvDM.m3u8'
+        cloudflare: '',
+        mux: '', // Mux
+        R2: 'https://klockworks.xyz/H2-A-P3-LOSS/playlist.m3u8' // R2
     },
     name: 'Spelare rullar tärning - 6',
     nextScenes: ["H0"],

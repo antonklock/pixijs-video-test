@@ -26,7 +26,7 @@ export default function Home() {
       "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
     const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
 
-    const isMobile = isTouchDevice && isSmallScreen;
+    const isMobile = isTouchDevice || isSmallScreen;
 
     gameGlobals.setIsMobile(isMobile);
 

@@ -22,6 +22,7 @@ const CountdownTimer = () => {
       if (timeDifference <= 0) {
         // Target date has passed
         setIsExpired(true);
+        location.reload();
         return;
       }
 

@@ -10,9 +10,9 @@ const CreditsPage = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-full w-full px-4">
+    <div className="min-h-screen flex flex-col">
       <div
-        className="min-h-screen  text-white p-8 transition-opacity duration-1000"
+        className="flex-grow text-white p-8 transition-opacity duration-1000"
         style={{ opacity: isVisible ? 1 : 0 }}
       >
         <div className="max-w-2xl mx-auto space-y-12">
@@ -65,12 +65,12 @@ const CreditsPage = () => {
               possible.
             </p>
           </section>
-
-          <footer className="text-center text-sm text-gray-400 mt-16">
-            <p>© 2025 All Rights Reserved</p>
-          </footer>
         </div>
       </div>
+
+      <footer className="text-center text-sm text-gray-400 p-4">
+        <p>© 2025 All Rights Reserved</p>
+      </footer>
     </div>
   );
 };

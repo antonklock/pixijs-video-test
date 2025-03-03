@@ -5,11 +5,9 @@ import useGameSessionStore from "@/stores/gameSession/gameSession";
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { useEffect, useRef, useState } from "react";
 import TitleScreen from "@/components/TitleScreen";
-import DebugMenu from "@/components/DebugMenu";
 import Game from "@/components/Game";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "@/components/Nav";
-import { getLaunched } from "@/app/actions";
 
 const musicUrl = "https://klockworks.xyz/music/ybp-raiseyourglass.mp3";
 
@@ -21,14 +19,6 @@ export default function Home() {
   const [gameReady, setGameReady] = useState(false);
 
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    async function launched() {
-      const launched = await getLaunched();
-      console.log(launched);
-    }
-    launched();
-  }, []);
 
   useEffect(() => {
     const isTouchDevice =
@@ -218,7 +208,7 @@ export default function Home() {
         />
       </div>
       <Game />
-      <DebugMenu />
+      {/* <DebugMenu /> */}
       <audio
         ref={musicPlayerRef}
         id="game-music"

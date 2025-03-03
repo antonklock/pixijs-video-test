@@ -10,7 +10,7 @@ const CreditsPage = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
+    <div className="flex justify-center items-center h-full w-full px-4">
       <div
         className="min-h-screen  text-white p-8 transition-opacity duration-1000"
         style={{ opacity: isVisible ? 1 : 0 }}
@@ -49,14 +49,14 @@ const CreditsPage = () => {
             </p>
           </section>
 
-          <section className="space-y-4">
+          {/* <section className="space-y-4">
             <h2 className="text-2xl font-semibold">Technologies Used</h2>
             <ul className="list-disc list-inside space-y-2">
               <li>Next.js</li>
               <li>PixiJS</li>
               <li>Cloudflare</li>
             </ul>
-          </section>
+          </section> */}
 
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold">Special Thanks</h2>
@@ -66,7 +66,7 @@ const CreditsPage = () => {
             </p>
           </section>
 
-          <footer className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-sm text-gray-400 mt-16">
+          <footer className="text-center text-sm text-gray-400 mt-16">
             <p>© 2025 All Rights Reserved</p>
           </footer>
         </div>

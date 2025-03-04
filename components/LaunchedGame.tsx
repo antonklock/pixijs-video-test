@@ -17,7 +17,6 @@ export default function Home() {
   const [bgColor, setBgColor] = useState("bg-[#0a0a0a]");
   const pixiContainerRef = useRef<HTMLDivElement>(null);
   const [gameReady, setGameReady] = useState(false);
-  const [videoTime, setVideoTime] = useState(0);
 
   const musicPlayerRef = useRef<HTMLAudioElement | null>(null);
 
@@ -102,13 +101,6 @@ export default function Home() {
       if (!musicTime) return console.warn("Music time not found");
       const offset = gameGlobals.videoOffset;
       const videoTime = videoPlayer.currentTime + offset;
-
-      if (videoTime == videoPlayer.currentTime) {
-        console.log("Video time is equal to video player current time");
-        gameGlobals.switchToScene(currentScene.nextScenes[0]);
-      } else {
-        setVideoTime(videoTime);
-      }
 
       let timeDiff = 0;
 

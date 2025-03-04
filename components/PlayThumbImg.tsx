@@ -65,7 +65,7 @@ const PlayGame: React.FC<PlayThumbButtonProps> = ({
 
   useEffect(() => {
     // Check if we're on mobile
-    if (screen.width < 768) return;
+    // if (screen.width < 768) return;
 
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (isSafari) return console.log("Fullscreen not yet supported in Safari.");

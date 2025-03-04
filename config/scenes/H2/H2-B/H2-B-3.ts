@@ -18,7 +18,7 @@ const H2B3: SceneObject = {
     sceneEvents: [
         {
             name: "H2-B-3-END",
-            triggerTime: 9,
+            triggerTime: 8,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

@@ -182,7 +182,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex flex-col">
+    <div className="">
       <Nav isGameRunning={gameGlobals.isGameRunning} isFading={isFading} />
       <div
         ref={pixiContainerRef}
@@ -197,7 +197,7 @@ export default function Home() {
         }}
       />
 
-      <div className="flex-grow flex items-center justify-center">
+      <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden">
         <TitleScreen
           handleStartGame={handleStartGame}
           isFading={isFading}

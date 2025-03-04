@@ -190,7 +190,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="">
       <Nav isGameRunning={gameGlobals.isGameRunning} isFading={isFading} />
       <div
         ref={pixiContainerRef}
@@ -223,6 +223,6 @@ export default function Home() {
         src={musicUrl}
         onError={(e) => console.error("Error loading audio", e)}
       />
-    </>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ const H2B: SceneObject = {
         R2: 'https://klockworks.xyz/H2-B/playlist.m3u8' // R2
     },
     name: 'Välter ljus',
-    nextScenes: ["H2-B-1", "H2-B-2", "H2-B-3"],
+    nextScenes: ["H2-B-1", "H2-B-2", "H2-B-3", "H0"],
     video: {
         player: null,
         hls: null,

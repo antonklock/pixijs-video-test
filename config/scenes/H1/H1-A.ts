@@ -11,7 +11,7 @@ const H1A: SceneObject = {
         R2: 'https://klockworks.xyz/H1-A/playlist.m3u8'
     },
     name: 'Skura golvet',
-    nextScenes: ["H1-A-1"],
+    nextScenes: ["H1-A-1", "H0"],
     video: {
         player: null,
         hls: null,
@@ -37,7 +37,7 @@ const H1A: SceneObject = {
     sceneEvents: [
         {
             name: "H1-A-END",
-            triggerTime: 21,
+            triggerTime: 16,
             runEvent: () => {
                 useGameGlobalsStore.getState().switchToScene("H0");
             },

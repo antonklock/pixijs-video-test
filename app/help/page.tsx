@@ -21,9 +21,10 @@ const HelpPage = () => {
           <section className="space-y-6">
             <p className="text-lg">
               Having issues with the interactive music video? Make sure your
-              browser is updated or try switching to another browser. If you are
-              on your phone consider going on your computer instead, it might
-              give you a better interactive experience.
+              browser version is up to date, or try switching to another
+              browser. If you are playing on your smartphone, consider going on
+              your computer instead. This might give you a better interactive
+              experience.
             </p>
 
             <p className="text-lg">
@@ -34,6 +35,7 @@ const HelpPage = () => {
               >
                 info@yebanishedprivateers.com
               </a>
+              . Please tag your email &quot;Raise Your Glass&quot;.
             </p>
 
             <p className="text-lg italic">

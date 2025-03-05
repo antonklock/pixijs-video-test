@@ -56,7 +56,7 @@ function DisplaySkipIntro({ startDelay = 1800 }: DisplaySkipIntroProps) {
         }, startDelay);
       }
     } else {
-      console.log("Skip intro should not be displayed");
+      // console.log("Skip intro should not be displayed");
     }
   }, [isGameRunning]);
 

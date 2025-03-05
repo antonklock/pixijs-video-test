@@ -25,7 +25,7 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
             }
 
             attempts++;
-            console.log(`Attempt ${attempts} to add new scene...`);
+            // console.log(`Attempt ${attempts} to add new scene...`);
 
             const pixiContainer = document.getElementById("pixi-container");
             if (!pixiContainer) return console.warn("Pixi container not found.");
@@ -34,7 +34,7 @@ const handleAddNewScene = async (sceneId: string, get: () => GameGlobalsStore, s
 
             if (get().app) {
                 clearInterval(retryInterval);
-                console.log("App initialized. Proceeding to add new scene.");
+                // console.log("App initialized. Proceeding to add new scene.");
             }
         }, 1000);
     }

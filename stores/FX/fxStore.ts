@@ -27,18 +27,18 @@ const useFxStore = create<FxStore>((set) => ({
     },
     isFaded: false,
     fadeToBlack: async (duration: number): Promise<void> => {
-        console.log("Fading to black");
+        // console.log("Fading to black");
         const fadePlate = gameGlobalsStore.getState().app.stage.children.find((child: Graphics) => child.label === "fadePlate");
         if (fadePlate) {
             return await fade(fadePlate, 1, duration);
         } else {
-            console.warn("Fade plate not found - Initializing fade plate first");
+            // console.warn("Fade plate not found - Initializing fade plate first");
             useFxStore.getState().initiateFadePlate();
             return await useFxStore.getState().fadeToBlack(duration);
         }
     },
     unfadeToBlack: async (duration: number): Promise<void> => {
-        console.log("Unfading to black");
+        // console.log("Unfading to black");
         const fadePlate = gameGlobalsStore.getState().app.stage.children.find((child: Graphics) => child.label === "fadePlate");
         if (fadePlate) {
             return await fade(fadePlate, 0, duration);

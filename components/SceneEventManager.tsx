@@ -44,7 +44,7 @@ const SceneEventManager = () => {
           newTime > sceneEvent.triggerTime &&
           gameGlobals.sceneEvents.has(sceneEvent.name)
         ) {
-          console.log("Scene event triggered:", sceneEvent.name);
+          // console.log("Scene event triggered:", sceneEvent.name);
           sceneEvent.runEvent();
           gameGlobals.sceneEvents.delete(sceneEvent.name);
         }

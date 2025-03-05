@@ -1,6 +1,7 @@
 import { sceneObjects } from "@/config/sceneConfig";
 import Hls from "hls.js";
 import determineHub from "./determineHub";
+import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 
 interface HLSVideo {
     element: HTMLVideoElement;
@@ -70,7 +71,7 @@ const initVideo = (video: HTMLVideoElement) => {
     video.playsInline = true;
     video.setAttribute("webkit-playsinline", "true");
     video.muted = true;
-    video.loop = true;
+    video.loop = false;
     video.autoplay = false;
     video.crossOrigin = "anonymous";
     video.preload = "auto";
@@ -84,6 +85,11 @@ const initVideo = (video: HTMLVideoElement) => {
     video.style.pointerEvents = "none";
     video.style.zIndex = "-1000";
     document.body.appendChild(video);
+
+    video.onended = () => {
+        const gameState = useGameGlobalsStore.getState().gameState;
+        if (gameState === "playing") useGameGlobalsStore.getState().switchToScene("H0");
+    };
 
     return video;
 };

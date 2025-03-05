@@ -66,7 +66,7 @@ const useGameGlobalsStore = create<GameGlobalsStore>((set, get) => (
         addCoinsAndCheckWin: (newCoins: number) => {
             set({ coins: get().coins + newCoins });
             if (get().coins >= 3) {
-                console.log("GameState set to won");
+                // console.log("GameState set to won");
                 get().setGameState("won");
             }
         },

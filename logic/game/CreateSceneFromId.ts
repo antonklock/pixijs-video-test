@@ -13,12 +13,12 @@ const createSceneFromId = (id: string, autoplay: boolean = false) => {
         if (newScene.id?.includes("H2-A-O")) {
             const newPlayerScene = getRandomPlayerDiceScene();
             if (!newPlayerScene) {
-                console.warn("Couldn't get random player dice scene");
+                // console.warn("Couldn't get random player dice scene");
             }
             else {
                 const playerSceneResult = calculateDiceWinner({ opponent: newScene.id, player: newPlayerScene });
                 if (!playerSceneResult) {
-                    console.warn("Couldn't calculate dice winner");
+                    // console.warn("Couldn't calculate dice winner");
                 }
                 else {
                     newScene.nextScenes = playerSceneResult;

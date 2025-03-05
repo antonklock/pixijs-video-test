@@ -75,7 +75,7 @@ const HitboxManager = () => {
         }
       });
     } else {
-      console.log("No video player found!");
+      // console.log("No video player found!");
     }
   };
 
@@ -116,7 +116,7 @@ const HitboxManager = () => {
         if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
           hitboxGraphic.tint = color;
         } else {
-          console.log("Hitbox graphic not found:", hitboxName);
+          // console.log("Hitbox graphic not found:", hitboxName);
         }
       });
     } else {
@@ -137,7 +137,7 @@ const HitboxManager = () => {
         if (hitboxGraphic && hitboxGraphic instanceof PIXI.Graphics) {
           hitboxGraphic.cursor = state;
         } else {
-          console.log("Hitbox graphic not found:", hitboxName);
+          // console.log("Hitbox graphic not found:", hitboxName);
         }
       });
     } else {

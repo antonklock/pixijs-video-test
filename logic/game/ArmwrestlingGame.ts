@@ -2,7 +2,7 @@ import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import useWrestlingStore from "@/stores/wrestling/wrestlingStore";
 
 export default function StartNewArmwrestlingGame() {
-    console.log("Arm wrestling game started");
+    // console.log("Arm wrestling game started");
 
     let lastSwitchTime = 0;
     const switchThreshold = 3;
@@ -18,12 +18,12 @@ export default function StartNewArmwrestlingGame() {
 
         if (wrestlingStarted) {
             if (strength <= 0) {
-                console.log("Player LOSE");
+                // console.log("Player LOSE");
                 useWrestlingStore.setState({ wrestlingStarted: false });
 
                 useGameGlobalsStore.getState().switchToScene("H3-A-LOSS");
             } else if (strength >= 10) {
-                console.log("Player WIN");
+                // console.log("Player WIN");
                 useWrestlingStore.setState({ wrestlingStarted: false });
 
                 useGameGlobalsStore.getState().switchToScene("H3-A-WIN");
@@ -36,13 +36,13 @@ export default function StartNewArmwrestlingGame() {
                 gameTimePenalty = 0.03;
             }
 
-            console.log("currentScene: ", currentScene);
+            // console.log("currentScene: ", currentScene);
 
             if (strength < 3) {
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "lose") {
                         lastSwitchTime = gameTime;
-                        console.log("Switch to losing scene");
+                        // console.log("Switch to losing scene");
                         currentScene = "lose";
                         useGameGlobalsStore.getState().switchToScene("H3-A-3", false);
                     }
@@ -51,7 +51,7 @@ export default function StartNewArmwrestlingGame() {
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "tie") {
                         lastSwitchTime = gameTime;
-                        console.log("Switch to tie scene");
+                        // console.log("Switch to tie scene");
                         currentScene = "tie";
                         useGameGlobalsStore.getState().switchToScene("H3-A-2", false);
                     }
@@ -60,7 +60,7 @@ export default function StartNewArmwrestlingGame() {
                 if (gameTime - lastSwitchTime > switchThreshold) {
                     if (currentScene !== "win") {
                         lastSwitchTime = gameTime;
-                        console.log("Switch to winning scene");
+                        // console.log("Switch to winning scene");
                         currentScene = "win";
                         useGameGlobalsStore.getState().switchToScene("H3-A-1", false);
                     }

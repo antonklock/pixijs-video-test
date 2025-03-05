@@ -47,7 +47,7 @@ export default function Game() {
             coinContainer.interactive = true;
             coinContainer.cursor = "hover";
 
-            console.log("Coin container faded in");
+            // console.log("Coin container faded in");
           }
         };
         fadeIn();
@@ -66,7 +66,7 @@ export default function Game() {
             coinContainer.interactive = false;
             coinContainer.cursor = "default";
 
-            console.log("Coin container faded out");
+            // console.log("Coin container faded out");
           }
         };
         fadeOut();

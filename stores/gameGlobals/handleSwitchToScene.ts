@@ -25,24 +25,24 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     const loseTime = get().loseTime;
 
     if (sceneId === currentSceneId) {
-        console.log("Scene already loaded. Skipping...");
+        // console.log("Scene already loaded. Skipping...");
         return;
     }
 
     if (!sceneObjects.some(sceneObject => sceneObject.id === sceneId)) {
-        console.warn(`Scene ${sceneId} config not found in sceneObjects`);
+        // console.warn(`Scene ${sceneId} config not found in sceneObjects`);
         return;
     }
 
     let newScene: StagedSceneObject | null = get().stagedScenes.find(scene => scene.id === sceneId) ?? null;
 
     if (get().gameState === "lost" && newScene?.id !== "L1" && gameTime > loseTime) {
-        console.log("Game is lost. Skipping...");
+        // console.log("Game is lost. Skipping...");
         return;
     }
 
     if (get().gameState === "won" && newScene?.id !== "H6-B" && gameTime > loseTime) {
-        console.log("Game is over. Player won! Skipping scene switch.");
+        // console.log("Game is over. Player won! Skipping scene switch.");
         return;
     }
 
@@ -61,7 +61,7 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
 
     // If scene not found, try to add it and retry
     if (!newScene) {
-        console.warn(`Can't play scene! Scene ${sceneId} not found in staged scenes. Trying to add it...`);
+        // console.warn(`Can't play scene! Scene ${sceneId} not found in staged scenes. Trying to add it...`);
 
         // TODO: Lets add a limit on how many times we can retry adding the scene
         if (!newScene) {
@@ -183,15 +183,21 @@ async function handleSwitchToScene({ sceneId, loadNextScenes = true, get, set }:
     if (!isSaving) {
         saveGameSessionFromClient(gameSession)
     } else {
-        console.log("Game session is already being saved. Skipping...");
+        // console.log("Game session is already being saved. Skipping...");
     }
 
 
     if (!loadNextScenes) {
         const { stagedScenes } = get();
         stagedScenes.forEach(scene => {
-            if (scene.id === newScene?.id) return console.log("Skipping loading next scenes. Scene already loaded.");
-            if (scene.nextScenes.includes(newScene?.id ?? "")) return console.log("Skipping loading next scenes. Scene already loaded.");
+            if (scene.id === newScene?.id) {
+                // console.log("Skipping loading next scenes. Scene already loaded.");
+                return;
+            }
+            if (scene.nextScenes.includes(newScene?.id ?? "")) {
+                // console.log("Skipping loading next scenes. Scene already loaded.");
+                return;
+            }
 
             scene.isActive = false;
             scene.video.sprite.visible = false;

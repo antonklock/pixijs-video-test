@@ -11,7 +11,7 @@ function setCurrentScene(sceneId: string | null, get: () => GameGlobalsStore, se
     set({ ...get(), currentScene });
     const sceneEventNames = currentScene.sceneEvents?.map(sceneEvent => sceneEvent.name) ?? [];
     get().setSceneEvents(new Set(sceneEventNames));
-    console.log("Scene events set:", sceneEventNames);
+    // console.log("Scene events set:", sceneEventNames);
 }
 
 export default setCurrentScene;

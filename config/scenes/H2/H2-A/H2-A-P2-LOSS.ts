@@ -1,6 +1,5 @@
 import useGameGlobalsStore from "@/stores/gameGlobals/gameGlobals";
 import { SceneObject } from "@/types";
-import determineHub from "@/utils/determineHub";
 
 const H2AP2Loss: SceneObject = {
     id: "H2-A-P2-LOSS",
@@ -22,8 +21,6 @@ const H2AP2Loss: SceneObject = {
             name: "H2-A-P2-LOSS-END",
             triggerTime: 12,
             runEvent: () => {
-                const hub = determineHub();
-                console.log("Hub: ", hub);
                 useGameGlobalsStore.getState().switchToScene("H0");
             },
         }

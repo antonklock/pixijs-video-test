@@ -147,7 +147,7 @@ export const initializePixi = async (props: InitializePixiProps) => {
                     coinContainer.interactive = false;
                     coinContainer.cursor = "default";
 
-                    console.log("Coin container faded out");
+                    // console.log("Coin container faded out");
                     coinPouchSprite.scale.set(coinPouchSpriteStartScale);
                     bgCircle.alpha = 0.65;
                 }
@@ -175,7 +175,7 @@ export const shouldStageResize = (app: PIXI.Application) => {
     const videoElement = useGameGlobalsStore.getState().currentScene?.video.player;
     if (!videoElement) return false;
     const shouldResize = videoElement.clientWidth !== app.renderer.width || videoElement.clientHeight !== app.renderer.height;
-    console.log("Should resize: ", shouldResize);
+    // console.log("Should resize: ", shouldResize);
     return shouldResize;
 }
 

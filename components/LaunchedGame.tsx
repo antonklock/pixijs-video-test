@@ -86,8 +86,10 @@ export default function Home() {
 
           if (videoPlayer) {
             videoPlayer.muted = true;
-            console.log("Video player muted");
-          } else console.warn("Video player not found");
+            // console.log("Video player muted");
+          } else {
+            //   console.warn("Video player not found");
+          }
         }
       }
     }, 100);
@@ -116,29 +118,29 @@ export default function Home() {
         } else {
           if (timeDiff > 0.1) {
             if (musicTime > videoTime) {
-              console.log(
-                "Music is ahead of video - %c timeDiff: ",
-                "color: red",
-                timeDiff.toFixed(2)
-              );
+              //   console.log(
+              //     "Music is ahead of video - %c timeDiff: ",
+              //     "color: red",
+              //     timeDiff.toFixed(2)
+              //   );
               // videoPlayer.currentTime = musicTime - offset;
               if (videoPlayer.playbackRate !== 1.25) {
                 videoPlayer.playbackRate = 1.25;
                 // console.log("Playback rate set to 1.25");
               }
             } else {
-              console.log(
-                "Video is ahead of music - %c timeDiff: ",
-                "color: red",
-                timeDiff.toFixed(2)
-              );
+              //   console.log(
+              //     "Video is ahead of music - %c timeDiff: ",
+              //     "color: red",
+              //     timeDiff.toFixed(2)
+              //   );
               if (videoPlayer.playbackRate !== 0.75) {
                 videoPlayer.playbackRate = 0.75;
                 // console.log("Playback rate set to 0.75");
               }
             }
           } else {
-            console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
+            // console.log("%c timeDiff: ", "color: green", timeDiff.toFixed(2));
             if (videoPlayer.playbackRate !== 1) {
               videoPlayer.playbackRate = 1;
               // console.log("Playback rate set to 1");
